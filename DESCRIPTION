@@ -1,0 +1,19 @@
+Package: tracee
+Title: Trace output to code
+Version: 0.0.0.9000
+Authors@R: person("Philip", "Delff", email = "philip@delff.dk",
+                  role = c("aut", "cre"))
+Maintainer: Philip Delff <philip@delff.dk>
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
+RoxygenNote: 7.1.2
+Depends: R (>= 3.0.0)
+Imports: 
+ ggplot2,
+ grid,
+ gridExtra
+Suggests:
+ knitr
+Encoding: UTF-8
+VignetteBuilder: knitr
