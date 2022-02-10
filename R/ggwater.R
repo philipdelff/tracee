@@ -13,11 +13,11 @@
 ##' @family Plotting
 ##' @examples
 ##' library(ggplot2)
-##' ff <- qplot(1:10, 11:20) + ggWater()
+##' ff <- qplot(1:10, 11:20) + ggwater()
 ##' @export
 
 
-ggWater <- function(text="Not validated",scale=1,rot=30,col="grey",alpha=.5){
+ggwater <- function(text="Not validated",scale=1,rot=30,col="grey",alpha=.5){
     
     annotation_custom(textGrob(text, gp = gpar(fontsize = 80*scale,col=col,alpha=alpha),rot=rot),xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf)
 
