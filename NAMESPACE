@@ -2,8 +2,8 @@
 
 export(canvasSize)
 export(fnAppend)
-export(ggWater)
 export(ggstamp)
+export(ggwater)
 export(ggwrite)
 export(theme_pp)
 export(theme_pp_facet)

@@ -19,8 +19,8 @@ a version of theme_pp suited for facet'ed plots
 \seealso{
 Other Plotting: 
 \code{\link{canvasSize}()},
-\code{\link{ggWater}()},
 \code{\link{ggstamp}()},
+\code{\link{ggwater}()},
 \code{\link{ggwrite}()},
 \code{\link{theme_pp}()}
 }

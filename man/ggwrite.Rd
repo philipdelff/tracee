@@ -82,8 +82,8 @@ ggwrite(p1,script=script,canvas="wide",file="myplot1.png",save=writeOutput)
 \seealso{
 Other Plotting: 
 \code{\link{canvasSize}()},
-\code{\link{ggWater}()},
 \code{\link{ggstamp}()},
+\code{\link{ggwater}()},
 \code{\link{theme_pp_facet}()},
 \code{\link{theme_pp}()}
 }

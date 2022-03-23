@@ -28,8 +28,8 @@ Get predefined canvas sizes
 }
 \seealso{
 Other Plotting: 
-\code{\link{ggWater}()},
 \code{\link{ggstamp}()},
+\code{\link{ggwater}()},
 \code{\link{ggwrite}()},
 \code{\link{theme_pp_facet}()},
 \code{\link{theme_pp}()}
