@@ -1,10 +1,11 @@
 Package: tracee
-Title: Trace output to code
-Version: 0.0.0.9000
+Type: Package
+Title: Easily save output and trace it back to code
+Version: 0.0.0.9901
 Authors@R: person("Philip", "Delff", email = "philip@delff.dk",
                   role = c("aut", "cre"))
 Maintainer: Philip Delff <philip@delff.dk>
-Description: What the package does (one paragraph).
+Description: tracee is a very small package that provides simple but crucial functionality related to reproducibility and traceability of output (plots) back to code. It has a graphics saver (wrapper of png and pdf) with simple automation of plot stamping with source, destination and creation time, a selection of dimensions for use in powerpoint. A list of plots can be saved at once. 
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
 RoxygenNote: 7.1.2

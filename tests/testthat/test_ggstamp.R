@@ -4,8 +4,7 @@ test_that("general use",{
 
     fileRef <- "testReference/ggstamp1.rds"
 
-    data(pksim1,package="pmxtricks")
-    p1 <- ggIndProfs(pksim1,amt=NULL)[[1]]
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+geom_point()
     stamp <- "testthat_ggstamp.R"
     p1 <- ggstamp(p1,stamp,time=as.POSIXct("2011-04-03 01:40:33"))
 
