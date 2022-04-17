@@ -39,7 +39,7 @@ ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
 
 ### A list of plots is supported so we will run everything with lapply
     plot.was.list <- T
-    if(!( length(class(plot))==1 && class(plot)=="list" )) {
+    if(!( length(class(plot))==1 && "list"%in%class(plot) )) {
         plot.was.list <- F
         plot <- list(plot)
     }
