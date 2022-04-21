@@ -46,6 +46,7 @@ canvasSize <- function(canvas,scale=1){
                                     )
         size <- possible.canvases[[size.matched]]
     }
+    
     size <- lapply(size,function(x)x*scale)
     return(size)
 }
