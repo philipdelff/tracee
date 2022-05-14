@@ -12,9 +12,9 @@
 ##' @param canvas Either a list of height and width or a shortname of
 ##'     predefined canvas size. See ?canvasSize.
 ##' @param onefile Only applicable if plot is a list. If plot is a
-##'     list and onefile=T, all plots will be put in a pdf (file must
+##'     list and onefile=TRUE, all plots will be put in a pdf (file must
 ##'     end in pdf) with one plot per page. If plot is a list and
-##'     onefile=F, numbered files will be created - one per list
+##'     onefile=FALSE, numbered files will be created - one per list
 ##'     element.
 ##' @param res Resolution. Passed to png.
 ##' @param save Save the plot to the given file or just show? Defaults
@@ -54,9 +54,8 @@
 
 ggwrite <- function(plot, file, script, canvas="standard",
                     onefile=FALSE, res=200, paper="special",
-                    save=TRUE, show=!save, useNames=FALSE, quiet=FALSE, debug=F){
+                    save=TRUE, show=!save, useNames=FALSE, quiet=FALSE){
     
-    if(debug) browser()
 
     if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")
 
@@ -78,7 +77,7 @@ ggwrite <- function(plot, file, script, canvas="standard",
 
     ## make function to use for one plot. Then we will call tht on plot or loop
     ## it over the elements of plot in case plot is a list.
-    write1 <- function(plot,fn=NULL,type,onefile=F,size){  
+    write1 <- function(plot,fn=NULL,type,onefile=FALSE,size){  
         
         if(is.null(fn)) fn <- file
         if(!is.null(script)){

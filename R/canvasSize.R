@@ -20,6 +20,7 @@
 
 ### a function that looks up the canvas size
 canvasSize <- function(canvas,scale=1){
+
     possible.canvases <- list(
         standard=list(width=12,height=9),
         wide=list(width=16,height=9),
@@ -28,25 +29,18 @@ canvasSize <- function(canvas,scale=1){
         "wide-screen"=list(width=31,height=15)
     )
     
-    ## size of plot
-    ## A "screen" version is needed that will save graphics nice to read on screen. Could be like 1.4*standard.
-    if(is.list(canvas) ){ if (all(c(!is.null(canvas$height),!is.null(canvas$width)))) {
-                              ## todo: width and height must be numerics of length one 
-                              return(canvas)
-                          } else {
-                              stop("Canvas is a list but does not include height and width")
-                          }
-    } else {
-        ## todo must be a character of length one
-
-        ## browser()                
-        size.matched <- grep(paste0("^ *",canvas," *$"),names(possible.canvases),ignore.case=T)
+    if(length(canvas)==1 && is.character(canvas)){
+        size.matched <- grep(paste0("^ *",canvas," *$"),names(possible.canvases),ignore.case=TRUE)
         if(length(size.matched)!=1) stop(
-                                        paste("canvas has to match exactly one of",paste(names(possible.canvases),collapse=", "),". Matching is not case-sensitive.")
+                                        paste("If a character string, canvas to match exactly one of",paste(names(possible.canvases),collapse=", "),". Matching is not case-sensitive.")
                                     )
-        size <- possible.canvases[[size.matched]]
+        canvas <- possible.canvases[[size.matched]]
+    }
+
+    if(!is.list(canvas)||!all(c(!is.null(canvas$height),!is.null(canvas$width)))){
+        stop("canvas must be either a single character string or a list. If a list, it must contain elements, height and width.")
     }
     
-    size <- lapply(size,function(x)x*scale)
-    return(size)
+    canvas <- lapply(canvas,function(x)x*scale)
+    return(canvas)
 }

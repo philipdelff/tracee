@@ -38,9 +38,9 @@ ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
 ### Captions are only available in ggplot 2.2.1
 
 ### A list of plots is supported so we will run everything with lapply
-    plot.was.list <- T
+    plot.was.list <- TRUE
     if(!( length(class(plot))==1 && "list"%in%class(plot) )) {
-        plot.was.list <- F
+        plot.was.list <- FALSE
         plot <- list(plot)
     }
     if(missing(file)) file <- NULL
