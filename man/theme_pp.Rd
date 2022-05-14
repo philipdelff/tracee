@@ -13,6 +13,9 @@ theme_pp(theme0 = theme_bw, ...)
 been set. This means ... can be used to overwrite the
 defaults.}
 }
+\value{
+A ggplot2 theme.
+}
 \description{
 A custom theme - aim is powerpoint
 }

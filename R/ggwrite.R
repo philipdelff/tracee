@@ -31,7 +31,7 @@
 ##' @param quiet Default is false but use TRUE to suppress messages about what was saved.
 ##' @param debug If TRUE, browser is called to begin with.
 ##' @export
-##' @return Nothing.
+##' @return Nothing. Files written and/or plots shown, depending on argument values.
 ##' @examples
 ##' library(ggplot2)
 ##' writeOutput <- FALSE
@@ -201,3 +201,7 @@ ggwrite <- function(plot, file, script, canvas="standard",
     }
     invisible()
 }
+
+## Local Variables:
+## ess-r-package--project-cache: (tracee . "~/wdirs/tracee")
+## End:

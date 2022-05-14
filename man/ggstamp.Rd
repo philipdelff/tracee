@@ -18,6 +18,8 @@ automatically.}
 }
 \value{
 the plot with a stamp
+
+A plot object with the stamp added as caption
 }
 \description{
 This function is used to stamp ggplot type plots with datetime and

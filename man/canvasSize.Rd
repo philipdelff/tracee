@@ -23,6 +23,9 @@ is inches). Example: canvas=list(height=5,width=9).}
 size. This can be useful in combination with the pre-defined
 canvas sizes.}
 }
+\value{
+A list with numerical elements width and height as used by ggwrite.
+}
 \description{
 Get predefined canvas sizes
 }

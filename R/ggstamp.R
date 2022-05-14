@@ -18,6 +18,7 @@
 ##' caption=paste(c(plot$label$caption,stamp,paste(date.txt,file)),collapse="\\n")
 ##'
 ##' ggplot 2.2.1 (which is years old) or newer is required.
+##' @return A plot object with the stamp added as caption
 ##' @import ggplot2
 ##' @import grid
 ##' @importFrom gridExtra arrangeGrob

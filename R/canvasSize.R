@@ -14,6 +14,7 @@
 ##' @param scale A scale to apply to both directions of the canvas
 ##'     size. This can be useful in combination with the pre-defined
 ##'     canvas sizes.
+##' @return A list with numerical elements width and height as used by ggwrite.
 ##' @export
 ##' @family Plotting
 

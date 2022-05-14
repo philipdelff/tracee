@@ -63,7 +63,7 @@ TRUE, and length(plot)>1.}
 \item{debug}{If TRUE, browser is called to begin with.}
 }
 \value{
-Nothing.
+Nothing. Files written and/or plots shown, depending on argument values.
 }
 \description{
 Export plots created with ggplot (and more) or tables to files
