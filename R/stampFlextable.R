@@ -4,7 +4,7 @@
 ##' @author Philip Delff
 
 ## put stamps on tables plus a little tailoring of visuals
-stampFlextab <- function(ft,script,file,bg="#ffffff"){
+stampFlextab <- function(ft,file,script,bg="#ffffff"){
     if(missing(file)){
         file <- NULL
     } else {
