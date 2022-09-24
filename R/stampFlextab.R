@@ -6,7 +6,8 @@
 ##' @export
 
 ## put stamps on tables plus a little tailoring of visuals
-stampFlextab <- function(ft,script,file,bg){
+stampFlextab <- function(ft,file,script,bg="#ffffff"){
+
     if(missing(file)){
         file <- NULL
     } else {
