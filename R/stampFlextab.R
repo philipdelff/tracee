@@ -1,15 +1,18 @@
 ##' @param ft a flextable object
 ##' @param script name of script - will be pasted as caption
 ##' @param file The file that the flextable will be written to (no file is written by this function)
-##' @author Philip Delff
+##' @param bg Default bacground colour is #ffffff.
+##' @import flextable
+##' @export
 
 ## put stamps on tables plus a little tailoring of visuals
-stampFlextab <- function(ft,script,file,bg="#ffffff"){
+stampFlextab <- function(ft,script,file,bg){
     if(missing(file)){
         file <- NULL
     } else {
         file=paste0("\n",basename(file))
     }
+    if(missing(bg)||is.null(bg)) bg <- "#ffffff"
     stamp.full <- paste(format(Sys.time(), "%d-%b-%Y %H:%M"),script, file)
     
     ft <- theme_vanilla(ft)

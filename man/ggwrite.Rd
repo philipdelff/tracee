@@ -16,8 +16,7 @@ ggwrite(
   save = TRUE,
   show = !save,
   useNames = FALSE,
-  quiet = FALSE,
-  debug = F
+  quiet = FALSE
 )
 }
 \arguments{
@@ -36,9 +35,9 @@ script. Requires ggplot >=2.2.1.}
 predefined canvas size. See ?canvasSize.}
 
 \item{onefile}{Only applicable if plot is a list. If plot is a
-list and onefile=T, all plots will be put in a pdf (file must
+list and onefile=TRUE, all plots will be put in a pdf (file must
 end in pdf) with one plot per page. If plot is a list and
-onefile=F, numbered files will be created - one per list
+onefile=FALSE, numbered files will be created - one per list
 element.}
 
 \item{res}{Resolution. Passed to png.}
