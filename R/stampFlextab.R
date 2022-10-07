@@ -1,3 +1,4 @@
+##' Stamp and write flextab objects to one or multiple formats
 ##' @param ft a flextable object
 ##' @param script name of script - will be pasted as caption
 ##' @param file The file that the flextable will be written to (no file is written by this function)
@@ -6,7 +7,7 @@
 ##' @export
 
 ## put stamps on tables plus a little tailoring of visuals
-stampFlextab <- function(ft,file,script,bg="#ffffff"){
+stampFlextab <- function(ft,file,script,bg="#ffffff",time){
 
     if(missing(file)){
         file <- NULL
@@ -14,7 +15,10 @@ stampFlextab <- function(ft,file,script,bg="#ffffff"){
         file=paste0("\n",basename(file))
     }
     if(missing(bg)||is.null(bg)) bg <- "#ffffff"
-    stamp.full <- paste(format(Sys.time(), "%d-%b-%Y %H:%M"),script, file)
+    if(missing(time)) time <- NULL
+    
+    ## stamp.full <- paste(format(Sys.time(), "%d-%b-%Y %H:%M"),script, file)
+    stamp.full <- createStamp(script=script,file=file,time=)
     
     ft <- theme_vanilla(ft)
     ft <- add_footer_lines(ft, stamp.full)
