@@ -12,19 +12,21 @@ stampFlextab <- function(ft,file,script,bg="#ffffff",time){
     if(missing(file)){
         file <- NULL
     } else {
-        file=paste0("\n",basename(file))
+        file=basename(file)
     }
     if(missing(bg)||is.null(bg)) bg <- "#ffffff"
     if(missing(time)) time <- NULL
     
     ## stamp.full <- paste(format(Sys.time(), "%d-%b-%Y %H:%M"),script, file)
-    stamp.full <- createStamp(script=script,file=file,time=)
+    stamp.full <- createStamp(script=script,file=file,time=time)
     
     ft <- theme_vanilla(ft)
     ft <- add_footer_lines(ft, stamp.full)
     ft <- color(ft, part = "footer", color = "#666666")
     ft <- fontsize(ft, part = "footer", size=6)
-       if(!is.null(bg)){
+    ft <- align(ft, part="footer", align = "right")
+    ft <- line_spacing(ft, space = .7, part = "footer")
+    if(!is.null(bg)){
         ft <- bg(ft, part = "all", bg = bg)
     }
     ft

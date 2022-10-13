@@ -3,7 +3,6 @@
 ##' @param File to save to. See formats to generate multiple files.
 ##' @param formats One or more of png, docx, pptx, rds
 ##' @param bg The background color. Passed to stampFlextab.
-##' @importFrom NMdata fnExtension
 ##' @import flextable
 ##' @export 
 
@@ -17,8 +16,10 @@ writeFlextab <- function(ft,file,script,formats,...){
 
     ##all.files <- fnExtension(file,formats)
     
+    if(missing(formats)||is.null(formats)) formats <- sub(".*\\.(.+)$","\\1",file)
+
     silent <- lapply(formats,function(ext){
-        fn <- fnExtension(file,ext)
+        fn <- fnExtensionTracee(file,ext)
         fun.write <- switch(sub("\\.","",ext),
                             png=save_as_image
                            ,html=save_as_html
@@ -32,7 +33,7 @@ writeFlextab <- function(ft,file,script,formats,...){
     
     
 
-    invisible(fn)
+    invisible(silent)
     
 
 }

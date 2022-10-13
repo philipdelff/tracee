@@ -14,7 +14,8 @@ Depends: R (>= 3.0.0),
 Imports: 
  ggplot2,
  grid,
- gridExtra
+ gridExtra,
+ flextable
 Suggests:
  knitr
 Encoding: UTF-8
