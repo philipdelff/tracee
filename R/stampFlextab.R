@@ -25,7 +25,7 @@ stampFlextab <- function(ft,file,script,bg="#ffffff",time){
     ft <- color(ft, part = "footer", color = "#666666")
     ft <- fontsize(ft, part = "footer", size=6)
     ft <- align(ft, part="footer", align = "right")
-    ft <- line_spacing(ft, space = .7, part = "footer")
+    ft <- line_spacing(ft, space = .9, part = "footer")
     if(!is.null(bg)){
         ft <- bg(ft, part = "all", bg = bg)
     }
