@@ -33,8 +33,6 @@ Get predefined canvas sizes
 Other Plotting: 
 \code{\link{ggstamp}()},
 \code{\link{ggwater}()},
-\code{\link{ggwrite}()},
-\code{\link{theme_pp_facet}()},
-\code{\link{theme_pp}()}
+\code{\link{ggwrite}()}
 }
 \concept{Plotting}

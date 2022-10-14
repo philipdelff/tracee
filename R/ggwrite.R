@@ -202,6 +202,3 @@ ggwrite <- function(plot, file, script, canvas="standard",
   invisible(NULL)
 }
 
-## Local Variables:
-## ess-r-package--project-cache: (tracee . "~/wdirs/tracee")
-## End:

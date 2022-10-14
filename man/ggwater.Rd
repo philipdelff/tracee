@@ -18,6 +18,9 @@ watermark. Default is grey.}
 
 \item{alpha}{alpha value for the watermark. Default is 0.5.}
 }
+\value{
+a layer with a watermark that can be added to a plot
+}
 \description{
 Add watermarks to ggplots
 }
@@ -35,8 +38,6 @@ ff <- qplot(1:10, 11:20) + ggwater()
 Other Plotting: 
 \code{\link{canvasSize}()},
 \code{\link{ggstamp}()},
-\code{\link{ggwrite}()},
-\code{\link{theme_pp_facet}()},
-\code{\link{theme_pp}()}
+\code{\link{ggwrite}()}
 }
 \concept{Plotting}

@@ -48,8 +48,6 @@ ggwrite(p1,script=script,canvas="wide")
 Other Plotting: 
 \code{\link{canvasSize}()},
 \code{\link{ggwater}()},
-\code{\link{ggwrite}()},
-\code{\link{theme_pp_facet}()},
-\code{\link{theme_pp}()}
+\code{\link{ggwrite}()}
 }
 \concept{Plotting}

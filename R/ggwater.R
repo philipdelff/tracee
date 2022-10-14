@@ -10,6 +10,7 @@
 ##'     solution stopped working, and this new solution is simpler and
 ##'     based on ggplot2 alone.
 ##' @import ggplot2
+##' @return a layer with a watermark that can be added to a plot
 ##' @family Plotting
 ##' @examples
 ##' library(ggplot2)
