@@ -9,11 +9,15 @@ writeFlextab(ft, file, script, formats, ...)
 \arguments{
 \item{ft}{A flextab object.}
 
-\item{formats}{One or more of png, docx, pptx, rds}
+\item{file}{to save to. See formats to generate multiple files.}
 
-\item{File}{to save to. See formats to generate multiple files.}
+\item{script}{##' @param script path to script - will be pasted as
+caption.}
 
-\item{bg}{The background color. Passed to stampFlextab.}
+\item{formats}{One or more of png, docx, pptx, rds as a character
+vector.}
+
+\item{...}{Arguments passed to stampFlextab.}
 }
 \description{
 Stamp and write flextab objects to one or multiple formats

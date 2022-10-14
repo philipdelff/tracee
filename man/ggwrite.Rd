@@ -58,8 +58,6 @@ names? Default is to use 1:length(plot). Only used if save is
 TRUE, and length(plot)>1.}
 
 \item{quiet}{Default is false but use TRUE to suppress messages about what was saved.}
-
-\item{debug}{If TRUE, browser is called to begin with.}
 }
 \value{
 Nothing. Files written and/or plots shown, depending on argument values.

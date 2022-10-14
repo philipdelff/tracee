@@ -1,10 +1,13 @@
 ##' Stamp and write flextab objects to one or multiple formats
 ##' @param ft A flextab object.
-##' @param File to save to. See formats to generate multiple files.
-##' @param formats One or more of png, docx, pptx, rds
-##' @param bg The background color. Passed to stampFlextab.
+##' @param file to save to. See formats to generate multiple files.
+##' @param script ##' @param script path to script - will be pasted as
+##'     caption.
+##' @param formats One or more of png, docx, pptx, rds as a character
+##'     vector.
+##' @param ... Arguments passed to stampFlextab.
 ##' @import flextable
-##' @export 
+##' @export
 
 writeFlextab <- function(ft,file,script,formats,...){
 

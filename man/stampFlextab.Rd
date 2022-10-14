@@ -9,11 +9,16 @@ stampFlextab(ft, file, script, bg = "#ffffff", time)
 \arguments{
 \item{ft}{a flextable object}
 
-\item{file}{The file that the flextable will be written to (no file is written by this function)}
+\item{file}{The file that the flextable will be written to (no
+file is written by this function)}
 
-\item{script}{name of script - will be pasted as caption}
+\item{script}{path to script - will be pasted as caption.}
 
 \item{bg}{Default bacground colour is #ffffff.}
+
+\item{time}{The default is to insert a time stamp taken from result of
+Sys.time(). Using the time argument you can overrule this by
+setting a fixed string instead. Use "" to omit.}
 }
 \description{
 Stamp and write flextab objects to one or multiple formats

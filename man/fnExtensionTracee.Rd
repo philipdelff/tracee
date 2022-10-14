@@ -20,13 +20,4 @@ A text string
 Very simple but often applicable function to retrieve or change
 the file name extension (from say file.lst to file.mod)
 }
-\examples{
-fnExtension("file.lst",".mod")
-fnExtension("file.lst","mod")
-fnExtension("file.lst","..mod")
-fnExtension("file.lst",cc(.mod,xml))
-fnExtension(cc(file1.lst,file2.lst),cc(.xml))
-fnExtension(cc(file1.lst,file2.lst),cc(.xml,.cov))
-fnExtension("file.lst","")
-fnExtension("file.lst")
-}
+\keyword{internal}

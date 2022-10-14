@@ -9,13 +9,13 @@ Description: Simple but crucial functionality related to creation of reproducibl
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
 RoxygenNote: 7.2.0
-Depends: R (>= 3.0.0),
- data.table
+Depends: R (>= 3.0.0)
 Imports: 
  ggplot2,
  grid,
  gridExtra,
  flextable
 Suggests:
- knitr
+ knitr,
+ data.table
 Encoding: UTF-8

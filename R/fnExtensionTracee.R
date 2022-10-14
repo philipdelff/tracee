@@ -7,7 +7,7 @@
 ##' @param ext new file name extension. If omitted or NULL, the
 ##'     extension of fn is returned.
 ##' @return A text string
-##' @internal
+##' @keywords internal
 
 
 ### don't export. This is only needed until we have NMdata 0.0.14.

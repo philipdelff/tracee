@@ -1,4 +1,14 @@
-
+##' Create a stamp with script path, output file path and time stamp
+##' in it.
+##' @param script The script path
+##' @param file the output file path
+##' @param time The default is to insert a time stamp taken from
+##'     result of Sys.time(). Using the time argument you can overrule
+##'     this by setting a fixed string instead. Use "" to omit.
+##' @param addto An existing caption to keep above the caption created
+##'     by this function.
+##' @keywords internal
+##' 
 ## do not export.
 
 createStamp <- function(script,file,time,addto){
