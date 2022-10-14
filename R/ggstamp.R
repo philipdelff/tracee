@@ -48,11 +48,13 @@ ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
     if(!is.null(file)) file <- basename(file)
 
     stamp1 <- function(plot){
+        caption.existing <- NULL
 ### determine method to use. otype is object type
         otype <- NA
         if("ggplot"%in%class(plot)){
 ####### for single ggplot objects
             otype <- "ggplot"
+            caption.existing <- try(plot$label$caption)
         }
         if("gtable"%in%class(plot)){
             if(!is.na(otype)) stop("Confused. type both ggplot and gtable. Dont knot how to stamp this object.")
@@ -61,14 +63,20 @@ ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
         }
         if("ggmatrix"%in%class(plot)){
             if(!is.na(otype)) stop("Confused. type both ggmatrix and ggplot or gtable. Dont knot how to stamp this object.")
-######## ggmatrix can be stamped just like ggplot
+######## ggmatrix can be stamped just like ggplot. But the existing caption will have to be extracted differently. 
             otype <- "ggplot"
+            caption.existing <- try(plot$gg$labs$caption)
         }
         if(is.na(otype)) stop("Dont know how to stamp this object type.")
+        if("try-error" %in% class(caption.existing))
+
+            ## date.txt <- format(time, "%d-%b-%Y %H:%M")
+            ## caption.stamp <- paste(date.txt,file)
+            ## caption <- paste(c(caption.existing,script,caption.stamp),collapse="\n")
+            ##:ess-bp-start::conditional@:##
+            browser(expr={TRUE})##:ess-bp-end:##
         
-        date.txt <- format(time, "%d-%b-%Y %H:%M")
-        caption.stamp <- paste(date.txt,file)
-        caption=paste(c(plot$label$caption,script,caption.stamp),collapse="\n")
+        caption <- createStamp(script=script,file=file,time=time,addto=caption.existing)
         
         plot.stamped <- switch(otype,
                                ggplot={if(sum(unlist(packageVersion("ggplot2")[1,])*c(1000)^c(2:0))<2002001){

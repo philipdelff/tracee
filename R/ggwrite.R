@@ -188,16 +188,17 @@ ggwrite <- function(plot, file, script, canvas="standard",
         } else {
             write1(plot=plot,fn=file,type=type,size=size)
         }
+      invisible(NULL)
     }
 
     
     if(save){
-        writeObj(plot,file=file,size=size)
-        if(!quiet&&!is.null(file)) message("Written to ",file)
+      writeObj(plot,file=file,size=size)
+      if(!quiet&&!is.null(file)) message("Written to ",file)
     }
-    if(show){
-        writeObj(plot,file=NULL,size=size)
-    }
-    invisible()
+  if(show){
+    writeObj(plot,file=NULL,size=size)
+  }
+  invisible(NULL)
 }
 
