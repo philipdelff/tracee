@@ -12,11 +12,10 @@ test_that("general use",{
     
     data(mtcars)
 
-    mtc <- as.data.table(mtcars)
-    dt.sum <- mtc[,.(mean.hp=mean(hp)),keyby=.(cyl)]
-
-                                        #library(flextable)
-    ft <- flextable(dt.sum)
+    ## mtc <- as.data.table(mtcars)
+    mtc <- mtcars
+    
+    ft <- flextable(mtc)
     ft <- autofit(ft)
     ## ft
 
