@@ -39,7 +39,6 @@
 ##' ggwrite(p1)  ## view plot on screen
 ##' script <- "note"
 ##' ggwrite(p1,script=script,canvas="wide",file="myplot1.png",save=writeOutput)
-##' ## save a data.frame as an image
 ##' @family Plotting
 ##' @import grDevices
 ##' @import grid

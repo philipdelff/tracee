@@ -1,9 +1,9 @@
 ##' Stamp and write flextab objects to one or multiple formats
 ##' @param ft A flextab object.
 ##' @param file to save to. See formats to generate multiple files.
-##' @param script ##' @param script path to script - will be pasted as
+##' @param script path to script - will be pasted as
 ##'     caption.
-##' @param formats One or more of png, docx, pptx, rds as a character
+##' @param formats One or more of png, docx, pptx, html. As a character
 ##'     vector.
 ##' @param ... Arguments passed to stampFlextab.
 ##' @import flextable
