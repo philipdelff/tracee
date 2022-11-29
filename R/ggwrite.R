@@ -76,7 +76,10 @@ ggwrite <- function(plot, file, script, canvas="standard",
     ## make function to use for one plot. Then we will call tht on plot or loop
     ## it over the elements of plot in case plot is a list.
     write1 <- function(plot,fn=NULL,type,onefile=FALSE,size){  
-        
+        if(is.null(plot)) {
+            message("plot is NULL, nothing to do.")
+            return(NULL)
+            }
         if(is.null(fn)) fn <- file
         if(!is.null(script)){
             plot <- ggstamp(plot,script,file=fn)
