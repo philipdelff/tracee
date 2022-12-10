@@ -74,7 +74,6 @@ p1 <- ggplot(ChickWeight,aes(Time,weight,group=Chick,colour=factor(Diet)))+geom_
 ggwrite(p1)  ## view plot on screen
 script <- "note"
 ggwrite(p1,script=script,canvas="wide",file="myplot1.png",save=writeOutput)
-## save a data.frame as an image
 }
 \seealso{
 Other Plotting: 
