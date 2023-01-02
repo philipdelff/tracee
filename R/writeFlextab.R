@@ -27,7 +27,8 @@ writeFlextab <- function(ft,file,script,formats,...){
                             png=save_as_image
                            ,html=save_as_html
                            ,docx=save_as_docx
-                           ,pptx=save_as_pptx)
+                           ,pptx=save_as_pptx,
+                            stop("format not supported. See ?writeFlextab"))
         
         ft <- stampFlextab(ft=ft,file=fn,script=script,...)
         fun.write(ft,path=fn)

@@ -13,7 +13,7 @@ test_that("general use",{
     data(mtcars)
 
     mtc <- as.data.table(mtcars)
-    dt.sum <- mtc[,.(mean.hp=mean(hp)),keyby=.(cyl)]
+    dt.sum <- mtc[,list(mean.hp=mean(hp)),keyby=.(cyl)]
 
                                         #library(flextable)
     ft <- flextable(dt.sum)
@@ -37,3 +37,15 @@ test_that("general use",{
     expect_snapshot_file("testOutput/flextab2.png","testReference/flextab2.png")
 })
 
+test_that("unsupported format",{
+
+    data(mtcars)
+    mtc <- as.data.table(mtcars)
+    dt.sum <- mtc[,.(mean.hp=mean(hp)),keyby=.(cyl)]
+    ft <- flextable(dt.sum)
+
+    expect_error(
+        writeFlextab(ft,file="testOutput/flextab3.jpg",script="test_writeFlextab.R",time=time)
+    )
+
+})
