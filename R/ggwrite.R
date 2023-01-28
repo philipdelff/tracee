@@ -43,6 +43,8 @@
 ##' @family Plotting
 ##' @import grDevices
 ##' @import grid
+##' @import data.table
+##' @import NMdata
 
 ### had to skip this example - lagging data.table
 ## library(gridExtra)
@@ -51,13 +53,13 @@
 ## ggwrite(tg1,script=script,file="mytab1.png",save=writeOutput)
 
 
-ggwrite <- function(plot, file, script, canvas="standard",
+ggwrite <- function(plot, file, script, canvas="standard",formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, useNames=FALSE, quiet=FALSE){
     
 
     if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")
-
+    if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
     
 ###### functions to be used internally
 ### print1 does the actual printing to the device. Because if the plot is a
@@ -131,9 +133,6 @@ ggwrite <- function(plot, file, script, canvas="standard",
     }
     
 
-    size <- canvasSize(canvas)
-    ## width <- size$width
-    ## height <- size$height
     
 #### check inputs done
 
@@ -188,17 +187,66 @@ ggwrite <- function(plot, file, script, canvas="standard",
         } else {
             write1(plot=plot,fn=file,type=type,size=size)
         }
-      invisible(NULL)
+        invisible(NULL)
     }
 
-    
+
+
     if(save){
-      writeObj(plot,file=file,size=size)
-      if(!quiet&&!is.null(file)) message("Written to ",file)
+#### Section start: create data.table with all combinations of formats and canvases ####
+
+        is.chars <- sapply(canvas,is.character)
+        ## if more than one canvas is given, lists must be named
+        if(
+            length(canvas)>1&&is.null(names(canvas)) && any(!is.chars) ){
+            stop("If more than one canvas is requested, non-character elements must be named.")
+        }
+        ## character elements do not need to be named. If they are not, we use the canvas name
+        nms <- names(canvas)
+        ## get rid of special characters
+        
+if(all(is.chars) && length(nms)==0) {
+            nms <- unlist(canvas)
+        }
+
+        nms <- gsub(" ","",nms)
+        nms <- gsub("[[:punct:]]","",nms)
+        
+        
+        nms[is.chars&nms==""] <- unlist(canvas[is.chars&nms==""])
+        names(canvas) <- nms
+        ## check that names are unique
+        if(any(duplicated(nms))) stop("canvas names must be unique")
+
+        
+        dt.canvas <- do.call(rbind,
+                             lapply(canvasSize(canvas,simplify=FALSE),as.data.table)
+                             )
+        dt.canvas$name.canvas <- names(canvas)
+
+        allcombs <- egdt(data.table(format=formats),
+                         dt.canvas,quiet=TRUE)
+
+
+### Section end: create data.table with all combinations of formats and canvases
+
+        
+        n.canvas <- allcombs[,uniqueN(name.canvas)]
+        for(n in 1:nrow(allcombs)){
+            file.n <- file
+            if(n.canvas>1){
+                file.n <- fnAppend(file,
+                                   allcombs[n,name.canvas]
+                                   )
+            }
+            file.n <- fnExtension(file.n,allcombs[n,format])
+            writeObj(plot,file=file.n,size=allcombs[n,.(width,height)])
+            if(!quiet&&!is.null(file.n)) message("Written to ",file.n)
+        }
     }
-  if(show){
-    writeObj(plot,file=NULL,size=size)
-  }
-  invisible(NULL)
+    if(show){
+        writeObj(plot,file=NULL,size=size)
+    }
+    invisible(NULL)
 }
 

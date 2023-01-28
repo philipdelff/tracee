@@ -20,7 +20,7 @@
 
 
 ### a function that looks up the canvas size
-canvasSize <- function(canvas,scale=1){
+canvasSize <- function(canvas,scale=1,simplify=TRUE){
 
     possible.canvases <- list(
         standard=list(width=12,height=9),
@@ -29,7 +29,8 @@ canvasSize <- function(canvas,scale=1){
         square=list(width=9,height=9),
         "wide-screen"=list(width=31,height=15)
     )
-    
+
+    unfold.canvas <- function(canvas){
     if(length(canvas)==1 && is.character(canvas)){
         size.matched <- grep(paste0("^ *",canvas," *$"),names(possible.canvases),ignore.case=TRUE)
         if(length(size.matched)!=1) stop(
@@ -43,5 +44,11 @@ canvasSize <- function(canvas,scale=1){
     }
     
     canvas <- lapply(canvas,function(x)x*scale)
+    canvas
+    }
+    canvas <- lapply(canvas,unfold.canvas)
+    if(simplify && length(canvas)==1){
+        canvas <- canvas[[1]]
+    }
     return(canvas)
 }

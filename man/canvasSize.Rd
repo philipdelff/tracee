@@ -4,7 +4,7 @@
 \alias{canvasSize}
 \title{Get predefined canvas sizes}
 \usage{
-canvasSize(canvas, scale = 1)
+canvasSize(canvas, scale = 1, simplify = TRUE)
 }
 \arguments{
 \item{canvas}{Can either be a character with one of the values

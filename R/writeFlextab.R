@@ -7,6 +7,7 @@
 ##'     vector.
 ##' @param ... Arguments passed to stampFlextab.
 ##' @import flextable
+##' @importFrom NMdata fnExtension
 ##' @export
 
 writeFlextab <- function(ft,file,script,formats,...){
@@ -22,7 +23,7 @@ writeFlextab <- function(ft,file,script,formats,...){
     if(missing(formats)||is.null(formats)) formats <- sub(".*\\.(.+)$","\\1",file)
 
     silent <- lapply(formats,function(ext){
-        fn <- fnExtensionTracee(file,ext)
+        fn <- fnExtension(file,ext)
         fun.write <- switch(sub("\\.","",ext),
                             png=save_as_image
                            ,html=save_as_html

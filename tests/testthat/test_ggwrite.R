@@ -1,13 +1,15 @@
 
 if(F){
-    ## This was used to check stamp with output file name. 
-    library(devtools)
-    load_all("c:/Users/delff/working_copies/pmxtricks")
-    library(ggplot2)
-    getwd()
-    data(pksim1,package="pmxtricks")
-    p1 <- ggplot(pksim1,aes(TIME,DV,colour=ID))+geom_point()
-    ggwrite(p1)  ## view plot on screen
+
+### These are ready to be turned into tests
+
+p1 <- ggplot(data.table(TIME=0,DV=1),aes(TIME,DV))+geom_point()
+ggwrite(p1)  ## view plot on screen
     stamp <- "note"
-    ggwrite(p1,stamp=stamp,canvas="wide",file="myplot1.png",save=TRUE)
+ggwrite(p1,script=stamp,file="testOutput/myplot1.png",save=TRUE,time="test")
+
+ggwrite(p1,script=stamp,file="testOutput/myplot2.png",formats=cc(png,pdf),save=TRUE,time="test")
+ggwrite(p1,script=stamp,file="testOutput/myplot3.png",formats=cc(png,pdf),
+        canvas=c("standard","wide-screen"),time="test")
+
 }
