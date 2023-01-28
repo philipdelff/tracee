@@ -1,3 +1,8 @@
+# Since 0.0.2
+## New features
+* writeFlextab now throws an error in case unsupported output formats
+  are requested.
+
 # 0.0.2
 ## New functions
 * writeFlextab is a wrapper that flextable objects to files including
@@ -9,4 +14,3 @@
 ## Added features
 * Objets of class ggmatrix can now be stamped using ggstamp. 
 
-* If a 

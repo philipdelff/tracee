@@ -59,7 +59,9 @@ ggwrite <- function(plot, file, script, canvas="standard",formats,
     
 
     if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")
+
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
+    if(is.null(canvas)) canvas <- "standard" 
     
 ###### functions to be used internally
 ### print1 does the actual printing to the device. Because if the plot is a

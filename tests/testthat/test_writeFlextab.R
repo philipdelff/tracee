@@ -36,3 +36,14 @@ test_that("general use",{
     expect_snapshot_file("testOutput/flextab2.png","testReference/flextab2.png")
 })
 
+test_that("unsupported format",{
+
+    data(mtcars)
+    ft <- flextable(mtcars)
+
+    expect_error(
+        writeFlextab(ft,file="testOutput/flextab3.jpg",script="test_writeFlextab.R",time=time)
+    )
+
+})
+
