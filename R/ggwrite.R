@@ -11,9 +11,13 @@
 ##'     script. Requires ggplot >=2.2.1.
 ##' @param canvas Either a list of height and width or a shortname of
 ##'     predefined canvas size. See ?canvasSize.
+##' @param formats File formats to write to as a character
+##'     vector. Must be a subset of c("png","pdf"). Default is to only
+##'     write to the format matching the file name extension of
+##'     `file`.
 ##' @param onefile Only applicable if plot is a list. If plot is a
-##'     list and onefile=TRUE, all plots will be put in a pdf (file must
-##'     end in pdf) with one plot per page. If plot is a list and
+##'     list and onefile=TRUE, all plots will be put in a pdf (file
+##'     must end in pdf) with one plot per page. If plot is a list and
 ##'     onefile=FALSE, numbered files will be created - one per list
 ##'     element.
 ##' @param res Resolution. Passed to png.
@@ -28,9 +32,11 @@
 ##' @param useNames If length(plot)>1 use names(plot) in the file
 ##'     names? Default is to use 1:length(plot). Only used if save is
 ##'     TRUE, and length(plot)>1.
-##' @param quiet Default is false but use TRUE to suppress messages about what was saved.
+##' @param quiet Default is false but use TRUE to suppress messages
+##'     about what was saved.
 ##' @export
-##' @return Nothing. Files written and/or plots shown, depending on argument values.
+##' @return Nothing. Files written and/or plots shown, depending on
+##'     argument values.
 ##' @examples
 ##' library(ggplot2)
 ##' writeOutput <- FALSE
@@ -56,6 +62,15 @@
 ggwrite <- function(plot, file, script, canvas="standard",formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, useNames=FALSE, quiet=FALSE){
+
+#### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
+
+    name.canvas <- NULL
+    . <- NULL
+    size <- NULL
+    
+### Section end: Dummy variables, only not to get NOTE's in pacakge checks
+
     
 
     if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")

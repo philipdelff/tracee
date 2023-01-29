@@ -8,23 +8,27 @@ canvasSize(canvas, scale = 1, simplify = TRUE)
 }
 \arguments{
 \item{canvas}{Can either be a character with one of the values
-\itemize{
-\item{"standard"} - A powerpoint standard size, and two can be shown side by side - 12 by 9 inch.
-\item{"wide"} - For a single wide plot on a powerpoint slide - 16 by 9 inch
-\item{"A4"} A full A4 page - 9 by 12 inch
-\item{"square"} As reads - 9 by 9 inch
-\item{"wide-screen"} For full screen display - 31 by 15 inch
-}
-or it can be a
-list with elements width and height with single values (unit
-is inches). Example: canvas=list(height=5,width=9).}
+\itemize{ \item{"standard"} - A powerpoint standard size, and
+two can be shown side by side - 12 by 9 inch.  \item{"wide"} -
+For a single wide plot on a powerpoint slide - 16 by 9 inch
+\item{"A4"} A full A4 page - 9 by 12 inch \item{"square"} As
+reads - 9 by 9 inch \item{"wide-screen"} For full screen
+display - 31 by 15 inch } or it can be a list with elements
+width and height with single values (unit is inches). Example:
+canvas=list(height=5,width=9).}
 
 \item{scale}{A scale to apply to both directions of the canvas
 size. This can be useful in combination with the pre-defined
 canvas sizes.}
+
+\item{simplify}{If only one canvas returned and simplify=TRUE, the
+result will not be wrapped in a list. For programming, you
+most likely want simplify=FALSE to be sure to always get the
+same format back.}
 }
 \value{
-A list with numerical elements width and height as used by ggwrite.
+A list with numerical elements width and height as used by
+ggwrite.
 }
 \description{
 Get predefined canvas sizes

@@ -10,8 +10,9 @@ License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
 RoxygenNote: 7.2.1
 Depends: R (>= 3.0.0)
- NMdata (>= 0.0.14)
-Imports: 
+Imports:
+ NMdata (>= 0.0.14),
+ data.table,
  ggplot2,
  grid,
  gridExtra,
