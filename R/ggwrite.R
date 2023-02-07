@@ -9,6 +9,7 @@
 ##'     is a list, see onefile. If missing, plot is shown on screen.
 ##' @param script This should normally be the path to your
 ##'     script. Requires ggplot >=2.2.1.
+##' @param time Passed to ggwrite. 
 ##' @param canvas Either a list of height and width or a shortname of
 ##'     predefined canvas size. See ?canvasSize.
 ##' @param formats File formats to write to as a character
@@ -59,7 +60,7 @@
 ## ggwrite(tg1,script=script,file="mytab1.png",save=writeOutput)
 
 
-ggwrite <- function(plot, file, script, canvas="standard",formats,
+ggwrite <- function(plot, file, script, time, canvas="standard", formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, useNames=FALSE, quiet=FALSE){
 
@@ -76,7 +77,8 @@ ggwrite <- function(plot, file, script, canvas="standard",formats,
     if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")
 
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
-    if(is.null(canvas)) canvas <- "standard" 
+    if(is.null(canvas)) canvas <- "standard"
+    if(missing(time0)) time <- NULL
     
 ###### functions to be used internally
 ### print1 does the actual printing to the device. Because if the plot is a
