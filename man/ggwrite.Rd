@@ -9,6 +9,7 @@ ggwrite(
   plot,
   file,
   script,
+  time,
   canvas = "standard",
   formats,
   onefile = FALSE,
@@ -31,6 +32,8 @@ is a list, see onefile. If missing, plot is shown on screen.}
 
 \item{script}{This should normally be the path to your
 script. Requires ggplot >=2.2.1.}
+
+\item{time}{Passed to ggwrite.}
 
 \item{canvas}{Either a list of height and width or a shortname of
 predefined canvas size. See ?canvasSize.}
@@ -82,7 +85,6 @@ p1 <- ggplot(ChickWeight,aes(Time,weight,group=Chick,colour=factor(Diet)))+geom_
 ggwrite(p1)  ## view plot on screen
 script <- "note"
 ggwrite(p1,script=script,canvas="wide",file="myplot1.png",save=writeOutput)
-## save a data.frame as an image
 }
 \seealso{
 Other Plotting: 

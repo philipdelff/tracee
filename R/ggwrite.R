@@ -46,7 +46,6 @@
 ##' ggwrite(p1)  ## view plot on screen
 ##' script <- "note"
 ##' ggwrite(p1,script=script,canvas="wide",file="myplot1.png",save=writeOutput)
-##' ## save a data.frame as an image
 ##' @family Plotting
 ##' @import grDevices
 ##' @import grid
@@ -78,7 +77,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
 
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
     if(is.null(canvas)) canvas <- "standard"
-    if(missing(time0)) time <- NULL
+    if(missing(time)) time <- NULL
     
 ###### functions to be used internally
 ### print1 does the actual printing to the device. Because if the plot is a
