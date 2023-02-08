@@ -14,3 +14,5 @@ test_that("custom",{
     canv2 <- canvasSize(canvas=list(height=10,width=22))
     expect_equal_to_reference(canv2,fileRef)
 })
+
+
