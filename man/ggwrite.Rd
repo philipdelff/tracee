@@ -9,7 +9,9 @@ ggwrite(
   plot,
   file,
   script,
+  time,
   canvas = "standard",
+  formats,
   onefile = FALSE,
   res = 200,
   paper = "special",
@@ -31,12 +33,19 @@ is a list, see onefile. If missing, plot is shown on screen.}
 \item{script}{This should normally be the path to your
 script. Requires ggplot >=2.2.1.}
 
+\item{time}{Passed to ggwrite.}
+
 \item{canvas}{Either a list of height and width or a shortname of
 predefined canvas size. See ?canvasSize.}
 
+\item{formats}{File formats to write to as a character
+vector. Must be a subset of c("png","pdf"). Default is to only
+write to the format matching the file name extension of
+\code{file}.}
+
 \item{onefile}{Only applicable if plot is a list. If plot is a
-list and onefile=TRUE, all plots will be put in a pdf (file must
-end in pdf) with one plot per page. If plot is a list and
+list and onefile=TRUE, all plots will be put in a pdf (file
+must end in pdf) with one plot per page. If plot is a list and
 onefile=FALSE, numbered files will be created - one per list
 element.}
 
@@ -57,10 +66,12 @@ powerpoint.}
 names? Default is to use 1:length(plot). Only used if save is
 TRUE, and length(plot)>1.}
 
-\item{quiet}{Default is false but use TRUE to suppress messages about what was saved.}
+\item{quiet}{Default is false but use TRUE to suppress messages
+about what was saved.}
 }
 \value{
-Nothing. Files written and/or plots shown, depending on argument values.
+Nothing. Files written and/or plots shown, depending on
+argument values.
 }
 \description{
 Export plots created with ggplot (and more) or tables to files

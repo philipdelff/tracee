@@ -12,11 +12,12 @@ test_that("general use",{
     
     data(mtcars)
 
-    mtc <- as.data.table(mtcars)
-    dt.sum <- mtc[,list(mean.hp=mean(hp)),keyby=.(cyl)]
 
-                                        #library(flextable)
-    ft <- flextable(dt.sum)
+    ## mtc <- as.data.table(mtcars)
+    mtc <- mtcars
+    
+    ft <- flextable(mtc)
+
     ft <- autofit(ft)
     ## ft
 
@@ -40,9 +41,8 @@ test_that("general use",{
 test_that("unsupported format",{
 
     data(mtcars)
-    mtc <- as.data.table(mtcars)
-    dt.sum <- mtc[,.(mean.hp=mean(hp)),keyby=.(cyl)]
-    ft <- flextable(dt.sum)
+
+    ft <- flextable(mtcars)
 
     expect_error(
         writeFlextab(ft,file="testOutput/flextab3.jpg",script="test_writeFlextab.R",time=time)

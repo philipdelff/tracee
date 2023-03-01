@@ -68,21 +68,21 @@ ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
             caption.existing <- try(plot$gg$labs$caption)
         }
         if(is.na(otype)) stop("Dont know how to stamp this object type.")
-        if("try-error" %in% class(caption.existing))
+        if("try-error" %in% class(caption.existing)) caption.existing  <- ""
 
             ## date.txt <- format(time, "%d-%b-%Y %H:%M")
             ## caption.stamp <- paste(date.txt,file)
             ## caption <- paste(c(caption.existing,script,caption.stamp),collapse="\n")
-            ##:ess-bp-start::conditional@:##
-            browser(expr={TRUE})##:ess-bp-end:##
-        
+            
         caption <- createStamp(script=script,file=file,time=time,addto=caption.existing)
+
         
         plot.stamped <- switch(otype,
-                               ggplot={if(sum(unlist(packageVersion("ggplot2")[1,])*c(1000)^c(2:0))<2002001){
+                               ggplot={
+                                   if(sum(unlist(packageVersion("ggplot2")[1,])*c(1000)^c(2:0))<2002001){
                                            stop("ggplot >= 2.2.1 needed to stamp ggplot objects.")
                                        }
-                                           plot+ggplot2::labs(caption=caption)+theme(plot.caption=element_text(size=6, colour="grey"))},
+                                   plot+ggplot2::labs(caption=caption)+theme(plot.caption=element_text(size=6, colour="grey"))},
                                gtable={
                                    arrangeGrob(plot, bottom = textGrob(caption, gp=gpar(font=1, col = "grey", cex = 0.5)),heights=c(0.98,0.02))
 
