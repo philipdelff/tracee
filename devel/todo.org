@@ -1,8 +1,9 @@
 * tracee todo
+** ggstamp
+*** TODO Change time arg to TRUE/FALSE
+*** TODO misc arg 
 ** ggwrite
-*** TODO [#A] Support time argument
+*** TODO support time and misc args to ggstamp
 ** writeFlextab
 *** TODO Add save argument like in NMwriteData
 *** DONE Go back to fnExtension once NMdata 0.0.14 is available
- ## @importFrom NMdata fnExtension
-and replace fnExtensionTracee with fnExtension

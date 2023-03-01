@@ -12,10 +12,12 @@ test_that("general use",{
     
     data(mtcars)
 
+
     ## mtc <- as.data.table(mtcars)
     mtc <- mtcars
     
     ft <- flextable(mtc)
+
     ft <- autofit(ft)
     ## ft
 
@@ -39,6 +41,7 @@ test_that("general use",{
 test_that("unsupported format",{
 
     data(mtcars)
+
     ft <- flextable(mtcars)
 
     expect_error(
@@ -46,4 +49,3 @@ test_that("unsupported format",{
     )
 
 })
-
