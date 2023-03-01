@@ -11,10 +11,10 @@ writeFlextab(ft, file, script, formats, ...)
 
 \item{file}{to save to. See formats to generate multiple files.}
 
-\item{script}{##' @param script path to script - will be pasted as
+\item{script}{path to script - will be pasted as
 caption.}
 
-\item{formats}{One or more of png, docx, pptx, rds as a character
+\item{formats}{One or more of png, docx, pptx, html. As a character
 vector.}
 
 \item{...}{Arguments passed to stampFlextab.}
