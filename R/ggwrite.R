@@ -103,7 +103,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
             }
         if(is.null(fn)) fn <- file
         if(!is.null(script)){
-            plot <- ggstamp(plot,script,file=fn)
+            plot <- ggstamp(plot,script,file=fn,time=time)
         }
         
         if(!is.null(fn)&&type!="x11"){

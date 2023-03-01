@@ -1,7 +1,13 @@
 # Since 0.0.2
 ## New features
+* ggwrite support multiple formats (new argument aligning with
+  writeFlextab) and canvases. In this case, the canvas name will be
+  appended to file names.
+  
 * writeFlextab now throws an error in case unsupported output formats
   are requested.
+  
+* writeFlextab support the 'save' argument like ggwrite. 
 
 # 0.0.2
 ## New functions

@@ -4,18 +4,21 @@
 \alias{writeFlextab}
 \title{Stamp and write flextab objects to one or multiple formats}
 \usage{
-writeFlextab(ft, file, script, formats, ...)
+writeFlextab(ft, file, script, formats, save, ...)
 }
 \arguments{
 \item{ft}{A flextab object.}
 
 \item{file}{to save to. See formats to generate multiple files.}
 
-\item{script}{path to script - will be pasted as
-caption.}
+\item{script}{path to script - will be pasted as caption.}
 
-\item{formats}{One or more of png, docx, pptx, html. As a character
-vector.}
+\item{formats}{One or more of png, docx, pptx, html. As a
+character vector.}
+
+\item{save}{Save the table to the given file or just show?
+Defaults to TRUE. Hint, if you use an "exportFlag", use
+save=exportFlag.}
 
 \item{...}{Arguments passed to stampFlextab.}
 }
