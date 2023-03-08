@@ -6,5 +6,6 @@
 *** DONE support time arg to ggstamp
 *** TODO Support misc arg to ggstamp
 ** writeFlextab
+*** TODO [#A] Support missing script argument
 *** DONE Add save argument like in ggwrite
 *** DONE Go back to fnExtension once NMdata 0.0.14 is available
