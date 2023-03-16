@@ -1,5 +1,7 @@
 # Since 0.0.2
 ## New features
+
+
 * ggwrite support multiple formats (new argument aligning with
   writeFlextab) and canvases. In this case, the canvas name will be
   appended to file names.

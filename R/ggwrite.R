@@ -109,15 +109,15 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         if(!is.null(fn)&&type!="x11"){
             switch(type,
                    png={
-                       png(filename = fn, width = 0.6 * size$width, 
-                           height = 0.6 * size$height, units = "in",
+                       png(filename = fn, width = size$width, 
+                           height = size$height, units = "in",
                            res=res
                            ## res = 18 * max(width, height)
                            )
                    },
                    pdf={
-                       pdf(file = fn, width = 0.6 * size$width, 
-                           height = 0.6 * size$height,onefile=onefile,paper = paper)
+                       pdf(file = fn, width = size$width, 
+                           height = size$height,onefile=onefile,paper = paper)
                    })
             print1(plot)
             dev.off()
@@ -191,9 +191,6 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
                     write1(plot[[1]],type="x11")
                     if(Nplots>2){
                         silent <- lapply(2:Nplots,function(I){
-                            ## debug
-                            ## cat("opening x11 device")
-                            ## x11()
                             write1(plot=plot[[I]],type=type,size=size)
                         })
                     }
