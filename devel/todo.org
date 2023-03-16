@@ -3,9 +3,12 @@
 *** TODO Change time arg to TRUE/FALSE
 *** TODO misc arg 
 ** ggwrite
+*** TODO Check whether plot exists before trying to write
+Currently, writeObj is giving the error which may be confusing
 *** DONE support time arg to ggstamp
 *** TODO Support misc arg to ggstamp
 ** writeFlextab
 *** TODO [#A] Support missing script argument
+*** TODO [#A] Fix line spacing in pptx files
 *** DONE Add save argument like in ggwrite
 *** DONE Go back to fnExtension once NMdata 0.0.14 is available
