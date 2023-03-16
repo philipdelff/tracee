@@ -35,7 +35,7 @@
 ##' @export
 
 
-ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
+ggstamp <- function(plot, script = "", file, time=Sys.time()) {
 ### Captions are only available in ggplot 2.2.1
 
 ### A list of plots is supported so we will run everything with lapply
@@ -70,9 +70,6 @@ ggstamp <- function(plot, script = "no stamp", file, time=Sys.time()) {
         if(is.na(otype)) stop("Dont know how to stamp this object type.")
         if("try-error" %in% class(caption.existing)) caption.existing  <- ""
 
-            ## date.txt <- format(time, "%d-%b-%Y %H:%M")
-            ## caption.stamp <- paste(date.txt,file)
-            ## caption <- paste(c(caption.existing,script,caption.stamp),collapse="\n")
             
         caption <- createStamp(script=script,file=file,time=time,addto=caption.existing)
 
