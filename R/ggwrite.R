@@ -71,7 +71,9 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     
 ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
 
-    
+    if(missing(plot) || !exists(plot)){
+        stop("An existing plot must be passed as the plot argument.")
+    }
 
     if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")
 

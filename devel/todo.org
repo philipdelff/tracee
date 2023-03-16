@@ -1,9 +1,10 @@
 * tracee todo
 ** ggstamp
-*** TODO Change time arg to TRUE/FALSE
+*** DONE time arg to support TRUE/FALSE
+FALSE is now the same as "", TRUE is the same as NULL, same as Sys.time()
 *** TODO misc arg 
 ** ggwrite
-*** TODO Check whether plot exists before trying to write
+*** DONE Check whether plot exists before trying to write
 Currently, writeObj is giving the error which may be confusing
 *** DONE support time arg to ggstamp
 *** TODO Support misc arg to ggstamp
