@@ -29,7 +29,7 @@
 ##' p1 <- ggplot(ChickWeight,aes(Time,weight,group=Chick,colour=factor(Diet)))+geom_line()
 ##' script <- "note"
 ##' ggstamp(p1,script)
-##' ## Or use ggwrite which will call ggstamp automatically.
+##' ## Or use ggwrite which will call ggstamp when the `script` argument is provided.
 ##' ggwrite(p1,script=script,canvas="wide")
 ##' @family Plotting
 ##' @export

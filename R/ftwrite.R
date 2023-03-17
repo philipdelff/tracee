@@ -7,6 +7,8 @@
 ##' @param save Save the table to the given file or just show?
 ##'     Defaults to TRUE. Hint, if you use an "exportFlag", use
 ##'     save=exportFlag.
+##' @param quiet Default is false but use TRUE to suppress messages
+##'     about what was saved.
 ##' @param ... Arguments passed to stampFlextab.
 ##' @import flextable
 ##' @importFrom NMdata fnExtension
