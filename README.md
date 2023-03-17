@@ -1,20 +1,16 @@
 # tracee
-`tracee` is an R package that generates .
+`tracee` is an R package that provides convenient wrappers for saving
+traceable plots and tables for reporting.
 
 ## Install
-Easiest way to install NMexec is using the remotes package to install with R:
+`tracee` is on CRAN and MPN.
+install.packages("tracee")
 
-    library(remotes)
-    install_github("philipdelff/NMexec")
+## Save plots with script and output paths included
+Device type will be decided based on file name extension. png and pdf are supported.
+ggwrite(p,file="path/to/myplot.png",script="path/to/script")
 
-`NMexec` makes extensive use of functionality provided by the `NMdata`
-package. For most recent features of `NMexec` to work, make sure to at
-least keep `NMdata` updated to latest CRAN or MPN realease. In case
-you need a very recent feature, you may need to install `NMdata` from
-github too:
+## Save tables with script and output paths included
+Only flextable objects can be saved.
+ftwrite(ft,file="path/to/mytable.png",script="path/to/script")
 
-    install_github("philipdelff/NMdata")
-    install_github("philipdelff/NMexec")
-    library("NMexec")
-
-## Simulate a Nonmem model from R
