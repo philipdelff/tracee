@@ -1,6 +1,11 @@
 # Since 0.0.2
+## Changes
+* Flextab function names aligned with functions for
+  plots. writeFlextab is deprecated and now called
+  ftwrite. stampFlextab is deprecated and now called ftstamp. These
+  names match ggwrite and ggstamp, respectively.
 ## New features
-
+* Missing script argument supported in writeFlextab
 
 * ggwrite support multiple formats (new argument aligning with
   writeFlextab) and canvases. In this case, the canvas name will be

@@ -4,7 +4,7 @@
 \alias{ggstamp}
 \title{Always stamp your plots with script name}
 \usage{
-ggstamp(plot, script = "no stamp", file, time = Sys.time())
+ggstamp(plot, script = "", file, time = Sys.time())
 }
 \arguments{
 \item{plot}{The plot to be stamped.}

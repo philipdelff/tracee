@@ -9,9 +9,24 @@ Currently, writeObj is giving the error which may be confusing
 *** DONE support time arg to ggstamp
 *** TODO Support misc arg to ggstamp
 ** writeFlextab
-*** TODO [#A] Support missing script argument
-*** TODO [#A] Fix line spacing in pptx files
+*** DONE Support missing script argument
+This will be the same as NULL. Will result in a space in the stamp.
+*** TODO Fix line spacing in pptx files
+Not sure how to handle this. Currently, the line spacing is 1, and
+that seems to work well for png. It would be complicated to have a
+separate version of the object for pptx. In stampFlextab we do
+#+begin_src R
+  ft <- line_spacing(ft, space = 1, part = "footer")
+#+end_src
 *** DONE Add save argument like in ggwrite
 *** DONE Go back to fnExtension once NMdata 0.0.14 is available
 *** TODO [#A] Report written file paths 
 like ggwrite does
+*** Check and summarize unsupported formats
+##### currently, we let lapply throw an error when hitting an unsupported format. It would be more
+##### elegant to summarize all the formats that weren't supported.
+### formats <- intersect(formats,cc(png,html,docx,pptx))
+## if(length(formats)==0) {
+##     warning("No supported formats requested. Nothing done.")
+##     return(invisible(NULL))
+## }

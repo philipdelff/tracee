@@ -1,14 +1,14 @@
 Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
-Version: 0.0.2.904
+Version: 0.0.2.905
 Authors@R: person("Philip", "Delff", email = "philip@delff.dk",
                   role = c("aut", "cre"))
 Maintainer: Philip Delff <philip@delff.dk>
 Description: Simple but crucial functionality related to creation of reproducible and traceable output (plots) back to code. It has a graphics saver with simple automation of plot stamping with source, destination and creation time, a selection of dimensions for use in presentations. A list of plots can be saved at once. 
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Depends: R (>= 4.0.0)
 Imports:
  NMdata (>= 0.0.14),
