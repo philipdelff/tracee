@@ -22,5 +22,6 @@ test_that("general use",{
     p1 <- ggstamp(p1,stamp,file="test_ggstamp.png",time=as.POSIXct("2011-04-03 01:40:33"))
 
     expect_equal_to_reference(p1,fileRef)
+    ## expect_snapshot_value(p1,fileRef)
     
 })

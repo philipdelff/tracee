@@ -43,7 +43,7 @@ ftwrite <- function(ft,file,script,formats,save,quiet=FALSE,...){
                            ,pptx=save_as_pptx,
                             stop("format not supported. See ?writeFlextab"))
         
-        ft <- stampFlextab(ft=ft,file=fn,script=script,...)
+        ft <- ftstamp(ft=ft,file=fn,script=script,...)
         fun.write(ft,path=fn)
         if(!quiet&&!is.null(fn)) message("Written to ",fn)
         fn
