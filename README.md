@@ -2,9 +2,6 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check](https://github.com/philipdelff/tracee/workflows/R-CMD-check/badge.svg)](https://github.com/philipdelff/tracee/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/philipdelff/tracee/branch/master/graph/badge.svg)](https://app.codecov.io/gh/philipdelff/tracee?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tracee)](https://CRAN.R-project.org/package=tracee)
 <!-- badges: end -->
