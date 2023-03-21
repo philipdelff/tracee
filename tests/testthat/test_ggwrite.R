@@ -21,7 +21,7 @@ test_that("Basic",{
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test")
 
     local_edition(3)
-    expect_snapshot_file(fileRes,fileRef)
+    expect_snapshot_file(fileRes)
 })
 
 if(F){

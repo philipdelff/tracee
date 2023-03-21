@@ -8,7 +8,7 @@ test_that("general use",{
 
     ## library(data.table)
     ## .datatable.aware = TRUE
-
+    fileRes <- "testOutput/ftwrite2.png"
     
     data(mtcars)
 
@@ -30,12 +30,12 @@ test_that("general use",{
     ## save_as_image(ft2,path="testOutput/flextab1.png")
 
     time <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
-    ftwrite(ft,file="testOutput/flextab1.png",script="test_ftwrite.R",formats=".png",time=time)
+##     ftwrite(ft,file="testOutput/flextab1.png",script="test_ftwrite.R",formats=".png",time=time)
 
-    ftwrite(ft,file="testOutput/flextab2.png",script="test_ftwrite.R",formats=c(".png",".pptx",".html",".docx"),time=time)
+    ftwrite(ft,file=fileRes,script="test_ftwrite.R",formats=c(".png",".pptx",".html",".docx"),time=time)
 
     local_edition(3)
-    expect_snapshot_file("testOutput/flextab2.png","testReference/flextab2.png")
+    expect_snapshot_file(fileRes)
 })
 
 test_that("unsupported format",{
@@ -52,16 +52,16 @@ test_that("unsupported format",{
 
 test_that("without script arg",{
 
-    fileRes <- "testOutput/flextab3.png"
-    fileRef <- "testReference/flextab3.png"
+    fileRes <- "testOutput/ftwrite3.png"
+    ## fileRef <- "testReference/flextab3.png"
     data(mtcars)
 
     ft <- flextable(mtcars)
 
-    ftwrite(ft,file=fileRes,formats=c(".png"))
+    ftwrite(ft,file=fileRes,formats=c(".png"),time="")
 
     local_edition(3)
-    expect_snapshot_file(fileRes,fileRef)
+    expect_snapshot_file(fileRes)
     
 })
 
