@@ -14,7 +14,9 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 
 \item{file}{to save to. See formats to generate multiple files.}
 
-\item{script}{path to script - will be pasted as caption.}
+\item{script}{path to script - will be pasted as caption. If
+provided, a stamp will be included on the plot when writng
+file(s).}
 
 \item{formats}{One or more of png, docx, pptx, html. As a
 character vector.}

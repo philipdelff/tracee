@@ -1,7 +1,9 @@
 ##' Stamp and write flextab objects to one or multiple formats
 ##' @param ft A flextab object.
 ##' @param file to save to. See formats to generate multiple files.
-##' @param script path to script - will be pasted as caption.
+##' @param script path to script - will be pasted as caption. If
+##'     provided, a stamp will be included on the plot when writng
+##'     file(s).
 ##' @param formats One or more of png, docx, pptx, html. As a
 ##'     character vector.
 ##' @param save Save the table to the given file or just show?
@@ -45,7 +47,9 @@ ftwrite <- function(ft,file,script,formats,save,quiet=FALSE,...){
                            ,pptx=save_as_pptx,
                             stop("format not supported. See ?writeFlextab"))
         
-        ft <- ftstamp(ft=ft,file=fn,script=script,...)
+        if(!is.null(script)){
+            ft <- ftstamp(ft=ft,file=fn,script=script,...)
+        }
         fun.write(ft,path=fn)
         if(!quiet&&!is.null(fn)) message("Written to ",fn)
         fn
