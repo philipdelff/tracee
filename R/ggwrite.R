@@ -174,12 +174,12 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         }
         
         if(is.list(plot)&&!any(c("gg","gtable")%in%class(plot))) {
+            if(onefile && type!="pdf"){
+                warning("onefile can only be used with pdf device. Will not be used.")
+                onefile <- FALSE
+            }
+
             if(onefile){
-                if(type!="pdf"){
-                    warning("onefile can only be used with pdf device. Will not be used.")
-                    onefile <- FALSE
-                }
-                
                 write1(plot,fn=file,type=type,onefile=onefile,size=size)
             } else {
                 
@@ -259,6 +259,7 @@ if(all(is.chars) && length(nms)==0) {
                                    allcombs[n,name.canvas]
                                    )
             }
+            
             file.n <- fnExtension(file.n,allcombs[n,format])
             writeObj(plot,file=file.n,size=allcombs[n,.(width,height)])
             if(!quiet&&!is.null(file.n)) message("Written to ",file.n)

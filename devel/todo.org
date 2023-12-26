@@ -1,14 +1,20 @@
 * tracee todo
 ** ggstamp
+*** TODO filename.only arg
+if TRUE (default), run the basename(file) which is currently done
 *** DONE time arg to support TRUE/FALSE
 FALSE is now the same as "", TRUE is the same as NULL, same as Sys.time()
 *** TODO misc arg 
 ** ggwrite
+** TODO Support marrangeGrob
+ggsave can handle these. They do a nice job of splitting plots into pages.
+plist1 <- lapply(plist, ggplotGrob)
+marrangeGrob(grobs = plist1, ncol=2, nrow = 3, left="VX708 Conc (ng/mL)", bottom="Time after first dose (hours)")
 *** DONE Check whether plot exists before trying to write
 Currently, writeObj is giving the error which may be confusing
 *** DONE support time arg to ggstamp
 *** TODO Support misc arg to ggstamp
-** writeFlextab
+** ftwrite
 *** DONE Support missing script argument
 This will be the same as NULL. Will result in a space in the stamp.
 *** TODO Fix line spacing in pptx files

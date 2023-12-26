@@ -1,9 +1,20 @@
+# 0.0.4
+## Bugfixes
+* ggwrite in some cases wouldn't write a list of plots to multiple
+  pngs. Fixed.
+
+## Other changes
+* `ftwrite` argument takes a `time` argument like `ggwrite`. It did
+  already by passing it downstream but now it is explicit like for
+  `ggwrite`.
+
 # 0.0.3
 ## Changes
 * Flextab function names aligned with functions for
   plots. writeFlextab is deprecated and now called
   ftwrite. stampFlextab is deprecated and now called ftstamp. These
   names match ggwrite and ggstamp, respectively.
+  
 ## New features
 * Missing script argument supported in ftwrite.
 

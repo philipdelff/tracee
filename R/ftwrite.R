@@ -16,7 +16,7 @@
 ##' @importFrom NMdata fnExtension
 ##' @export
 
-ftwrite <- function(ft,file,script,formats,save,quiet=FALSE,...){
+ftwrite <- function(ft,file,script,time,formats,save,quiet=FALSE,...){
 
     ## save_as_docx
     ## save_as_html
@@ -35,7 +35,7 @@ ftwrite <- function(ft,file,script,formats,save,quiet=FALSE,...){
     }
 
     if(missing(script)) script <- NULL
-
+    if(missing(time)) time <- NULL
 
     ## Write all requested formats  
     silent <- lapply(formats,function(ext){
@@ -48,7 +48,7 @@ ftwrite <- function(ft,file,script,formats,save,quiet=FALSE,...){
                             stop("format not supported. See ?writeFlextab"))
         
         if(!is.null(script)){
-            ft <- ftstamp(ft=ft,file=fn,script=script,...)
+            ft <- ftstamp(ft=ft,file=fn,script=script,time,...)
         }
         fun.write(ft,path=fn)
         if(!quiet&&!is.null(fn)) message("Written to ",fn)
