@@ -9,7 +9,7 @@
 ##'     is a list, see onefile. If missing, plot is shown on screen.
 ##' @param script This should normally be the path to your
 ##'     script. Requires ggplot >=2.2.1.
-##' @param time Passed to ggwrite. 
+##' @param time Passed to ggwrite.
 ##' @param canvas Either a list of height and width or a shortname of
 ##'     predefined canvas size. See ?canvasSize.
 ##' @param formats File formats to write to as a character
@@ -23,8 +23,9 @@
 ##'     element.
 ##' @param res Resolution. Passed to png.
 ##' @param save Save the plot to the given file or just show? Defaults
-##'     to TRUE. Hint, if you use an "exportFlag", use
-##'     save=exportFlag.
+##'     to TRUE. If a variable is used to control whether a script
+##'     generates outputs (say `writeOutputs=TRUE/FALSE`), if you use
+##'     `save=writeOutputs` to comply with this.
 ##' @param show Print the plot to the screen? Defaults to the opposite
 ##'     of save. Hint, combining save and show in knitr can give you
 ##'     both a high quality plot in your pdf and a png optimized for
