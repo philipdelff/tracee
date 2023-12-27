@@ -5,7 +5,7 @@
 \alias{writeFlextab}
 \title{Stamp and write flextab objects to one or multiple formats}
 \usage{
-ftwrite(ft, file, script, formats, save, quiet = FALSE, ...)
+ftwrite(ft, file, script, time, formats, save, quiet = FALSE, ...)
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 }
@@ -17,6 +17,8 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 \item{script}{path to script - will be pasted as caption. If
 provided, a stamp will be included on the plot when writng
 file(s).}
+
+\item{time}{Passed to ggwrite.}
 
 \item{formats}{One or more of png, docx, pptx, html. As a
 character vector.}

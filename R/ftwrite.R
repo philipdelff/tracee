@@ -4,6 +4,7 @@
 ##' @param script path to script - will be pasted as caption. If
 ##'     provided, a stamp will be included on the plot when writng
 ##'     file(s).
+##' @param time Passed to ggwrite.
 ##' @param formats One or more of png, docx, pptx, html. As a
 ##'     character vector.
 ##' @param save Save the table to the given file or just show?
