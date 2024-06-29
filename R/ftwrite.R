@@ -4,10 +4,14 @@
 ##' @param script path to script - will be pasted as caption. If
 ##'     provided, a stamp will be included on the plot when writng
 ##'     file(s).
+<<<<<<< HEAD
 ##' @param time The default behavior is to include a time stamp if
 ##'     `script` is provided. You can pass any string as `time` if you
 ##'     prefer a different format or a completely different string
 ##'     here instead (like model name?). Use `time=""` to omit.
+=======
+##' @param time Passed to ggwrite.
+>>>>>>> 1d3d90292622dd2e9d2e13886b03ef16c11b093b
 ##' @param formats One or more of png, docx, pptx, html. As a
 ##'     character vector.
 ##' @param save Save the table to the given file or just show?
