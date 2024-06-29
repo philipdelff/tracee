@@ -5,7 +5,7 @@
 \alias{writeFlextab}
 \title{Stamp and write flextab objects to one or multiple formats}
 \usage{
-ftwrite(ft, file, script, formats, save, quiet = FALSE, ...)
+ftwrite(ft, file, script, time, formats, save, quiet = FALSE, ...)
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 }
@@ -17,6 +17,11 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 \item{script}{path to script - will be pasted as caption. If
 provided, a stamp will be included on the plot when writng
 file(s).}
+
+\item{time}{The default behavior is to include a time stamp if
+\code{script} is provided. You can pass any string as \code{time} if you
+prefer a different format or a completely different string
+here instead (like model name?). Use \code{time=""} to omit.}
 
 \item{formats}{One or more of png, docx, pptx, html. As a
 character vector.}
@@ -35,6 +40,6 @@ Stamp and write flextab objects to one or multiple formats
 }
 \section{Functions}{
 \itemize{
-\item \code{writeFlextab()}: Deprecated function name. Use ftwrite.
-
+\item \code{writeFlextab}: Deprecated function name. Use ftwrite.
 }}
+

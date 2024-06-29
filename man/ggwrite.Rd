@@ -54,8 +54,9 @@ element.}
 \item{paper}{Only used with pdf device. See ?pdf.}
 
 \item{save}{Save the plot to the given file or just show? Defaults
-to TRUE. Hint, if you use an "exportFlag", use
-save=exportFlag.}
+to TRUE. If a variable is used to control whether a script
+generates outputs (say \code{writeOutputs=TRUE/FALSE}), if you use
+\code{save=writeOutputs} to comply with this.}
 
 \item{show}{Print the plot to the screen? Defaults to the opposite
 of save. Hint, combining save and show in knitr can give you

@@ -4,6 +4,10 @@
 ##' @param script path to script - will be pasted as caption. If
 ##'     provided, a stamp will be included on the plot when writng
 ##'     file(s).
+##' @param time The default behavior is to include a time stamp if
+##'     `script` is provided. You can pass any string as `time` if you
+##'     prefer a different format or a completely different string
+##'     here instead (like model name?). Use `time=""` to omit.
 ##' @param formats One or more of png, docx, pptx, html. As a
 ##'     character vector.
 ##' @param save Save the table to the given file or just show?

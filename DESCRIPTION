@@ -1,7 +1,7 @@
 Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
-Version: 0.0.3.901
+Version: 0.0.4
 Authors@R: person("Philip", "Delff", email = "philip@delff.dk",
                   role = c("aut", "cre"))
 Maintainer: Philip Delff <philip@delff.dk>

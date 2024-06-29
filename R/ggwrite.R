@@ -148,7 +148,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     ## If file is an empty string or null is the same.
     if(!missing(file)&&!is.null(file)){
         file2 <- gsub(" ","",file)
-        if(!all(file==file2)) warning("Blank characters in filename have been removed.")
+        if(!all(file==file2)) message("Blank characters in filename have been removed.")
         file <- file2
     }
     

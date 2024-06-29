@@ -1,5 +1,8 @@
 * tracee todo
 ** ggstamp
+*** TODO support for multiple models
+This leads to pasting both onto the output file name:
+time=paste(dt.models$lst,sep="\n")
 *** TODO filename.only arg
 if TRUE (default), run the basename(file) which is currently done
 *** DONE time arg to support TRUE/FALSE

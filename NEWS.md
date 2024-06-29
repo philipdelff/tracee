@@ -1,3 +1,9 @@
+# 0.0.5
+
+## Other changes
+* `ggwrite` gives a message instead of a warning when empty spaces are
+  being removed from file names. 
+
 # 0.0.4
 ## Bugfixes
 * ggwrite in some cases wouldn't write a list of plots to multiple
