@@ -8,7 +8,7 @@ Maintainer: Philip Delff <philip@delff.dk>
 Description: Write output (plots and tables) ensuring traceability back to code. Includes a graphics saver with simple automation of stamping with source, destination and creation time. A list of plots can be saved at once. A user-friendly selection of output dimensions for presentations, on-screen inspections, and more available.
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Depends: R (>= 4.0.0)
 Imports:
  NMdata (>= 0.0.14),

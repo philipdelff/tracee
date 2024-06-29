@@ -18,14 +18,10 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 provided, a stamp will be included on the plot when writng
 file(s).}
 
-<<<<<<< HEAD
 \item{time}{The default behavior is to include a time stamp if
 \code{script} is provided. You can pass any string as \code{time} if you
 prefer a different format or a completely different string
 here instead (like model name?). Use \code{time=""} to omit.}
-=======
-\item{time}{Passed to ggwrite.}
->>>>>>> 1d3d90292622dd2e9d2e13886b03ef16c11b093b
 
 \item{formats}{One or more of png, docx, pptx, html. As a
 character vector.}
@@ -44,6 +40,6 @@ Stamp and write flextab objects to one or multiple formats
 }
 \section{Functions}{
 \itemize{
-\item \code{writeFlextab}: Deprecated function name. Use ftwrite.
-}}
+\item \code{writeFlextab()}: Deprecated function name. Use ftwrite.
 
+}}
