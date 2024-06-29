@@ -1,5 +1,9 @@
 # 0.0.5
 
+## Bugfixes
+* `ftwrite` would need the `bg` argument even though a default value
+  was apparently provided. Now that default is actually being used.
+
 ## Other changes
 * `ggwrite` gives a message instead of a warning when empty spaces are
   being removed from file names. 

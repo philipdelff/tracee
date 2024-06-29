@@ -52,7 +52,7 @@ ftwrite <- function(ft,file,script,time,formats,save,quiet=FALSE,...){
                             stop("format not supported. See ?writeFlextab"))
         
         if(!is.null(script)){
-            ft <- ftstamp(ft=ft,file=fn,script=script,time,...)
+            ft <- ftstamp(ft=ft,file=fn,script=script,time=time,...)
         }
         fun.write(ft,path=fn)
         if(!quiet&&!is.null(fn)) message("Written to ",fn)
