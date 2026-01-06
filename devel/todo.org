@@ -9,6 +9,7 @@ if TRUE (default), run the basename(file) which is currently done
 FALSE is now the same as "", TRUE is the same as NULL, same as Sys.time()
 *** TODO misc arg 
 ** ggwrite
+*** TODO [#A] canvas should be last in file name
 ** TODO Support marrangeGrob
 ggsave can handle these. They do a nice job of splitting plots into pages.
 plist1 <- lapply(plist, ggplotGrob)

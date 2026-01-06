@@ -1,8 +1,12 @@
 ## library(data.table)
 ## library(devtools)
 ## load_all(export_all=FALSE)
+## library(testthat)
+
 
 context("ftwrite")
+
+time <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
 test_that("general use",{
 
@@ -59,3 +63,17 @@ test_that("without script arg",{
     
 })
 
+
+test_that("",{
+
+    fileRes <- "testOutput/ftwrite_04.png"
+    data(mtcars)
+
+    ft <- flextable(mtcars)
+    ft <- set_caption(ft,"a title line")
+
+    
+    ftwrite(ft,file=fileRes,script="test_ftwrite.R",time=time)
+    
+
+})

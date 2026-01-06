@@ -1,5 +1,9 @@
 # 0.0.5
 
+## New Features
+* `ftwrite` gains the `show` argument. Similarly to `ggwrite()`, this
+  allows to control printing to file and screen independently.
+
 ## Bugfixes
 * `ftwrite` would need the `bg` argument even though a default value
   was apparently provided. Now that default is actually being used.

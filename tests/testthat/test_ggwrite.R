@@ -12,6 +12,7 @@ if(F){
 
 
 test_that("Basic",{
+    
     p1 <- ggplot(data.table(TIME=0,DV=1),aes(TIME,DV))+geom_point()
     ## ggwrite(p1)  ## view plot on screen
     stamp <- "note"
@@ -22,6 +23,7 @@ test_that("Basic",{
 
     local_edition(3)
     expect_snapshot_file(fileRes)
+
 })
 
 if(F){

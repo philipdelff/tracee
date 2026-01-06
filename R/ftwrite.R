@@ -13,6 +13,10 @@
 ##' @param save Save the table to the given file or just show?
 ##'     Defaults to TRUE. Hint, if you use an "exportFlag", use
 ##'     save=exportFlag.
+##' @param show Print the plot to the screen? Defaults to the opposite
+##'     of save. Combining save and show in knitr can give you
+##'     both a high quality plot in your pdf and a png optimized for
+##'     powerpoint.
 ##' @param quiet Default is false but use TRUE to suppress messages
 ##'     about what was saved.
 ##' @param ... Arguments passed to stampFlextab.
@@ -20,7 +24,7 @@
 ##' @importFrom NMdata fnExtension
 ##' @export
 
-ftwrite <- function(ft,file,script,time,formats,save,quiet=FALSE,...){
+ftwrite <- function(ft,file,script,time,formats,save=TRUE,show=!save,quiet=FALSE,...){
 
     ## save_as_docx
     ## save_as_html
@@ -31,7 +35,13 @@ ftwrite <- function(ft,file,script,time,formats,save,quiet=FALSE,...){
     ##all.files <- fnExtension(file,formats)
 
     if(missing(save)||is.null(save)) save <- TRUE
-    if(!save) return(ft)
+    if(!save) {
+        if(show){
+            return(ft)
+        } else {
+            return(invisible(ft))
+        }
+    }
 
     if(missing(formats)||is.null(formats)) {
         ## formats <- sub(".*\\.(.+)$","\\1",file)
@@ -49,7 +59,7 @@ ftwrite <- function(ft,file,script,time,formats,save,quiet=FALSE,...){
                            ,html=save_as_html
                            ,docx=save_as_docx
                            ,pptx=save_as_pptx,
-                            stop("format not supported. See ?writeFlextab"))
+                            stop("format not supported. See ?ftwrite"))
         
         if(!is.null(script)){
             ft <- ftstamp(ft=ft,file=fn,script=script,time=time,...)
@@ -60,7 +70,9 @@ ftwrite <- function(ft,file,script,time,formats,save,quiet=FALSE,...){
     })
     
     
-
+    if(show){
+        return(ft)
+    }
     invisible(silent)
     
 

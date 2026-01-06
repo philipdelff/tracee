@@ -32,6 +32,7 @@ canvasSize <- function(canvas,scale=1,simplify=TRUE){
         standard=list(width=7.2,height=5.4),
         wide=list(width=9.6,height=5.4),
         A4=list(width=5.4,height=7.2),
+        letter=list(width=6.5,height=9),
         square=list(width=5.4,height=5.4),
         "wide-screen"=list(width=18.6,height=9)
 

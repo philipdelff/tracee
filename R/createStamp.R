@@ -12,7 +12,7 @@
 ## do not export.
 
 createStamp <- function(script,file,time,addto){
-
+    
     if(missing(time)||is.null(time)||(is.logical(time)&&time)) time <- Sys.time()
     if(is.logical(time)&&!time) time <- ""
     if(missing(addto)) addto <- NULL

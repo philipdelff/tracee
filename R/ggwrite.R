@@ -36,6 +36,7 @@
 ##'     TRUE, and length(plot)>1.
 ##' @param quiet Default is false but use TRUE to suppress messages
 ##'     about what was saved.
+##' @param useNames Deprecated. Use \code{use.names} instead.
 ##' @export
 ##' @return Nothing. Files written and/or plots shown, depending on
 ##'     argument values.
@@ -62,7 +63,7 @@
 
 ggwrite <- function(plot, file, script, time, canvas="standard", formats,
                     onefile=FALSE, res=200, paper="special",
-                    save=TRUE, show=!save, useNames=FALSE, quiet=FALSE){
+                    save=TRUE, show=!save, use.names=FALSE, quiet=FALSE, useNames){
 
 #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
 
@@ -71,67 +72,26 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     size <- NULL
     
 ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
-
+    
     if(missing(plot) || !exists("plot")){
         stop("An existing plot must be passed as the plot argument.")
     }
 
-    if(useNames && length(plot)==1) warning("useNames is ignored because plot is of length 1.")
+    if(!missing(useNames)){
+        if(!missing(use.names)){
+            stop("use.names and useNames supplied. Use use.names and not the deprecated useNames. ")
+        }
+        message("useNames is deprecated. Use use.names.")
+        use.names <- useNames
+    }
+
+    
+    if(use.names && length(plot)==1) warning("use.names is ignored because plot is of length 1.")
 
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
     if(is.null(canvas)) canvas <- "standard"
     if(missing(time)) time <- NULL
     
-###### functions to be used internally
-### print1 does the actual printing to the device. Because if the plot is a
-### table it must be written with draw.grid, and if not by print.
-    print1 <- function(plot){
-        if("gtable"%in%class(plot)) {
-            ## message("plot is of class gtable. Using grid::grid.draw.")
-            ## grid::grid.draw
-            grid.draw(plot)
-        } else {
-            if(!is.null(plot)){
-                print(plot)
-            }
-        }
-    }
-
-    ## make function to use for one plot. Then we will call tht on plot or loop
-    ## it over the elements of plot in case plot is a list.
-    write1 <- function(plot,fn=NULL,type,onefile=FALSE,size){  
-        if(is.null(plot)) {
-            message("plot is NULL, nothing to do.")
-            return(NULL)
-            }
-        if(is.null(fn)) fn <- file
-        if(!is.null(script)){
-            plot <- ggstamp(plot,script,file=fn,time=time)
-        }
-        
-        if(!is.null(fn)&&type!="x11"){
-            switch(type,
-                   png={
-                       png(filename = fn, width = size$width, 
-                           height = size$height, units = "in",
-                           res=res
-                           ## res = 18 * max(width, height)
-                           )
-                   },
-                   pdf={
-                       pdf(file = fn, width = size$width, 
-                           height = size$height,onefile=onefile,paper = paper)
-                   })
-            print1(plot)
-            dev.off()
-        } else {
-            print1(plot)
-        }
-    }
-    
-
-
-###### internal functions done
 
     
 ##### Check inputs
@@ -161,59 +121,10 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
 #### check inputs done
 
     
-    writeObj <- function(plot,file,size,type){
-
-        ## get filname extension to determine device
-        type <- "x11"
-        fnroot <- NULL
-        if(!is.null(file)){
-            ## type <- sub(".+\\.(.+)$","\\1",file)
-            
-            type <- sub(".*\\.([^\\.]+)$","\\1",file)
-            if(!type%in%c("pdf","png")) stop("Only extensions .png and .pdf are supported")
-            fnroot <- sub("^(.+)\\..+$","\\1",file)
-        }
-        
-        if(is.list(plot)&&!any(c("gg","gtable")%in%class(plot))) {
-            if(onefile && type!="pdf"){
-                warning("onefile can only be used with pdf device. Will not be used.")
-                onefile <- FALSE
-            }
-
-            if(onefile){
-                write1(plot,fn=file,type=type,onefile=onefile,size=size)
-            } else {
-                
-                Nplots <- length(plot)
-                ## debug
-                ## cat("Number of plots: ",Nplots)
-                Nplots.log10 <- round(log10(Nplots))
-                fname.num <- function(fnroot,type,I) paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
-                fname.char <- function(fnroot,type,name) paste(fnroot,"_",name,".",type,sep="")
-                if (type=="x11"){
-                    write1(plot[[1]],type="x11")
-                    if(Nplots>2){
-                        silent <- lapply(2:Nplots,function(I){
-                            write1(plot=plot[[I]],type=type,size=size)
-                        })
-                    }
-                } else {
-                    if(useNames){
-                        silent <- lapply(1:Nplots,function(I)write1(plot=plot[[I]],type=type,fn=fname.char(fnroot,type,name=names(plot)[I]),size=size))
-                    } else{
-                        silent <- lapply(1:Nplots,function(I)write1(plot=plot[[I]],type=type,fn=fname.num(fnroot,type,I),size=size))
-                    }
-                }
-            }
-        } else {
-            write1(plot=plot,fn=file,type=type,size=size)
-        }
-        invisible(NULL)
-    }
-
 
 
     if(save){
+        
 #### Section start: create data.table with all combinations of formats and canvases ####
 
         is.chars <- sapply(canvas,is.character)
@@ -226,7 +137,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         nms <- names(canvas)
         ## get rid of special characters
         
-if(all(is.chars) && length(nms)==0) {
+        if(all(is.chars) && length(nms)==0) {
             nms <- unlist(canvas)
         }
 
@@ -262,13 +173,130 @@ if(all(is.chars) && length(nms)==0) {
             }
             
             file.n <- fnExtension(file.n,allcombs[n,format])
-            writeObj(plot,file=file.n,size=allcombs[n,.(width,height)])
+            writeObj(plot,file=file.n,size=allcombs[n,.(width,height)],script=script,time=time,res=res,paper=paper,onefile=onefile, use.names=use.names)
             if(!quiet&&!is.null(file.n)) message("Written to ",file.n)
         }
     }
     if(show){
-        writeObj(plot,file=NULL,size=size)
+        writeObj(plot,file=NULL,size=size,script=script,time=time,res=res,paper=paper)
     }
     invisible(NULL)
 }
 
+
+
+
+   ###### functions to be used internally
+### print1 does the actual printing to the device. Because if the plot is a
+### table it must be written with draw.grid, and if not by print.
+##' @keywords internal
+## Don't export
+
+    print1 <- function(plot){
+        if("gtable"%in%class(plot)) {
+            ## message("plot is of class gtable. Using grid::grid.draw.")
+            ## grid::grid.draw
+            grid.draw(plot)
+        } else {
+            if(!is.null(plot)){
+                print(plot)
+            }
+        }
+    }
+###### internal functions done
+
+
+##' @keywords internal
+## Don't export
+writeObj <- function(plot,file,size,type,script,time,onefile,use.names=FALSE,...){
+    
+    ## get filname extension to determine device
+    type <- "x11"
+    fnroot <- NULL
+    if(!is.null(file)){
+        ## type <- sub(".+\\.(.+)$","\\1",file)
+        
+        type <- sub(".*\\.([^\\.]+)$","\\1",file)
+        if(!type%in%c("pdf","png")) stop("Only extensions .png and .pdf are supported")
+        fnroot <- sub("^(.+)\\..+$","\\1",file)
+    }
+    
+    if(is.list(plot)&&!any(c("gg","gtable")%in%class(plot))) {
+        if(onefile && type!="pdf"){
+            warning("onefile can only be used with pdf device. Will not be used.")
+            onefile <- FALSE
+        }
+
+        if(onefile){
+            write1(plot,fn=file,type=type,onefile=onefile,size=size,script=script,script=script,time=time,...)
+        } else {
+            
+            Nplots <- length(plot)
+            ## debug
+            ## cat("Number of plots: ",Nplots)
+            Nplots.log10 <- round(log10(Nplots))
+            fname.num <- function(fnroot,type,I) paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
+            fname.char <- function(fnroot,type,name) paste(fnroot,"_",name,".",type,sep="")
+            if (type=="x11"){
+                write1(plot[[1]],type="x11")
+                if(Nplots>2){
+                    silent <- lapply(2:Nplots,function(I){
+                        write1(plot=plot[[I]],type=type,size=size,script=script,time=time)
+                    })
+                }
+            } else {
+                if(use.names){
+                    silent <- lapply(1:Nplots,function(I)write1(plot=plot[[I]],type=type,fn=fname.char(fnroot,type,name=names(plot)[I]),size=size,script=script,time=time,...))
+                } else{
+                    silent <- lapply(1:Nplots,function(I)write1(plot=plot[[I]],type=type,fn=fname.num(fnroot,type,I),size=size,script=script,time=time,...))
+                }
+            }
+        }
+    } else {
+        
+        write1(plot=plot,fn=file,type=type,size=size,script=script,time=time,...)
+    }
+    invisible(NULL)
+}
+
+
+
+## make function to use for one plot. Then we will call tht on plot or loop
+## it over the elements of plot in case plot is a list.
+write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,...){  
+    if(is.null(plot)) {
+        message("plot is NULL, nothing to do.")
+        return(NULL)
+    }
+    if(is.null(fn)) fn <- file
+    if(!is.null(script)){
+        plot <- ggstamp(plot,script=script,file=fn,time=time)
+    }
+    
+    dots <- try(list(...),silent=T)
+    if("try-error"%in%class(dots)) dots <- NULL
+
+    if(!is.null(fn)&&type!="x11"){
+        switch(type,
+               png={
+                   
+                   dots <- dots[intersect(names(dots),"res")]
+                   args <- c(list(filename = fn, width = size$width, 
+                                  height = size$height, units = "in"),dots)
+                   do.call(png,args)
+                   ## png(filename = fn, width = size$width, 
+                   ##     height = size$height, units = "in",
+                   ##     ...
+                   ##     ## res=res
+                   ##     )
+               },
+               pdf={
+                   pdf(file = fn, width = size$width, 
+                       height = size$height,onefile=onefile,...)
+               })
+        print1(plot)
+        dev.off()
+    } else {
+        print1(plot)
+    }
+}
