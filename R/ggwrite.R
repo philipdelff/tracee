@@ -72,6 +72,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     size <- NULL
     
 ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
+
     
     if(missing(plot) || !exists("plot")){
         stop("An existing plot must be passed as the plot argument.")
@@ -87,6 +88,8 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
 
     
     if(use.names && length(plot)==1) warning("use.names is ignored because plot is of length 1.")
+
+    
 
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
     if(is.null(canvas)) canvas <- "standard"
@@ -159,7 +162,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         allcombs <- egdt(data.table(format=formats),
                          dt.canvas,quiet=TRUE)
 
-
+        
 ### Section end: create data.table with all combinations of formats and canvases
 
         
@@ -186,23 +189,23 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
 
 
 
-   ###### functions to be used internally
+###### functions to be used internally
 ### print1 does the actual printing to the device. Because if the plot is a
 ### table it must be written with draw.grid, and if not by print.
 ##' @keywords internal
 ## Don't export
 
-    print1 <- function(plot){
-        if("gtable"%in%class(plot)) {
-            ## message("plot is of class gtable. Using grid::grid.draw.")
-            ## grid::grid.draw
-            grid.draw(plot)
-        } else {
-            if(!is.null(plot)){
-                print(plot)
-            }
+print1 <- function(plot){
+    if("gtable"%in%class(plot)) {
+        ## message("plot is of class gtable. Using grid::grid.draw.")
+        ## grid::grid.draw
+        grid.draw(plot)
+    } else {
+        if(!is.null(plot)){
+            print(plot)
         }
     }
+}
 ###### internal functions done
 
 
@@ -276,6 +279,8 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,...){
     dots <- try(list(...),silent=T)
     if("try-error"%in%class(dots)) dots <- NULL
 
+    
+
     if(!is.null(fn)&&type!="x11"){
         switch(type,
                png={
@@ -291,8 +296,14 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,...){
                    ##     )
                },
                pdf={
-                   pdf(file = fn, width = size$width, 
-                       height = size$height,onefile=onefile,...)
+
+                   dots <- dots[intersect(names(dots),"onefile")]
+                   args <- c(list(file = fn, width = size$width, 
+                                  height = size$height),dots)
+                   do.call(pdf,args)
+
+                   ## pdf(file = fn, width = size$width, 
+                   ##     height = size$height,onefile=onefile,...)
                })
         print1(plot)
         dev.off()
