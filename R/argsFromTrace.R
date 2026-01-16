@@ -2,7 +2,7 @@ argsFromTrace <- function(fun, x, attr = "args") {
 
   if (!inherits(x, "trace")) return(list())
 
-  defs <- attr(x, defaults_attr)
+  defs <- attr(x, attr)
   if (!is.list(defs)) return(list())
 
   arg_names <- setdiff(names(formals(fun)), "x")

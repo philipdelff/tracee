@@ -161,6 +161,8 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         dt.canvas <- do.call(rbind,
                              lapply(canvasSize(canvas,simplify=FALSE),as.data.table)
                              )
+        
+
         dt.canvas$name.canvas <- names(canvas)
 
         allcombs <- egdt(data.table(format=formats),
@@ -274,9 +276,9 @@ writeObj <- function(plot,file,size,type,script,time,onefile,use.names=FALSE,...
 }
 
 
-write1 <- function(x,...){
-    UseMethod(x,...)
-}
+## write1 <- function(x,...){
+##     UseMethod(x,...)
+## }
 
 
 

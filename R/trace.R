@@ -1,4 +1,12 @@
-trace.gg <- function(x,...,quite=TRUE){
+
+##' @export
+traceit <- function(x,...){
+    UseMethod("traceit")
+}
+
+##' @method traceit ggplot
+##' @export
+traceit.ggplot <- function(x,...,quite=TRUE){
 
 
     ## add rags as attributes
@@ -6,40 +14,46 @@ trace.gg <- function(x,...,quite=TRUE){
     args <- dots[names(dots)%in%names(formals(ggwrite))]
 
     setattr(x,"args",args)
-    ## add trace class
+    ## add traceit class
     setattr(x,"class",c("trace",class(x)))
 
     x
 }
 
-trace.flextable <- function(x,...,quite=TRUE){
+##' @method traceit flextable
+##' @export
+traceit.flextable <- function(x,...,quite=TRUE){
 
     ## add rags as attributes
     dots <- list(...)
     args <- dots[names(dots)%in%names(formals(ftwrite))]
 
     setattr(x,"args",args)
-    ## add trace class
+    ## add traceit class
     setattr(x,"class",c("trace",class(x)))
 
     x
 }
 
 ##' @import NMdata
-trace.data.frame <- function(x,...,quite=TRUE){
+##' @method traceit data.frame
+##' @export
+traceit.data.frame <- function(x,...,quite=TRUE){
 
     ## add rags as attributes
     dots <- list(...)
     args <- dots[names(dots)%in%names(formals(NMwriteData))]
 
     setattr(x,"args",args)
-    ## add trace class
+    ## add traceit class
     setattr(x,"class",c("trace",class(x)))
 
     x
 }
 
-trace.trace <- function(x,...,quite=TRUE){
+##' @method traceit trace
+##' @export
+traceit.trace <- function(x,...,quite=TRUE){
 
     ## add rags as attributes
     dots <- list(...)
