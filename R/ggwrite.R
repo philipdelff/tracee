@@ -72,7 +72,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     size <- NULL
     
 ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
-
+    
     defaults <- argsFromTrace(sys.function(), plot)
 
     ## inject defaults into local environment
@@ -155,6 +155,8 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         dt.canvas <- do.call(rbind,
                              lapply(canvasSize(canvas,simplify=FALSE),as.data.table)
                              )
+        
+
         dt.canvas$name.canvas <- names(canvas)
 
         allcombs <- egdt(data.table(format=formats),
@@ -268,9 +270,9 @@ writeObj <- function(plot,file,size,type,script,time,onefile,use.names=FALSE,...
 }
 
 
-write1 <- function(x,...){
-    UseMethod(x,...)
-}
+## write1 <- function(x,...){
+##     UseMethod(x,...)
+## }
 
 
 

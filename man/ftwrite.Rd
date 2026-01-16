@@ -5,7 +5,17 @@
 \alias{writeFlextab}
 \title{Stamp and write flextab objects to one or multiple formats}
 \usage{
-ftwrite(ft, file, script, time, formats, save, quiet = FALSE, ...)
+ftwrite(
+  ft,
+  file,
+  script,
+  time,
+  formats,
+  save = TRUE,
+  show = !save,
+  quiet = FALSE,
+  ...
+)
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 }
@@ -29,6 +39,11 @@ character vector.}
 \item{save}{Save the table to the given file or just show?
 Defaults to TRUE. Hint, if you use an "exportFlag", use
 save=exportFlag.}
+
+\item{show}{Print the plot to the screen? Defaults to the opposite
+of save. Combining save and show in knitr can give you
+both a high quality plot in your pdf and a png optimized for
+powerpoint.}
 
 \item{quiet}{Default is false but use TRUE to suppress messages
 about what was saved.}

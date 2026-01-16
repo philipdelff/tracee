@@ -17,8 +17,9 @@ ggwrite(
   paper = "special",
   save = TRUE,
   show = !save,
-  useNames = FALSE,
-  quiet = FALSE
+  use.names = FALSE,
+  quiet = FALSE,
+  useNames
 )
 }
 \arguments{
@@ -63,12 +64,10 @@ of save. Hint, combining save and show in knitr can give you
 both a high quality plot in your pdf and a png optimized for
 powerpoint.}
 
-\item{useNames}{If length(plot)>1 use names(plot) in the file
-names? Default is to use 1:length(plot). Only used if save is
-TRUE, and length(plot)>1.}
-
 \item{quiet}{Default is false but use TRUE to suppress messages
 about what was saved.}
+
+\item{useNames}{Deprecated. Use \code{use.names} instead.}
 }
 \value{
 Nothing. Files written and/or plots shown, depending on
