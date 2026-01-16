@@ -73,11 +73,17 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     
 ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
 
-    defaults <- argsFromTrace(sys.function(), plot)
+    ## Which arguments were actually supplied by the caller
+    args.given <- as.list(match.call())[-1]   # remove function name
+    args.x <- argsFromTrace(sys.function(), plot)
 
     ## inject defaults into local environment
-    if (length(defaults)) {
-        list2env(defaults, environment())
+    if (length(args.x)) {
+        for (nm in names(args.x)) {
+            if (!nm %in% names(args.given)) {
+                assign(nm, args.x[[nm]], envir = environment())
+            }
+        }
     }
     
     if(missing(plot) || !exists("plot")){
