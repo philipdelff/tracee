@@ -35,3 +35,5 @@
 .Rhistory
 ..Rcheck
 
+## testOutput
+tests/testthat/testOutput/*
