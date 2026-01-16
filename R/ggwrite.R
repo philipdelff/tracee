@@ -80,16 +80,13 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
 
     if(!missing(useNames)){
         if(!missing(use.names)){
-            stop("use.names and useNames supplied. Use use.names and not the deprecated useNames. ")
+            stop("use.names and useNames supplied. Use use.names and not the deprecated useNames.")
         }
         message("useNames is deprecated. Use use.names.")
         use.names <- useNames
     }
 
-    
     if(use.names && length(plot)==1) warning("use.names is ignored because plot is of length 1.")
-
-    
 
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
     if(is.null(canvas)) canvas <- "standard"
@@ -115,16 +112,13 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         file <- file2
     }
     
-    if(!is.null(file)&&length(file)==1&&file=="") {
+    if( !is.null(file) && length(file)==1 && file=="" ) {
         file <- NULL
     }
     
 
     
 #### check inputs done
-
-    
-
 
     if(save){
         
@@ -147,13 +141,11 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         nms <- gsub(" ","",nms)
         nms <- gsub("[[:punct:]]","",nms)
         
-        
         nms[is.chars&nms==""] <- unlist(canvas[is.chars&nms==""])
         names(canvas) <- nms
         ## check that names are unique
         if(any(duplicated(nms))) stop("canvas names must be unique")
 
-        
         dt.canvas <- do.call(rbind,
                              lapply(canvasSize(canvas,simplify=FALSE),as.data.table)
                              )
@@ -164,7 +156,6 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
 
         
 ### Section end: create data.table with all combinations of formats and canvases
-
         
         n.canvas <- allcombs[,uniqueN(name.canvas)]
         for(n in 1:nrow(allcombs)){
@@ -186,6 +177,20 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     invisible(NULL)
 }
 
+ggwrite.gg <- function(x,...){}
+
+ggwrite.trace <- function(x,...){
+    
+    dots <- list(...)
+    
+    args <- attr(dots,"args")
+    x <- untrace(x)
+
+    args <- c(list(plot=x),modifyList(dots,args))
+
+    do.call(ggwrite,args)
+
+}
 
 
 
@@ -263,6 +268,11 @@ writeObj <- function(plot,file,size,type,script,time,onefile,use.names=FALSE,...
 }
 
 
+write1 <- function(x,...){
+    UseMethod(x,...)
+}
+    
+
 
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
@@ -311,3 +321,5 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,...){
         print1(plot)
     }
 }
+
+
