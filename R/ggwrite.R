@@ -73,6 +73,12 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     
 ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
 
+    defaults <- argsFromTrace(sys.function(), plot)
+
+    ## inject defaults into local environment
+    if (length(defaults)) {
+        list2env(defaults, environment())
+    }
     
     if(missing(plot) || !exists("plot")){
         stop("An existing plot must be passed as the plot argument.")
@@ -177,20 +183,14 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
     invisible(NULL)
 }
 
-ggwrite.gg <- function(x,...){}
-
-ggwrite.trace <- function(x,...){
-    
-    dots <- list(...)
-    
-    args <- attr(dots,"args")
-    x <- untrace(x)
-
-    args <- c(list(plot=x),modifyList(dots,args))
-
-    do.call(ggwrite,args)
-
-}
+## ggwrite.gg <- function(x,...){}
+## ggwrite.trace <- function(x,...){
+##     dots <- list(...)
+##     args <- attr(dots,"args")
+##     x <- untrace(x)
+##     args <- c(list(plot=x),modifyList(dots,args))
+##     do.call(ggwrite,args)
+## }
 
 
 
@@ -271,7 +271,7 @@ writeObj <- function(plot,file,size,type,script,time,onefile,use.names=FALSE,...
 write1 <- function(x,...){
     UseMethod(x,...)
 }
-    
+
 
 
 ## make function to use for one plot. Then we will call tht on plot or loop
