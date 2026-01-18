@@ -23,6 +23,13 @@ lwrite <- function(list,model,dir=".",structure,...){
     dir.model <- fun.path("dummy",dir,model) |> dirname()
     if(!file.exists(dir.model)) dir.create(dir.model)
     
+    ## Collect plots in one list. When should this be done?
+    plots <- list[sapply(list,is.gg)]
+    notplots <- list[!sapply(list,is.gg)]
+    list <- c(notplots,plots=list(plots))
+
+    
+
     names.out <- names(list)
     res <- lapply(1:length(list),function(n){
         file.out <- fun.path(name=names.out[n],dir=dir,model=model)

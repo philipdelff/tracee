@@ -244,7 +244,7 @@ writeObj <- function(plot,file,size,type,script,time,onefile,use.names=FALSE,...
         }
 
         if(onefile){
-            write1(plot,fn=file,type=type,onefile=onefile,size=size,script=script,script=script,time=time,...)
+            write1(plot,fn=file,type=type,onefile=onefile,size=size,script=script,time=time,...)
         } else {
             
             Nplots <- length(plot)

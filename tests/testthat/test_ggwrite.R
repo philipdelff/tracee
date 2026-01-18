@@ -34,17 +34,23 @@ if(F){
 
 }
 
-p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
-    geom_point()
 
-class(p1)
+test_that("traceit settings",{
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()
 
-ggwrite(p1,file="testOutput/ggwrite_03.png",canvas="wide")
+    class(p1)
 
-traceit(p1,canvas=list(namecanv=list(height=4,width=12)))
-## traceit(p1,canvas="wide")
+    ggwrite(p1,file="testOutput/ggwrite_03.png",canvas="wide")
 
-ggwrite(p1,file="testOutput/ggwrite_04.png")
+    traceit(p1,canvas=list(namecanv=list(height=4,width=12)))
+    ## traceit(p1,canvas="wide")
 
-ggwrite(p1,file="testOutput/ggwrite_05.png",canvas="wide")
+    ggwrite(p1,file="testOutput/ggwrite_04.png")
+
+    ## ggwrite arguments override traceit arguments
+    ggwrite(p1,file="testOutput/ggwrite_05.png",canvas="wide")
+
+})
+
 
