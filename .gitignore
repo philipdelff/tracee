@@ -37,3 +37,4 @@
 
 ## testOutput
 tests/testthat/testOutput/*
+.aider*

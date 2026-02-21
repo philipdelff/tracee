@@ -1,4 +1,4 @@
-
+## write roxygen documentation 
 lwrite <- function(list,model,dir=".",structure,...){
     
     if(missing(model)) model <- NULL
@@ -7,8 +7,8 @@ lwrite <- function(list,model,dir=".",structure,...){
         model <- model$label
     }
 
-    ### how about if fun.path is a string, like "model/model-file"?
-    ### Shouldn't we run pathStruct on it?
+### how about if fun.path is a string, like "model/model-file"?
+### Shouldn't we run pathStruct on it?
     if(missing(structure)) structure <- NULL
 
     ## if( !is.null(model) ){
