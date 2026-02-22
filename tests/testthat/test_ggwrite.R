@@ -2,23 +2,13 @@ context("ggwrite")
 
 
 if(F){
+    fileRes <- "testOutput/myplot1.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()
 
 ### These are ready to be turned into tests
-
-    p1 <- ggplot(data.table(TIME=0,DV=1),aes(TIME,DV))+geom_point()
-    ggwrite(p1)  ## view plot on screen
-    stamp <- "note"
-}
-
-
-test_that("Basic",{
-    
-    p1 <- ggplot(data.table(TIME=0,DV=1),aes(TIME,DV))+geom_point()
-    ## ggwrite(p1)  ## view plot on screen
-    stamp <- "note"
-
-    fileRes <- "testOutput/myplot1.png"
-    fileRef <- "testReference/myplot1.png"
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test")
 
     local_edition(3)
@@ -26,7 +16,9 @@ test_that("Basic",{
 
 })
 
+
 if(F){
+
     ggwrite(p1,script=stamp,file="testOutput/myplot2.png",formats=cc(png,pdf),save=TRUE,time="test")
 
     ggwrite(p1,script=stamp,file="testOutput/myplot3.png",formats=cc(png,pdf),
@@ -53,4 +45,25 @@ test_that("traceit settings",{
 
 })
 
+####### NOT WORKING  
+test_that("multiple plots in list",{
+    fileRes <- "testOutput/myplot_list.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
 
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+### These are ready to be turned into tests
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test")
+
+    local_edition(3)
+    expect_snapshot_file(fileRes)
+
+})
