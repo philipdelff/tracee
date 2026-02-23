@@ -118,7 +118,7 @@ ggwrite_names <- function(file, formats, canvas) {
 
 ##' Write a single plot to a single file.
 ##' @keywords internal
-ggwrite_save <- function(plot, file, allcombs, script, time, canvas,onefile, use.names, quiet, ...) {
+ggwrite_save <- function(plot, file, script, time, canvas,onefile, use.names, quiet, ...) {
     writeObj(plot=plot, file = file,  script = script, time = time, canvas=canvas,
              onefile = onefile, use.names = use.names,quiet=quiet, ...)
 
@@ -247,6 +247,9 @@ print1 <- function(plot){
 ###### internal functions done
 
 
+## I think type should be dropped. formats seem to mean the same thing. And why not use allcombs instead of formats, canvas, etc? 
+
+
 ##' @keywords internal
 ## Don't export
 writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
@@ -268,19 +271,26 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
     }
 
 
-    fname.char <- function(fn,name,...){
+    fname.char <- function(fn,name=NULL,...){
+        
         dots <- list(...)
         mypaste <- function(...)paste(...,sep="_")
-        str.dots <- do.call(mypaste,dots)
-        fnAppend(fn,names) |>
-            fnAppend(str.dots)
-    }
-    fname.num <- function(fn,I){
-        paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
 
-        fnAppend(fn,names) |>
-            fnAppend(str.dots)
+        if(!is.null(name)){
+            fn <- fnAppend(fn,name) 
+        }
+        if(length(dots)) {
+            str.dots <- do.call(mypaste,dots)
+            fn <- fnAppend(fn,str.dots)
+        } 
+        cleanFileNames(fn,allow.slash=TRUE)
     }
+    ## fname.num <- function(fn,I){
+    ##     paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
+
+    ##     fnAppend(fn,names) |>
+    ##         fnAppend(str.dots)
+    ## }
 
     
     if(is.list(plot)&&!any(c("gg","gtable")%in%class(plot))) {
@@ -290,34 +300,65 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
         }
 
         if(onefile){
+
+### extract all canvas names, then save all plots requested with each of the canvas names.
+            ##all.canvas.names <- allcombs[,unique(name.file.canvas)]
+
+            
+            allcombs[format=="pdf",
+                     ## run write1 on all plots. Each row in allcombs is for all plots, not one row per plot
+                     write1(plot=plot,
+                            type="pdf",fn=fname.char(fn=file,name=NULL,name.file.canvas),
+                            size=list(height=height,width=width),script=script,time=time,quiet=quiet,...),by=row]
+            allcombs <- allcombs[format!="pdf"]
+
+
+            ## silent <- lapplydt(allcombs,by="name.file.canvas",fun=function(x)write1(plot[x$row],
+            ##                                                                         fn=fnAppend(file,unique(x$name.file.canvas)),
+            ##                                                                         script=script,
+            ##                                                                         time=time,
+            ##                                                                         type="pdf",
+            ##                                                                         size=list(width=unique(x$width),height=unique(x$height))))
+
             ##allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
             
-            allcombs[,write1(plot,fn=fnAppend())]
-            write1(plot,fn=file,type=type,onefile=onefile,size=size,script=script,time=time,quiet=quiet,...)
-        } else {
-            
-            Nplots <- length(plot)
-            ## debug
-            ## cat("Number of plots: ",Nplots)
-            Nplots.log10 <- round(log10(Nplots))
-            ## fname.num <- function(fnroot,type,I) paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
-            ## fname.char <- function(fnroot,type,name) paste(fnroot,"_",name,".",type,sep="")
+            ## allcombs[,write1(plot,fn=fnAppend())]
+            ## write1(plot,fn=file,type=type,onefile=onefile,size=size,script=script,time=time,quiet=quiet,...)
+        } 
+        
+        Nplots <- length(plot)
+        ## debug
+        ## cat("Number of plots: ",Nplots)
 
-            if (type=="x11"){
-                write1(plot[[1]],type="x11")
-                if(Nplots>2){
-                    silent <- lapply(2:Nplots,function(I){
-                        write1(plot=plot[[I]],type=type,size=size,script=script,time=time,quiet=quiet)
-                    })
-                }
-            } else {
+        ## fname.num <- function(fnroot,type,I) paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
+        ## fname.char <- function(fnroot,type,name) paste(fnroot,"_",name,".",type,sep="")
 
-                if(!use.names){
-                    names(plot) <- sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),1:Nplots)
-                }
-                silent <- lapply(1:Nplots,function(I){                                                 allcombs[,mapply(write1,plot=plot[[I]],type=type,fn=fname.char(fn=file,type,name=names(plot)[I]),size=size,script=script,time=time,quiet=quiet,...)]
+        if (type=="x11"){
+            write1(plot[[1]],type="x11")
+            if(Nplots>2){
+                silent <- lapply(2:Nplots,function(I){
+                    write1(plot=plot[[I]],type=type,size=size,script=script,time=time,quiet=quiet)
                 })
             }
+        } else {
+
+            if(!use.names){
+                Nplots.log10 <- round(log10(Nplots))
+                names(plot) <- sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),1:Nplots)
+            }
+            
+            
+            ## silent <- lapply(1:Nplots,function(I){
+            ##     allcombs[,mapply(write1,plot=plot[[I]],type=type,fn=fname.char(fn=file,name=names(plot)[I]),size=list(height=height,width=width),script=script,time=time,quiet=quiet,...)]
+            ## })
+            
+            if(nrow(allcombs)){
+                silent <- lapply(1:Nplots,function(I){
+                    allcombs[,write1(plot=plot[[I]],type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),script=script,time=time,quiet=quiet,...),by=row]
+
+                })
+            }
+            
         }
     } else {
         ##allcombs[,mapply(write1,plot=plot,type=type,fn=file,size=list(width,height),script=script,time=time,...)]
@@ -346,7 +387,8 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
             fn=fnAppend(fnExtension(file[1],format[1]),name.file.canvas),
             size=list(width=width[1],height=height[1]),
             ##args that are not taken from allcombs, so "constant" 
-            plot=plot,script=script,time=time,quiet=quiet,...
+            plot=plot,
+            script=script,time=time,quiet=quiet,...
         ),by=row
         ]
         
@@ -381,7 +423,7 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,quiet=FALSE,
     if("try-error"%in%class(dots)) dots <- NULL
 
     
-
+    
     if(!is.null(fn)&&type!="x11"){
         switch(type,
                png={

@@ -1,5 +1,6 @@
 context("ggwrite")
 
+library(ggplot2)
 
 if(F){
     fileRes <- "testOutput/myplot1.png"
@@ -62,6 +63,51 @@ test_that("multiple plots in list",{
 
 ### These are ready to be turned into tests
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test")
+
+    local_edition(3)
+    expect_snapshot_file(fileRes)
+
+})
+
+
+test_that("multiple plots in list to multiple devices",{
+    fileRes <- "testOutput/myplot_list.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
+
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+### These are ready to be turned into tests
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",canvas=cc(standard,wide),use.names=TRUE)
+
+    local_edition(3)
+    expect_snapshot_file(fileRes)
+
+})
+
+test_that("multiple plots in list to pdf with multiple canvases",{
+    fileRes <- "testOutput/myplot_list_onefile.pdf"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
+
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+### These are ready to be turned into tests
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",canvas=cc(standard,wide),use.names=TRUE,onefile=TRUE)
 
     local_edition(3)
     expect_snapshot_file(fileRes)
