@@ -1,4 +1,4 @@
-context("ggstamp")
+
 
 if(F){
     test_that("general use",{
