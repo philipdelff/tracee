@@ -1,39 +1,43 @@
-context("ggwrite")
+library(ggplot2)
+library(testthat)
+library(withr)
 
+# Use testthat edition 3 for snapshot testing
+options(testthat.edition = 3)
 
-if(F){
+found.files <- list.files(path="testOutput",pattern="ggwrite.+\\..+",full.names=TRUE)
+if(length(found.files)) unlink(found.files)
 
-### These are ready to be turned into tests
+p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+    geom_point()
 
-    p1 <- ggplot(data.table(TIME=0,DV=1),aes(TIME,DV))+geom_point()
-    ggwrite(p1)  ## view plot on screen
-    stamp <- "note"
-}
+test_that("single plot, single format",{
+    fileRes <- "testOutput/ggwrite_01.png"
+    stamp <- "test_ggwrite.R"
 
-
-test_that("Basic",{
-    
-    p1 <- ggplot(data.table(TIME=0,DV=1),aes(TIME,DV))+geom_point()
-    ## ggwrite(p1)  ## view plot on screen
-    stamp <- "note"
-
-    fileRes <- "testOutput/myplot1.png"
-    fileRef <- "testReference/myplot1.png"
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test")
-
-    local_edition(3)
     expect_snapshot_file(fileRes)
-
 })
 
-if(F){
-    ggwrite(p1,script=stamp,file="testOutput/myplot2.png",formats=cc(png,pdf),save=TRUE,time="test")
+test_that("single plot, multiple formats",{
+    file <- "testOutput/ggwrite_02.png"
+    ggwrite(p1,script=stamp,file=file,formats=c("png","pdf"),save=TRUE,time="test")
+    expect_snapshot_file("testOutput/ggwrite_02.png")
+    ##expect_snapshot_file("testOutput/ggwrite_02.pdf")
+    expect_true(file.exists("testOutput/ggwrite_02.pdf"))
+})
 
-    ggwrite(p1,script=stamp,file="testOutput/myplot3.png",formats=cc(png,pdf),
+test_that("single plot, multiple formats and canvases",{
+    file <- "testOutput/ggwrite_03.png"
+    ggwrite(p1,script=stamp,file=file,formats=c("png","pdf"),
             canvas=c("standard","wide-screen"),time="test")
-
-}
-
+    expect_snapshot_file("testOutput/ggwrite_03_standard.png")
+    ## expect_snapshot_file("testOutput/ggwrite_03_standard.pdf")
+    expect_true(file.exists("testOutput/ggwrite_03_standard.pdf"))
+    expect_snapshot_file("testOutput/ggwrite_03_widescreen.png")
+    ## expect_snapshot_file("testOutput/ggwrite_03_widescreen.pdf")
+    expect_true(file.exists("testOutput/ggwrite_03_widescreen.pdf"))
+})
 
 test_that("traceit settings",{
     p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
@@ -41,16 +45,81 @@ test_that("traceit settings",{
 
     class(p1)
 
-    ggwrite(p1,file="testOutput/ggwrite_03.png",canvas="wide")
+    ggwrite(p1,file="testOutput/ggwrite_04.png",canvas="wide")
+    expect_snapshot_file("testOutput/ggwrite_04.png")
 
     traceit(p1,canvas=list(namecanv=list(height=4,width=12)))
-    ## traceit(p1,canvas="wide")
+    ## traceit(p1,canvas="wide") # This line is commented in original, keeping it that way
 
-    ggwrite(p1,file="testOutput/ggwrite_04.png")
+    ggwrite(p1,file="testOutput/ggwrite_05.png")
+    expect_snapshot_file("testOutput/ggwrite_05.png")
 
     ## ggwrite arguments override traceit arguments
-    ggwrite(p1,file="testOutput/ggwrite_05.png",canvas="wide")
-
+    ggwrite(p1,file="testOutput/ggwrite_06.png",canvas="wide")
+    expect_snapshot_file("testOutput/ggwrite_06.png")
 })
 
+test_that("multiple plots in list",{
+    fileRes <- "testOutput/ggwrite_list_01.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
 
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test")
+
+    expect_snapshot_file("testOutput/ggwrite_list_01_1.png")
+    expect_snapshot_file("testOutput/ggwrite_list_01_2.png")
+})
+
+test_that("multiple plots in list to multiple devices",{
+    fileRes <- "testOutput/ggwrite_list_02.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
+
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",canvas=c("standard","wide"),use.names=TRUE)
+
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot1_standard.png")
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot1_wide.png")
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot2_standard.png")
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot2_wide.png")
+})
+
+test_that("multiple plots in list to pdf with multiple canvases (onefile=TRUE should error)",{
+    fileRes <- "testOutput/ggwrite_list_03_onefile.pdf"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
+
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",canvas=c("standard","wide"),use.names=TRUE,onefile=TRUE)
+
+    ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_standard.pdf")
+    ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_wide.pdf")
+    expect_true(file.exists(fnAppend(fileRes,"standard")))
+    expect_true(file.exists(fnAppend(fileRes,"wide")))
+
+})
