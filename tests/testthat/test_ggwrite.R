@@ -11,9 +11,11 @@ if(length(found.files)) unlink(found.files)
 p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
     geom_point()
 
+
+stamp <- "test_ggwrite.R"
+
 test_that("single plot, single format",{
     fileRes <- "testOutput/ggwrite_01.png"
-    stamp <- "test_ggwrite.R"
 
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test")
     expect_snapshot_file(fileRes)
