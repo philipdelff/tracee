@@ -8,8 +8,6 @@
 ggwrite(
   plot,
   file,
-  script,
-  time,
   canvas = "standard",
   formats,
   onefile = FALSE,
@@ -18,6 +16,9 @@ ggwrite(
   save = TRUE,
   show = !save,
   use.names = FALSE,
+  script,
+  time,
+  model,
   quiet = FALSE,
   useNames
 )
@@ -30,11 +31,6 @@ though. Not sure exactly what classes are supported.}
 
 \item{file}{A file to export to. Must end in .png or .pdf. If plot
 is a list, see onefile. If missing, plot is shown on screen.}
-
-\item{script}{This should normally be the path to your
-script. Requires ggplot >=2.2.1.}
-
-\item{time}{Passed to ggwrite.}
 
 \item{canvas}{Either a list of height and width or a shortname of
 predefined canvas size. See ?canvasSize.}
@@ -63,6 +59,11 @@ generates outputs (say \code{writeOutputs=TRUE/FALSE}), if you use
 of save. Hint, combining save and show in knitr can give you
 both a high quality plot in your pdf and a png optimized for
 powerpoint.}
+
+\item{script}{This should normally be the path to your
+script. Requires ggplot >=2.2.1.}
+
+\item{time}{Passed to ggwrite.}
 
 \item{quiet}{Default is false but use TRUE to suppress messages
 about what was saved.}

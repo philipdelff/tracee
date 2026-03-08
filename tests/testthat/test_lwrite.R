@@ -10,8 +10,6 @@ test_that("general ft, data, and gg",{
     ## sudo apt install r-cran-webshot
     ## webshot::install_phantoms()
 
-
-    
     time <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
     ## writer(ft,file=fileRes,script=script,formats.ft=c(".png",".pptx"),time=time)

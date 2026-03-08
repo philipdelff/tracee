@@ -3,8 +3,13 @@
 ## load_all(export_all=FALSE)
 ## library(testthat)
 
-
-
+if(F){
+myprint <- function(ft){
+    mytmpfile <- path.expand("~/tmp/myhtml.html")
+    save_as_html(ft,path=mytmpfile)
+    browseURL(mytmpfile)
+}
+}
 
 time <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
@@ -12,7 +17,7 @@ test_that("general use",{
 
     ## library(data.table)
     ## .datatable.aware = TRUE
-    fileRes <- "testOutput/ftwrite1.png"
+    fileRes <- "testOutput/ftwrite_01.png"
     
     data(mtcars)
 
@@ -42,15 +47,15 @@ test_that("unsupported format",{
     ft <- flextable(mtcars)
 
     expect_error(
-        ftwrite(ft,file="testOutput/ftwrite2.jpg",script="test_ftwrite.R",time=time)
+        ftwrite(ft,file="testOutput/ftwrite_02.jpg",script="test_ftwrite.R",time=time)
     )
 
 })
 
 test_that("without script arg",{
 
-    fileRes <- "testOutput/ftwrite3.png"
-    ## fileRef <- "testReference/flextab3.png"
+    fileRes <- "testOutput/ftwrite_03.png"
+
     data(mtcars)
 
     ft <- flextable(mtcars)
@@ -70,10 +75,10 @@ test_that("",{
     data(mtcars)
 
     ft <- flextable(mtcars)
-    ft <- set_caption(ft,"a title line")
+    ## ft <- set_caption(ft,"a first caption line")
+    ft <- add_footer_lines(ft, "a first caption line")
 
-    
     ftwrite(ft,file=fileRes,script="test_ftwrite.R",time=time)
-    
+    expect_snapshot_file(fileRes)    
 
 })

@@ -11,17 +11,32 @@
 ##' 
 ## do not export.
 
-createStamp <- function(script,file,time,addto){
+createStamp <- function(script,file,time,model,addto){
     
-    if(missing(time)||is.null(time)||(is.logical(time)&&time)) time <- Sys.time()
+    if(missing(script)||is.null(script)) script <- ""
+    script <- as.character(script)
+
+    if(missing(time)||is.null(time)) time <- ""
+    if(is.logical(time)&&time) time <- Sys.time()
     if(is.logical(time)&&!time) time <- ""
-    if(missing(addto)) addto <- NULL
+
     if(inherits(time,"POSIXt")){
         time <- format(time, "%d-%b-%Y %H:%M")
     }
-    caption.stamp <- paste(time,file)
+
+    if(missing(model)||is.null(model)) model <- ""
+    model <- as.character(model)
+    if(missing(addto)) addto <- NULL
+    
+elems.cap <- c(paste(time,collapse=" "),
+        paste(model,collapse=" "),
+        file)
+    elems.cap <- elems.cap[elems.cap!=""]
+    caption.stamp <- paste(
+        elems.cap
+       ,collapse=" ")
+
     caption <- paste(c(addto,script,caption.stamp),collapse="\n")
     
     caption
-    
 }

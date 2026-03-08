@@ -4,7 +4,7 @@
 \alias{ftstamp}
 \title{Stamp and write flextab objects to one or multiple formats}
 \usage{
-ftstamp(ft, file, script, bg = "#ffffff", time)
+ftstamp(ft, file, script, time, model, format.stamp)
 }
 \arguments{
 \item{ft}{a flextable object}
@@ -14,11 +14,11 @@ file is written by this function)}
 
 \item{script}{path to script - will be pasted as caption.}
 
-\item{bg}{Default bacground colour is #ffffff.}
-
 \item{time}{The default is to insert a time stamp taken from result of
 Sys.time(). Using the time argument you can overrule this by
 setting a fixed string instead. Use "" to omit.}
+
+\item{bg}{Default background colour is #ffffff.}
 }
 \description{
 Stamp and write flextab objects to one or multiple formats

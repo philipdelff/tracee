@@ -24,7 +24,7 @@
 ##' @importFrom NMdata fnExtension
 ##' @export
 
-ftwrite <- function(ft,file,script,time,formats,save=TRUE,show=!save,quiet=FALSE,...){
+ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp){
 
     ## save_as_docx
     ## save_as_html
@@ -42,6 +42,7 @@ ftwrite <- function(ft,file,script,time,formats,save=TRUE,show=!save,quiet=FALSE
             return(invisible(ft))
         }
     }
+    if(missing(format.stamp)) format.stamp <- NULL
 
     if(missing(formats)||is.null(formats)) {
         ## formats <- sub(".*\\.(.+)$","\\1",file)
@@ -50,6 +51,7 @@ ftwrite <- function(ft,file,script,time,formats,save=TRUE,show=!save,quiet=FALSE
 
     if(missing(script)) script <- NULL
     if(missing(time)) time <- NULL
+
 
     ## Write all requested formats  
     silent <- lapply(formats,function(ext){
@@ -60,10 +62,13 @@ ftwrite <- function(ft,file,script,time,formats,save=TRUE,show=!save,quiet=FALSE
                            ,docx=save_as_docx
                            ,pptx=save_as_pptx,
                             stop("format not supported. See ?ftwrite"))
+
         
-        if(!is.null(script)){
-            ft <- ftstamp(ft=ft,file=fn,script=script,time=time,...)
+    if(!is.null(script)){
+            ft <- ftstamp(ft=ft,file=fn,script=script,time=time,format.stamp=format.stamp)
         }
+        
+                
         fun.write(ft,path=fn)
         if(!quiet&&!is.null(fn)) message("Written to ",fn)
         fn

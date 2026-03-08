@@ -11,7 +11,7 @@
 ##' @export
 
 ## put stamps on tables plus a little tailoring of visuals
-ftstamp <- function(ft,file,script,time,format.stamp){
+ftstamp <- function(ft,file,script,time,model,format.stamp){
 
     if(missing(file)){
         file <- NULL
@@ -19,38 +19,40 @@ ftstamp <- function(ft,file,script,time,format.stamp){
         file=basename(file)
     }
 
-    format.stamp.0 <- list(size=6,align="right",space=1,bg="#ffffff",color="666666")
-    if(missing(format.stamp)) format.stamp <- NULL
-    if(is.null(format.stamp)){
-        format.stamp <- format.stamp.0
-    } else {
-        format.stamp <- modifyList(format.stamp.0,format.stamp)
-        newnames <- setdiff(names(format.stamp),names(format.stamp.0))
-        if(length(newnames)) {
-            stop(paste("elements not allowed in format.stamp:",paste(newnames,collapse=", ")))
-        }
-    }
-
-    ## if(missing(bg)||is.null(bg)) bg <- "#ffffff"
-    ##if(missing(bg)) bg <- NULL
     if(missing(time)) time <- NULL
+    if(missing(model)) model <- NULL
+    if(missing(script)) script <- NULL
+
+    format.stamp.0 <- list(size=6,align="right",space=1,bg="#ffffff",color="#666666")
+    if(missing(format.stamp)) format.stamp <- NULL
+    ## if(is.null(format.stamp)){
+    ##     format.stamp <- format.stamp.0
+    ## } else {
+    ##     format.stamp <- modifyList(format.stamp.0,format.stamp)
+    ##     newnames <- setdiff(names(format.stamp),names(format.stamp.0))
+    ##     if(length(newnames)) {
+    ##         stop(paste("elements not allowed in format.stamp:",paste(newnames,collapse=", ")))
+    ##     }
+    ## }
     
-    stamp.full <- createStamp(script=script,file=file,time=time)
+    format.stamp <- modifyListCheck(x=format.stamp.0,format.stamp,elems.allowed=names(format.stamp.0))
+    
+    stamp.full <- createStamp(script=script,file=file,time=time,model=model)
 
     nrow.foot.orig <- nrow_part(ft, part = "footer")
 
-
+    
 ### why is theme_vanilla applied here? Seems arbitrary.   
     ## ft <- theme_vanilla(ft)
     ft <- add_footer_lines(ft, stamp.full)
 
+    # Target only the new lines dynamically
     nrow.foot.new <- nrow_part(ft, part = "footer")
     rows.stamp <- (nrow.foot.orig+1):nrow.foot.new
 
-    ## ft <- color(ft, part = "footer", color = "#666666")
-    ft <- color(ft,i=rows.stamp,part = "footer", color = format.stamp$color)
+    
 
-                                        # Target only the last line dynamically
+    ft <- color(ft,i=rows.stamp,part = "footer", color = format.stamp$color)
 
     ft <- fontsize(ft, 
                    i=rows.stamp,

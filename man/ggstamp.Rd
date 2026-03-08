@@ -4,15 +4,15 @@
 \alias{ggstamp}
 \title{Always stamp your plots with script name}
 \usage{
-ggstamp(plot, script = "", file, time = Sys.time())
+ggstamp(plot, file, script, time, model, format.stamp)
 }
 \arguments{
 \item{plot}{The plot to be stamped.}
 
+\item{file}{An optional output filename to be included in the stamp.}
+
 \item{script}{the script name. Date and time will be added
 automatically.}
-
-\item{file}{An optional output filename to be included in the stamp.}
 
 \item{time}{The timestamp to be included.}
 }

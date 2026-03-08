@@ -125,3 +125,30 @@ test_that("multiple plots in list to pdf with multiple canvases (onefile=TRUE sh
     expect_true(file.exists(fnAppend(fileRes,"wide")))
 
 })
+
+
+test_that("use.names with only one plot",{
+    fileRes <- "testOutput/ggwrite_07.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
+
+
+    plots <- list("plot 1"=p1)
+
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,use.names=TRUE)
+
+    ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_standard.pdf")
+    ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_wide.pdf")
+    expect_true(file.exists(fnAppend(fileRes,"standard")))
+    expect_true(file.exists(fnAppend(fileRes,"wide")))
+
+})
+
+
+######## what happens if a list of lists is passed
+
+######## what happens if a list of traceit lists is passed
+

@@ -61,74 +61,11 @@
 ## ggwrite(tg1,script=script,file="mytab1.png",save=writeOutput)
 
 
-##' Resolve all output file names for ggwrite.
-##' Returns a data.table with columns: format, name.canvas, width, height, file
-##' @keywords internal
-ggwrite_names <- function(file, formats, canvas) {
-
-    name.canvas <- NULL
-
-    if(missing(canvas)) canvas <- NULL
-    if(is.null(canvas)) canvas <- "standard"
-    if(missing(formats)) formats <- NULL
-    if(is.null(formats)) formats <- fnExtension(file)
-    
-    is.chars <- sapply(canvas, is.character)
-    if (length(canvas) > 1 && is.null(names(canvas)) && any(!is.chars)) {
-        stop("If more than one canvas is requested, non-character elements must be named.")
-    }
-
-    nms <- names(canvas)
-    if (all(is.chars) && length(nms) == 0) {
-        nms <- unlist(canvas)
-    }
-    nms <- gsub(" ", "", nms)
-    nms <- gsub("[[:punct:]]", "", nms)
-    nms[is.chars & nms == ""] <- unlist(canvas[is.chars & nms == ""])
-    names(canvas) <- nms
-
-    if (any(duplicated(nms))) stop("canvas names must be unique")
-
-    dt.canvas <- do.call(rbind,
-                         lapply(canvasSize(canvas, simplify = FALSE), as.data.table))
-    dt.canvas$name.canvas <- names(canvas)
-
-    allcombs <- egdt(data.table(format = formats),
-                     dt.canvas, quiet = TRUE)
-
-    n.canvas <- allcombs[, uniqueN(name.canvas)]
-    ## allcombs[, file := {
-    ##     file.n <- file
-    ##     if (n.canvas > 1) {
-    ##         file.n <- fnAppend(file, name.canvas)
-    ##     }
-    ##     fnExtension(file.n, format)
-    ## }, by = seq_len(nrow(allcombs))]
-
-    allcombs[,name.file.canvas := ""]
-    if (n.canvas > 1) {
-        allcombs[,name.file.canvas := name.canvas]
-    }
-
-    allcombs[,row := .I]
-
-    allcombs
-}
 
 
-##' Write a single plot to a single file.
-##' @keywords internal
-ggwrite_save <- function(plot, file, script, time, canvas,onefile, use.names, quiet, ...) {
-    writeObj(plot=plot, file = file,  script = script, time = time, canvas=canvas,
-             onefile = onefile, use.names = use.names,quiet=quiet, ...)
-
-    invisible(file)
-}
-
-
-ggwrite <- function(plot, file, script, time, canvas="standard", formats,
+ggwrite <- function(plot, file, canvas="standard", formats,
                     onefile=FALSE, res=200, paper="special",
-                    save=TRUE, show=!save, use.names=FALSE, quiet=FALSE, useNames){
+                    save=TRUE, show=!save, use.names=FALSE, script, time, model,quiet=FALSE, useNames){
 
 #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
 
@@ -163,11 +100,10 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
         use.names <- useNames
     }
 
-    if(use.names && length(plot)==1) warning("use.names is ignored because plot is of length 1.")
-
     if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
     if(is.null(canvas)) canvas <- "standard"
     if(missing(time)) time <- NULL
+    if(missing(model)) model <- NULL
 
 ##### Check inputs
     
@@ -209,6 +145,7 @@ ggwrite <- function(plot, file, script, time, canvas="standard", formats,
             ## size      = allcombs[n, .(width, height)],
             script    = script,
             time      = time,
+            model     = model,
             onefile   = onefile,
             use.names = use.names,
             quiet     = quiet,
@@ -407,7 +344,7 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
 
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
-write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,quiet=FALSE,...){  
+write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=FALSE,...){  
     
     ## print(str(size))
     if(is.null(plot)) {
@@ -416,7 +353,7 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,quiet=FALSE,
     }
     if(is.null(fn)) fn <- file
     if(!is.null(script)){
-        plot <- ggstamp(plot,script=script,file=fn,time=time)
+        plot <- ggstamp(plot,script=script,file=fn,time=time,model=model)
     }
     
     dots <- try(list(...),silent=T)
@@ -454,4 +391,70 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,quiet=FALSE,
     } else {
         print1(plot)
     }
+}
+
+
+
+##' Resolve all output file names for ggwrite.
+##' Returns a data.table with columns: format, name.canvas, width, height, file
+##' @keywords internal
+ggwrite_names <- function(file, formats, canvas) {
+
+    name.canvas <- NULL
+
+    if(missing(canvas)) canvas <- NULL
+    if(is.null(canvas)) canvas <- "standard"
+    if(missing(formats)) formats <- NULL
+    if(is.null(formats)) formats <- fnExtension(file)
+    
+    is.chars <- sapply(canvas, is.character)
+    if (length(canvas) > 1 && is.null(names(canvas)) && any(!is.chars)) {
+        stop("If more than one canvas is requested, non-character elements must be named.")
+    }
+
+    nms <- names(canvas)
+    if (all(is.chars) && length(nms) == 0) {
+        nms <- unlist(canvas)
+    }
+    nms <- gsub(" ", "", nms)
+    nms <- gsub("[[:punct:]]", "", nms)
+    nms[is.chars & nms == ""] <- unlist(canvas[is.chars & nms == ""])
+    names(canvas) <- nms
+
+    if (any(duplicated(nms))) stop("canvas names must be unique")
+
+    dt.canvas <- do.call(rbind,
+                         lapply(canvasSize(canvas, simplify = FALSE), as.data.table))
+    dt.canvas$name.canvas <- names(canvas)
+
+    allcombs <- egdt(data.table(format = formats),
+                     dt.canvas, quiet = TRUE)
+
+    n.canvas <- allcombs[, uniqueN(name.canvas)]
+    ## allcombs[, file := {
+    ##     file.n <- file
+    ##     if (n.canvas > 1) {
+    ##         file.n <- fnAppend(file, name.canvas)
+    ##     }
+    ##     fnExtension(file.n, format)
+    ## }, by = seq_len(nrow(allcombs))]
+
+    allcombs[,name.file.canvas := ""]
+    if (n.canvas > 1) {
+        allcombs[,name.file.canvas := name.canvas]
+    }
+
+    allcombs[,row := .I]
+
+    allcombs
+}
+
+
+##' Write a single plot to a single file.
+##' @keywords internal
+ggwrite_save <- function(plot, file, script, time, canvas,onefile, use.names, quiet, ...) {
+    writeObj(plot=plot, file = file,  script = script, time = time, canvas=canvas,
+             onefile = onefile, use.names = use.names,quiet=quiet, ...)
+
+    invisible(file)
 }

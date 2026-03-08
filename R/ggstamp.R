@@ -21,6 +21,7 @@
 ##' @return A plot object with the stamp added as caption
 ##' @import ggplot2
 ##' @import grid
+##' @import patchwork
 ##' @importFrom gridExtra arrangeGrob
 ##' @importFrom utils packageVersion
 ##' @examples
@@ -35,7 +36,7 @@
 ##' @export
 
 
-ggstamp <- function(plot, script = "", file, time=Sys.time()) {
+ggstamp <- function(plot, file, script, time, model, format.stamp) {
 ### Captions are only available in ggplot 2.2.1
 
 ### A list of plots is supported so we will run everything with lapply
@@ -46,6 +47,13 @@ ggstamp <- function(plot, script = "", file, time=Sys.time()) {
     }
     if(missing(file)) file <- NULL
     if(!is.null(file)) file <- basename(file)
+
+    if(missing(time)) time <- NULL
+    if(missing(model)) model <- NULL
+    if(missing(script)) script <- NULL
+
+    if(missing(format.stamp)) format.stamp <- NULL
+    
 
     stamp1 <- function(plot){
         caption.existing <- NULL
@@ -69,20 +77,53 @@ ggstamp <- function(plot, script = "", file, time=Sys.time()) {
         }
         if(is.na(otype)) stop("Dont know how to stamp this object type.")
         if("try-error" %in% class(caption.existing)) caption.existing  <- ""
-
-            
+        
         caption <- createStamp(script=script,file=file,time=time,addto=caption.existing)
-
         
         plot.stamped <- switch(otype,
                                ggplot={
-                                   if(sum(unlist(packageVersion("ggplot2")[1,])*c(1000)^c(2:0))<2002001){
-                                           stop("ggplot >= 2.2.1 needed to stamp ggplot objects.")
-                                       }
-                                   plot+ggplot2::labs(caption=caption)+theme(plot.caption=element_text(size=6, colour="grey"))},
-                               gtable={
-                                   arrangeGrob(plot, bottom = textGrob(caption, gp=gpar(font=1, col = "grey", cex = 0.5)),heights=c(0.98,0.02))
+                                   if(packageVersion("ggplot2")<"2.2.1"){
+                                       stop("ggplot >= 2.2.1 needed to stamp ggplot objects.")
+                                   }
+                                   format.stamp <- modifyListCheck(format.stamp,
+                                                                   x=list(size=6, 
+                                                                          colour="#666666",
+                                                                          hjust=1,
+                                                                          vjust=1),
+                                                                   elems.allowed=setdiff(names(formals(element_text)),"..."))
 
+                                   ## plot+ggplot2::labs(tag = caption) +
+                                   ##     theme(
+                                   ##         plot.tag = do.call(element_text, format.stamp),
+                                   ##      # 1 is the right edge of the panel, 0 is the bottom
+                                   ##         plot.tag.position = c(1, 0), 
+                                   ##      # Use 'plot' to align relative to the panel, not the outer margin
+                                   ##         plot.tag.location = "plot", 
+                                   ##      # vjust < 0 pushes it down into the margin area without shrinking the plot
+                                   ##         plot.tag.vjust = 2 
+                                   ##     )
+
+####### caption on the same plot
+                                   ## plot+ggplot2::labs(caption = caption) +
+                                   ##     theme(
+                                   ##         plot.caption = do.call(element_text, format.stamp)
+                                   ##         )
+### caption as separate plot, using patchwork
+plot / plot_annotation(
+  caption = caption,
+  theme=theme(
+      plot.caption = do.call(element_text, format.stamp)
+                                           )
+
+)
+
+
+                               },
+                               gtable={
+                                   format.stamp <- modifyListCheck(format.stamp,
+                                                                   x=list(font=1, col = "grey", cex = 0.5),
+                                                                   elems.allowed=setdiff(names(formals(gpar)),"..."))
+                                   arrangeGrob(plot, bottom = textGrob(caption, gp=do.call(gpar,format.stamp)),heights=c(0.98,0.02))
                                }
                                )
         return(plot.stamped)

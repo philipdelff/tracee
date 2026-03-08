@@ -5,7 +5,7 @@
 \title{Create a stamp with script path, output file path and time stamp
 in it.}
 \usage{
-createStamp(script, file, time, addto)
+createStamp(script, file, time, model, addto)
 }
 \arguments{
 \item{script}{The script path}

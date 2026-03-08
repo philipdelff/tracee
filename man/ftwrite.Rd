@@ -8,13 +8,14 @@
 ftwrite(
   ft,
   file,
-  script,
-  time,
   formats,
   save = TRUE,
   show = !save,
   quiet = FALSE,
-  ...
+  script,
+  time,
+  model,
+  format.stamp
 )
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
@@ -23,15 +24,6 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 \item{ft}{A flextab object.}
 
 \item{file}{to save to. See formats to generate multiple files.}
-
-\item{script}{path to script - will be pasted as caption. If
-provided, a stamp will be included on the plot when writng
-file(s).}
-
-\item{time}{The default behavior is to include a time stamp if
-\code{script} is provided. You can pass any string as \code{time} if you
-prefer a different format or a completely different string
-here instead (like model name?). Use \code{time=""} to omit.}
 
 \item{formats}{One or more of png, docx, pptx, html. As a
 character vector.}
@@ -47,6 +39,15 @@ powerpoint.}
 
 \item{quiet}{Default is false but use TRUE to suppress messages
 about what was saved.}
+
+\item{script}{path to script - will be pasted as caption. If
+provided, a stamp will be included on the plot when writng
+file(s).}
+
+\item{time}{The default behavior is to include a time stamp if
+\code{script} is provided. You can pass any string as \code{time} if you
+prefer a different format or a completely different string
+here instead (like model name?). Use \code{time=""} to omit.}
 
 \item{...}{Arguments passed to stampFlextab.}
 }

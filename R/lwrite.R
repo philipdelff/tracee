@@ -28,7 +28,6 @@ lwrite <- function(list,model,dir=".",structure,...){
     notplots <- list[!sapply(list,is.gg)]
     list <- c(notplots,plots=list(plots))
 
-    
 
     names.out <- names(list)
     res <- lapply(1:length(list),function(n){
