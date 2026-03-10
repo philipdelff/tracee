@@ -78,6 +78,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,script=NULL,model=N
         if(is.list(x) && !is.ggplot(x) && ! "gtable"%in%class(x) ){
             x <- x[!sapply(x,is.null)]
         }
+        
         ## message("Calling ggwrite()")
         dots <- dots[names(dots)%in%names(formals(ggwrite))]
         args.gg <- modifyList(

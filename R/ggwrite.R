@@ -189,11 +189,15 @@ print1 <- function(plot){
 
 ##' @keywords internal
 ## Don't export
-writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
+writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
 
     ## get filname extension to determine device
     type <- "x11"
     fnroot <- NULL
+
+    if(missing(formats)) formats <- NULL
+    if(is.null(formats)) formats <- fnExtension(type)
+    if(is.null(formats)) formats <- "png"
 
     allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
     
@@ -201,7 +205,10 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
         ## type <- sub(".+\\.(.+)$","\\1",file)
         
         ## type <- sub(".*\\.([^\\.]+)$","\\1",file)
-        type <- fnExtension(file)
+
+        ## type <- fnExtension(file)
+        type <- formats
+        ####### TODO can type be of length > 1?  
         if(!type%in%c("pdf","png")) stop("Only extensions .png and .pdf are supported")
         ## fnroot <- sub("^(.+)\\..+$","\\1",file)
         fnroot <- fnExtension(file,"")
@@ -214,11 +221,11 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
         mypaste <- function(...)paste(...,sep="_")
 
         if(!is.null(name)){
-            fn <- fnAppend(fn,name) 
+            fn <- fnAppend(fn,name,allow.noext=TRUE) 
         }
         if(length(dots)) {
             str.dots <- do.call(mypaste,dots)
-            fn <- fnAppend(fn,str.dots)
+            fn <- fnAppend(fn,str.dots,allow.noext=TRUE)
         } 
         cleanFileNames(fn,allow.slash=TRUE)
     }
@@ -321,7 +328,7 @@ writeObj <- function(plot,file,type,script,time,onefile,use.names=FALSE,formats,
 
         allcombs[,write1(
             type=format[1],
-            fn=fnAppend(fnExtension(file[1],format[1]),name.file.canvas),
+            fn=fnAppend(fnExtension(file[1],format[1]),name.file.canvas,allow.noext=TRUE),
             size=list(width=width[1],height=height[1]),
             ##args that are not taken from allcombs, so "constant" 
             plot=plot,
