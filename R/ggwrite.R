@@ -190,7 +190,7 @@ print1 <- function(plot){
 ##' @keywords internal
 ## Don't export
 writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
-
+    
     ## get filname extension to determine device
     type <- "x11"
     fnroot <- NULL
@@ -288,6 +288,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         ## fname.char <- function(fnroot,type,name) paste(fnroot,"_",name,".",type,sep="")
 
         if (type=="x11"){
+            
             write1(plot[[1]],type="x11")
             if(Nplots>2){
                 silent <- lapply(2:Nplots,function(I){
@@ -336,15 +337,25 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         ##          ]
 
 
-        allcombs[,write1(
-            type=format[1],
-            fn=fnAppend(fnExtension(file[1],format[1]),name.file.canvas,allow.noext=TRUE),
-            size=list(width=width[1],height=height[1]),
-            ##args that are not taken from allcombs, so "constant" 
-            plot=plot,
-            script=script,time=time,model=model,quiet=quiet,...
-        ),by=row
-        ]
+        res <- lapplydt(allcombs,by="row",fun=function(x)
+            with(x,write1(
+                       type=format[1],
+                       fn=fnAppend(fnExtension(file[1],format[1]),name.file.canvas,allow.noext=TRUE),
+                       size=list(width=width[1],height=height[1]),
+                       ##args that are not taken from allcombs, so "constant" 
+                       plot=plot,
+                       script=script,time=time,model=model,quiet=quiet,...
+                   )
+                 ))
+        ## allcombs[,write1(
+        ##     type=format[1],
+        ##     fn=fnAppend(fnExtension(file[1],format[1]),name.file.canvas,allow.noext=TRUE),
+        ##     size=list(width=width[1],height=height[1]),
+        ##     ##args that are not taken from allcombs, so "constant" 
+        ##     plot=plot,
+        ##     script=script,time=time,model=model,quiet=quiet,...
+        ## ),by=row
+        ## ]
         
         
         ##write1(plot=plot,fn=file,type=type,size=size,script=script,time=time,...)
@@ -368,16 +379,18 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
         message("plot is NULL, nothing to do.")
         return(NULL)
     }
-    if(is.null(fn)) fn <- file
-    fn <- fnExtension(fn,type)
-    plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size)
+    if(fn=="") fn <- NULL
 
-    
+    if(!is.null(fn)){
+        ## if(is.null(fn)) fn <- file
+        fn <- fnExtension(fn,type)
+    }
+    plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size)
+
     dots <- try(list(...),silent=T)
     if("try-error"%in%class(dots)) dots <- NULL
+    
 
-    
-    
     if(!is.null(fn)&&type!="x11"){
         switch(type,
                png={
