@@ -36,7 +36,7 @@
 ##' @export
 
 
-ggstamp <- function(plot, file, script, time, model, format.stamp) {
+ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
 ### Captions are only available in ggplot 2.2.1
 
 ### A list of plots is supported so we will run everything with lapply
@@ -53,7 +53,7 @@ ggstamp <- function(plot, file, script, time, model, format.stamp) {
     if(missing(script)) script <- NULL
 
     if(missing(format.stamp)) format.stamp <- NULL
-    
+
 
     stamp1 <- function(plot){
         caption.existing <- NULL
@@ -78,7 +78,9 @@ ggstamp <- function(plot, file, script, time, model, format.stamp) {
         if(is.na(otype)) stop("Dont know how to stamp this object type.")
         if("try-error" %in% class(caption.existing)) caption.existing  <- ""
         
-        caption <- createStamp(script=script,file=file,time=time,addto=caption.existing)
+        caption <- createStamp(script=script,file=file,time=time,model=model,
+                               addto=caption.existing)
+        if(is.null(caption)) return(plot)
         
         plot.stamped <- switch(otype,
                                ggplot={
@@ -92,6 +94,7 @@ ggstamp <- function(plot, file, script, time, model, format.stamp) {
                                                                           vjust=1),
                                                                    elems.allowed=setdiff(names(formals(element_text)),"..."))
 
+###### using labs/caption. Downside: confounds with plot caption and theme.
                                    ## plot+ggplot2::labs(tag = caption) +
                                    ##     theme(
                                    ##         plot.tag = do.call(element_text, format.stamp),
@@ -108,15 +111,51 @@ ggstamp <- function(plot, file, script, time, model, format.stamp) {
                                    ##     theme(
                                    ##         plot.caption = do.call(element_text, format.stamp)
                                    ##         )
-### caption as separate plot, using patchwork
-plot / plot_annotation(
-  caption = caption,
-  theme=theme(
-      plot.caption = do.call(element_text, format.stamp)
+
+
+                                   
+                                   if(F){
+### caption as separate plot, using patchwork. Problem: height is not controlled and annotation plot is huge.
+                                       plot.caption <- plot_annotation(
+                                           caption = caption,
+                                           theme=theme(
+                                               plot.caption = do.call(element_text, format.stamp)
                                            )
+                                       )
+                                       (plot) + plot.caption
+                                   }
 
-)
+                                   if(F){
+                                       plot.caption <- ggplot()+
+                                           labs(caption = caption)+
+                                           theme_void()+
+                                           theme(
+                                               plot.caption = do.call(element_text, format.stamp)
+                                           )
+                                       (plot) / plot.caption
+                                   }
 
+                                   ## Calculate caption height based on contents
+                                   caption_lines <- length(strsplit(caption, "\n")[[1]])
+                                   pts_per_inch <- 72  # Standard: 72 points = 1 inch
+                                   caption_height_inches <- ((caption_lines) * format.stamp$size) / pts_per_inch
+                                   ## caption_height_inches <- caption_height_inches * 1.3  # Add padding
+
+                                        # Your desired total height
+                                   total_height <- size$height
+                                   plot_height <- total_height - caption_height_inches
+
+                                        # Create and combine
+                                   caption_plot <- ggplot() + 
+                                       labs(caption = caption) +
+                                       theme_void() +
+                                       theme(plot.margin = margin(0, 0, 0, 0, "pt"))+
+                                       theme(plot.caption = do.call(element_text, format.stamp))
+
+                                   final_plot <- plot / caption_plot + 
+                                       plot_layout(heights = c(plot_height, caption_height_inches))
+
+                                   final_plot
 
                                },
                                gtable={

@@ -16,11 +16,9 @@
 ## this should be exported from tracee, not from NMgof/NMauto
 
 ## add ,args.ggwrite and and args.flextable
-writer <- function(x,file,formats.ft,formats.gg,formats.data,script=NULL,model=NULL,...){
+writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
+                   ...){
 
-    if(is.list(model)) {
-        model <- model$label
-    }
 
     if(missing(formats.ft)||is.null(formats.ft)){
         formats.ft <- "png"
@@ -40,7 +38,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,script=NULL,model=N
         dots <- dots[names(dots)%in%names(formals(ftwrite))]
         args <- c(list(ft=x,
                        file = file, 
-                       script=script,
+                       ## script=script,
                        formats=formats.ft),
                   dots)
         res <- do.call(ftwrite,args)
@@ -53,13 +51,17 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,script=NULL,model=N
         ##                bg="#ffffff",
         ##                ...)
     } else if(is.data.frame(x)) {
+        args.stamp <- dots[names(dots)%in%c("model")]
+        if(!is.null(args.stamp$model) && is.list(args.stamp$model)) args.stamp$model <- args.stamp$model$lst
+
         dots <- dots[names(dots)%in%names(formals(NMwriteData))]
+
         args <- c(list(data=x,
                        file = file, 
                        formats=formats.data,
-                       script=script,
+                       ##script=script,
                        genText=FALSE,
-                       args.stamp=list(model=model)
+                       args.stamp=args.stamp
                        ),
                   dots)
         if("time"%in%names(args)){
@@ -91,7 +93,9 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,script=NULL,model=N
         args.ggwrite <- modifyList(
             list(plot=x,
                  file=file,
-                 script=script,
+                 ## script=script,
+                 ## time=time,
+                 ## model=model,
                  ## onefile=TRUE,
                  ## canvas=canvas,
                  ## time=model,

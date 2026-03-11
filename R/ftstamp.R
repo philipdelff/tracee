@@ -39,6 +39,8 @@ ftstamp <- function(ft,file,script,time,model,format.stamp){
     
     stamp.full <- createStamp(script=script,file=file,time=time,model=model)
 
+    if(is.null(stamp.full)) return(ft)
+
     nrow.foot.orig <- nrow_part(ft, part = "footer")
 
     

@@ -51,6 +51,7 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
 
     if(missing(script)) script <- NULL
     if(missing(time)) time <- NULL
+    if(missing(model)) model <- NULL
 
 
     ## Write all requested formats  
@@ -65,7 +66,7 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
 
         
     if(!is.null(script)){
-            ft <- ftstamp(ft=ft,file=fn,script=script,time=time,format.stamp=format.stamp)
+            ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
         }
         
                 

@@ -158,7 +158,7 @@ ggwrite <- function(plot, file, canvas="standard", formats,
     }
 
     if(show){
-        writeObj(plot, file=NULL,  script=script, time=time, res=res, paper=paper,formats=NULL,canvas=NULL)
+        writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL)
     }
     invisible(NULL)
 }
@@ -189,11 +189,15 @@ print1 <- function(plot){
 
 ##' @keywords internal
 ## Don't export
-writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
+writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
 
     ## get filname extension to determine device
     type <- "x11"
     fnroot <- NULL
+    if(!is.null(file)){
+        type <- "file"
+        fnroot <- fnExtension(file,"")
+    }
 
     if(missing(formats)) formats <- NULL
     if(is.null(formats)) formats <- fnExtension(type)
@@ -201,14 +205,20 @@ writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canva
 
     allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
     
-    if(!is.null(file)){
+
+    if(!is.null(file) && allcombs[,any(!format%in%c("png","pdf"))]){
+        stop("Only extensions .png and .pdf are supported")
+
+    }
+
+    if(F){
         ## type <- sub(".+\\.(.+)$","\\1",file)
         
         ## type <- sub(".*\\.([^\\.]+)$","\\1",file)
 
         ## type <- fnExtension(file)
         type <- formats
-        ####### TODO can type be of length > 1?  
+####### TODO can type be of length > 1?  
         if(!type%in%c("pdf","png")) stop("Only extensions .png and .pdf are supported")
         ## fnroot <- sub("^(.+)\\..+$","\\1",file)
         fnroot <- fnExtension(file,"")
@@ -239,7 +249,7 @@ writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canva
     
     if(is.list(plot)&&!any(c("gg","gtable")%in%class(plot))) {
         if(onefile && type!="pdf"){
-            warning("onefile can only be used with pdf device. Will not be used.")
+            message("onefile can only be used with pdf device. Will not be used.")
             onefile <- FALSE
         }
 
@@ -253,7 +263,7 @@ writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canva
                      ## run write1 on all plots. Each row in allcombs is for all plots, not one row per plot
                      write1(plot=plot,
                             type="pdf",fn=fname.char(fn=file,name=NULL,name.file.canvas),
-                            size=list(height=height,width=width),script=script,time=time,quiet=quiet,...),by=row]
+                            size=list(height=height,width=width),script=script,time=time,model=model,quiet=quiet,...),by=row]
             allcombs <- allcombs[format!="pdf"]
 
 
@@ -281,7 +291,7 @@ writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canva
             write1(plot[[1]],type="x11")
             if(Nplots>2){
                 silent <- lapply(2:Nplots,function(I){
-                    write1(plot=plot[[I]],type=type,size=size,script=script,time=time,quiet=quiet)
+                    write1(plot=plot[[I]],type=type,size=size,script=script,time=time,model=model,quiet=quiet)
                 })
             }
         } else {
@@ -298,7 +308,7 @@ writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canva
             
             if(nrow(allcombs)){
                 silent <- lapply(1:Nplots,function(I){
-                    allcombs[,write1(plot=plot[[I]],type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),script=script,time=time,quiet=quiet,...),by=row]
+                    allcombs[,write1(plot=plot[[I]],type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),script=script,time=time,model=model,quiet=quiet,...),by=row]
 
                 })
             }
@@ -332,7 +342,7 @@ writeObj <- function(plot,file,script,time,onefile,use.names=FALSE,formats,canva
             size=list(width=width[1],height=height[1]),
             ##args that are not taken from allcombs, so "constant" 
             plot=plot,
-            script=script,time=time,quiet=quiet,...
+            script=script,time=time,model=model,quiet=quiet,...
         ),by=row
         ]
         
@@ -359,9 +369,9 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
         return(NULL)
     }
     if(is.null(fn)) fn <- file
-    if(!is.null(script)){
-        plot <- ggstamp(plot,script=script,file=fn,time=time,model=model)
-    }
+    fn <- fnExtension(fn,type)
+    plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size)
+
     
     dots <- try(list(...),silent=T)
     if("try-error"%in%class(dots)) dots <- NULL
@@ -459,8 +469,8 @@ ggwrite_names <- function(file, formats, canvas) {
 
 ##' Write a single plot to a single file.
 ##' @keywords internal
-ggwrite_save <- function(plot, file, script, time, canvas,onefile, use.names, quiet, ...) {
-    writeObj(plot=plot, file = file,  script = script, time = time, canvas=canvas,
+ggwrite_save <- function(plot, file, script, time,model, canvas,onefile, use.names, quiet, ...) {
+    writeObj(plot=plot, file = file,  script = script, time = time, model=model,canvas=canvas,
              onefile = onefile, use.names = use.names,quiet=quiet, ...)
 
     invisible(file)

@@ -11,12 +11,20 @@
 ##' 
 ## do not export.
 
-createStamp <- function(script,file,time,model,addto){
+createStamp <- function(file,script,time,model,addto){
+
+    ##
+    if(missing(script)) script <- NULL
+    if(missing(time)) time <- NULL
+    if(missing(model)) model <- NULL
+    if(all(c(is.null(script),is.null(script),is.null(model)))) return(NULL)
+
+    if(missing(addto)) addto <- NULL
     
-    if(missing(script)||is.null(script)) script <- ""
+    if(is.null(script)) script <- ""
     script <- as.character(script)
 
-    if(missing(time)||is.null(time)) time <- ""
+    if(is.null(time)) time <- ""
     if(is.logical(time)&&time) time <- Sys.time()
     if(is.logical(time)&&!time) time <- ""
 
@@ -24,9 +32,12 @@ createStamp <- function(script,file,time,model,addto){
         time <- format(time, "%d-%b-%Y %H:%M")
     }
 
-    if(missing(model)||is.null(model)) model <- ""
+    if(is.null(model)) model <- ""
+        if(is.list(model)) {
+            model <- model$label
+        }
     model <- as.character(model)
-    if(missing(addto)) addto <- NULL
+    
     
 elems.cap <- c(paste(time,collapse=" "),
         paste(model,collapse=" "),
