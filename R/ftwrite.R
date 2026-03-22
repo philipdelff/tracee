@@ -26,6 +26,34 @@
 
 ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp){
 
+    
+
+    if(!is.listnotplot(ft)) ft <- list(ft)
+
+    ## Use one backslash in front of parentheses to capture
+    ## from: \(.*\.R\)
+    ## to: source("\1")
+
+    
+    res <- lapply(ft,
+                  FUN=ftwriteOne,
+           file=file,
+           formats=formats,
+           save=save,
+           show=show,
+           quiet=quiet,
+           script=script,
+           time=time,
+           model=model,
+           format.stamp=format.stamp
+           )
+
+    invisible(res)
+
+}
+
+ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp){
+
     ## save_as_docx
     ## save_as_html
     ## save_as_image
@@ -65,11 +93,11 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
                             stop("format not supported. See ?ftwrite"))
 
         
-    if(!is.null(script)){
+        if(!is.null(script)){
             ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
         }
         
-                
+        
         fun.write(ft,path=fn)
         if(!quiet&&!is.null(fn)) message("Written to ",fn)
         fn

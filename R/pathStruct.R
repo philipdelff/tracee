@@ -16,23 +16,28 @@
 ##' @examples
 ##' path.outputs <- pathStruct(structure="model/file_model")
 
-pathStruct <- function(structure="model/file_model"){
+
+pathStruct <- function(structure="model/file_model",subdir){
 
     if(missing(structure)) structure <- NULL
     if(is.null(structure)) structure <- "model/file_model"
     if(is.function(structure)) return(structure)
 
+
+
     fun.path <- NULL
     if(structure=="model/file_model"){
-        fun.path <- function(name,dir,model){
-            if(is.null(model)) file.path(dir,name)
+        fun.path <- function(name,dir,model,subdir){
+            if(is.null(model)) filePathSimple(dir,name)
             if(is.list(model)) {
                 model <- model$mod 
             }
             model.name <- basename(model) |> fnExtension("")
+            if(missing(subdir)) subdir <- NULL
             
-            file.path(dir,
-                      model.name,
+            filePathSimple(dir,
+                           model.name,
+                           subdir,
                       fnAppend(name,model.name,allow.noext=TRUE)
                       )
         }
@@ -42,15 +47,17 @@ pathStruct <- function(structure="model/file_model"){
     ## name="gof1", model="103", > "103/103-gof1.png"
     if(structure=="model/model-file"){
         fun.path <- function(name,dir,model){
-            if(is.null(model)) file.path(dir,name)
+            if(is.null(model)) filePathSimple(dir,name,subdir)
             if(is.list(model)) {
                 model <- model$mod 
             }
             ## model.lst -> model
             model.name <- basename(model) |> fnExtension("")
-            
-            file.path(dir,
+            if(missing(subdir)) subdir <- NULL
+
+            filePathSimple(dir,
                       model.name,
+                      subdir,
                       paste(model.name,name,sep="-")
                       )
         }
@@ -58,14 +65,15 @@ pathStruct <- function(structure="model/file_model"){
 
     if(structure=="model-file"){
         fun.path <- function(name,dir,model){
-            if(is.null(model)) file.path(dir,name)
+            if(is.null(model)) filePathSimple(dir,name)
             if(is.list(model)) {
                 model <- model$mod 
             }
-            ## model.lst -> model
             model.name <- basename(model) |> fnExtension("")
+            if(missing(subdir)) subdir <- NULL
             
-            file.path(dir,
+            filePathSimple(dir,
+                           subdir,
                       paste(model.name,name,sep="-")
                       )
         }
@@ -75,5 +83,9 @@ pathStruct <- function(structure="model/file_model"){
         stop("structure not recognized.")
     }
 
+
     fun.path
 }
+
+
+

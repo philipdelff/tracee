@@ -5,12 +5,12 @@
 \title{Create a stamp with script path, output file path and time stamp
 in it.}
 \usage{
-createStamp(script, file, time, model, addto)
+createStamp(file, script, time, model, addto)
 }
 \arguments{
-\item{script}{The script path}
-
 \item{file}{the output file path}
+
+\item{script}{The script path}
 
 \item{time}{The default is to insert a time stamp taken from
 result of Sys.time(). Using the time argument you can overrule

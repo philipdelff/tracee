@@ -9,17 +9,15 @@
 ##' @param script
 ##' @param canvas
 ##' @param ...
-##' @import tracee
 ##' @importFrom NMdata NMwriteData
 ##' @importFrom utils modifyList
 
-## this should be exported from tracee, not from NMgof/NMauto
 
 ## add ,args.ggwrite and and args.flextable
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
                    ...){
 
-
+    
     if(missing(formats.ft)||is.null(formats.ft)){
         formats.ft <- "png"
     }

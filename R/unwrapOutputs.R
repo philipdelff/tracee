@@ -44,7 +44,6 @@
 #'   objects (or lists of `ggplot` objects), with names appropriately assigned
 #'   or modified.
 #' @export
-#' @importFrom methods inherits
 #' @examples
 #' \dontrun{
 #' # Ensure required libraries are loaded for objects

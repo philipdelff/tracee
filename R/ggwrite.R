@@ -248,10 +248,10 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 
     
     if(is.list(plot)&&!any(c("gg","gtable")%in%class(plot))) {
-        if(onefile && type!="pdf"){
-            message("onefile can only be used with pdf device. Will not be used.")
-            onefile <- FALSE
-        }
+        ## if(onefile && type!="pdf"){
+        ##     message("onefile can only be used with pdf device. Will not be used.")
+        ##     onefile <- FALSE
+        ## }
 
         if(onefile){
 
@@ -265,6 +265,11 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
                             type="pdf",fn=fname.char(fn=file,name=NULL,name.file.canvas),
                             size=list(height=height,width=width),script=script,time=time,model=model,quiet=quiet,...),by=row]
             allcombs <- allcombs[format!="pdf"]
+if(nrow(allcombs)) {
+            message("onefile can only be used with pdf device. Will not be used.")
+            onefile <- FALSE
+}
+
 
 
             ## silent <- lapplydt(allcombs,by="name.file.canvas",fun=function(x)write1(plot[x$row],

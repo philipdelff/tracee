@@ -4,7 +4,7 @@
 \alias{pathStruct}
 \title{Create a function to derive output file paths}
 \usage{
-pathStruct(structure = "model/file_model")
+pathStruct(structure = "model/file_model", subdir)
 }
 \arguments{
 \item{structure}{A character string or a function. If a string, it must be

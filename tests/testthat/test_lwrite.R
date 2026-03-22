@@ -67,3 +67,50 @@ test_that("general ft, data, and gg",{
     lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1",onefile=TRUE,formats.gg="pdf")
     
 })
+
+
+test_that("sublist",{
+
+    lsave <- list(
+        ## a_dataset=mtc,
+        ##           a_ft=ft,
+        ##           a_plot=p1,
+                  alist=list(plot2=p1,
+                             ft2=ft)
+                  )
+
+    dir.out <- "testOutput/lwrite_02" 
+    unlink(dir.out,recursive = T)
+    dir.create(dir.out,showWarnings = FALSE)
+
+## png and flat structure - no alist subdir
+    lwrite(lsave,dir=dir.out,model="model1",script=script,time="model1")
+
+    list.files(dir.out,recursive = T)
+})
+
+test_that("sublist - pdf",{
+
+    lsave <- list(
+        ## a_dataset=mtc,
+        ##           a_ft=ft,
+        a_plot=p1,
+                  alist=list(plot2=p1,
+                             ft2=ft)
+                  )
+
+    dir.out <- "testOutput/lwrite_03"
+    unlink(dir.out,recursive = T)
+    dir.create(dir.out,showWarnings = FALSE)
+
+## pdf and flat structure - no alist subdir
+    lwrite(lsave,dir=dir.out,model="model1",script=script,time="model1",formats.gg="pdf")
+
+    list.files(dir.out,recursive = T)
+})
+
+
+
+test_that("",{
+
+})

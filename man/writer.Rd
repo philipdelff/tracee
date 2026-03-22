@@ -4,16 +4,7 @@
 \alias{writer}
 \title{One interface for ggwrite and writeFlextab}
 \usage{
-writer(
-  x,
-  file,
-  formats.ft,
-  formats.gg,
-  formats.data,
-  script = NULL,
-  model = NULL,
-  ...
-)
+writer(x, file, formats.ft, formats.gg, formats.data, ...)
 }
 \arguments{
 \item{formats.data}{passed to NMwriteData() as format.write if file is a data set.}
