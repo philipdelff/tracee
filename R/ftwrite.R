@@ -24,16 +24,10 @@
 ##' @importFrom NMdata fnExtension
 ##' @export
 
-ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp){
-
+ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path){
     
 
     if(!is.listnotplot(ft)) ft <- list(ft)
-
-    ## Use one backslash in front of parentheses to capture
-    ## from: \(.*\.R\)
-    ## to: source("\1")
-
     
     res <- lapply(ft,
                   FUN=ftwriteOne,
@@ -45,15 +39,16 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
            script=script,
            time=time,
            model=model,
-           format.stamp=format.stamp
+           format.stamp=format.stamp,
+           fun.path=fun.path
            )
 
     invisible(res)
 
 }
 
-ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp){
-
+ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path){
+    
     ## save_as_docx
     ## save_as_html
     ## save_as_image
@@ -71,6 +66,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
         }
     }
     if(missing(format.stamp)) format.stamp <- NULL
+    if(missing(fun.path)) fun.path <- NULL
 
     if(missing(formats)||is.null(formats)) {
         ## formats <- sub(".*\\.(.+)$","\\1",file)
@@ -80,6 +76,8 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
     if(missing(script)) script <- NULL
     if(missing(time)) time <- NULL
     if(missing(model)) model <- NULL
+
+    if(!is.null(fun.path)) file <- fun.path(name=file,model=model)
 
 
     ## Write all requested formats  

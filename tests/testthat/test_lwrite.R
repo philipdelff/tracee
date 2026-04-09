@@ -1,5 +1,7 @@
 script <- "test_lwrite.R"
 
+if(!dir.exists("testOutput")) dir.create("testOutput")
+
 test_that("general ft, data, and gg",{
 
     mtc <- mtcars
@@ -21,15 +23,20 @@ test_that("general ft, data, and gg",{
         geom_point()
 
 
-    lsave <- list(a_dataset=mtc,
-                  a_ft=ft,
-                  a_plot=p1)
-
-    lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1")
+    lsave <- list(
+        ## a_dataset=mtc,
+        a_ft=ft,
+        a_plot=p1)
     
+### dir is not being used
+
+    lwrite(lsave,dir="testOutput",model="model1",script=script,time="time1")
+
+## test subdir
+   
 })
 
-lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1")
+## lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1")
 lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1label",canvas=list(mycanvas=list(height=9,width=21)))
 
 names(formals(NMwriteData))
@@ -40,6 +47,12 @@ names(formals(ftwrite))
 class(p1)
 class(ft)
 class(mtc)
+
+library(devtools)
+unloadNamespace("tracee")
+unloadNamespace("NMdata")
+load_all("~/wdirs/NMdata")
+load_all("~/wdirs/tracee")
 
 
 test_that("general ft, data, and gg",{
@@ -59,12 +72,14 @@ test_that("general ft, data, and gg",{
     p2 <- p1
     traceit(p2,canvas="wide")
     lsave <- list(a_dataset=mtc,
-                  a_ft=ft,
-                  plot1=p1,
-                  plot2=p2)
+                  t2a_ft=ft,
+                  t2plot1=p1,
+                  t2plot2=p2)
 
-    lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1")
-    lwrite(lsave,dir="testOutput",model="model1",script=script,time="model1",onefile=TRUE,formats.gg="pdf")
+    lwrite(lsave,dir="testOutput/test2",model="model1",script=script,time="time1")
+    list.files("testOutput/test2/model1")
+    lwrite(lsave,dir="testOutput",model="model1",script=script,time="time1",onefile=TRUE,formats.gg="pdf")
+    list.files("testOutput/model1")
     
 })
 
@@ -86,6 +101,7 @@ test_that("sublist",{
 ## png and flat structure - no alist subdir
     lwrite(lsave,dir=dir.out,model="model1",script=script,time="model1")
 
+    ## ft output does not contain "alist"
     list.files(dir.out,recursive = T)
 })
 
@@ -106,6 +122,7 @@ test_that("sublist - pdf",{
 ## pdf and flat structure - no alist subdir
     lwrite(lsave,dir=dir.out,model="model1",script=script,time="model1",formats.gg="pdf")
 
+## alist is not in flextable name.
     list.files(dir.out,recursive = T)
 })
 

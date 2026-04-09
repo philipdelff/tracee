@@ -20,6 +20,7 @@ ggwrite(
   time,
   model,
   quiet = FALSE,
+  fun.path,
   useNames
 )
 }
@@ -59,6 +60,10 @@ generates outputs (say \code{writeOutputs=TRUE/FALSE}), if you use
 of save. Hint, combining save and show in knitr can give you
 both a high quality plot in your pdf and a png optimized for
 powerpoint.}
+
+\item{use.names}{If length(plot)>1 use names(plot) in the file
+names? Default is to use 1:length(plot). Only used if save is
+TRUE, and length(plot)>1.}
 
 \item{script}{This should normally be the path to your
 script. Requires ggplot >=2.2.1.}
