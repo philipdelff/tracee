@@ -4,7 +4,7 @@
 
 ## lists.as.subdirs
 
-lwrite <- function(list,model,dir=".",structure,subdir=NULL,...){
+lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FALSE,...){
 
   if(missing(model)) model <- NULL
   
@@ -30,7 +30,7 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,...){
              list(main=nolist))
   list2 <- list2[sapply(list2,function(x)length(x) > 0)]
 
-  lwrite1 <- function(x,name,model){
+  lwrite1 <- function(x,name,model,...){
     
     if(any(
       sapply(x,is.listnotplot)
@@ -60,32 +60,57 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,...){
                      ...)
       res <- append(res,res1)
     }
+    
+    ## dots <- list(...)
 
     if(length(notplots)) {
-      res1 <- mapply(writer,
+      subdir <- NULL
+      if(lists.as.subdirs) {
+        subdir <- name
+      } else {
+        names(notplots) <- paste0(name,"_",names(notplots))
+      }
+
+      res1 <- mapply(FUN=writer,
                      notplots,
                      ## file=fnAppend(file.out,names(notplots),allow.noext=TRUE),
                      ## file=fnAppend(name,names(notplots),allow.noext = TRUE),
                      ## file = sapply(names(notplots),filePathSimple(dir,subdir,x)),
                      file = names(notplots),
+                     ## file=name,
+
                      ## name=names(notplots),
                      MoreArgs=list(
                        model=model,
                        fun.path=fun.path,
+                       subdir=subdir,
                        ...))
       res <- append(res,res1)
     }
 
     return(invisible(res))
   }
+
   
-  
-  res <- mapply(lwrite1,list2,name=names(list2),
-                MoreArgs=list(model=model),
-                SIMPLIFY=FALSE)
+   
+  if(lists.as.subdirs){
+    res <- mapply(lwrite1,list2,name=names(list2),
+                  MoreArgs=list(model=model,
+                                lists.as.subdirs=lists.as.subdirs,
+                                ...),
+                  SIMPLIFY=FALSE)
+  } else {  
+    res <- mapply(lwrite1,list2,name=names(list2),
+                  MoreArgs=list(model=model,
+                                lists.as.subdirs=lists.as.subdirs,
+                                ...),
+                  SIMPLIFY=FALSE)
+  }
+
 
   invisible(res)
 
 }
+
 
 

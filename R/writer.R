@@ -9,6 +9,7 @@
 ##' @param script
 ##' @param canvas
 ##' @param fun.path
+##' @param lists.as.subdirs
 ##' @param ...
 ##' @importFrom NMdata NMwriteData
 ##' @importFrom utils modifyList
@@ -16,7 +17,7 @@
 
 ## add ,args.ggwrite and and args.flextable
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
-                   fun.path,
+                   fun.path,subdir=NULL,
                    ...){
   
   
@@ -56,7 +57,8 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
     args <- c(list(ft=x,
                    file = file,
                    formats=formats.ft,
-                   fun.path=fun.path
+                   fun.path=fun.path,
+                   subdir=subdir
                    ),
               dots)
     res <- do.call(ftwrite,args)
@@ -68,7 +70,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
 
       names(formals(NMwriteData)),
       names(formals(datwrite))
-      ))]
+    ))]
 
     args <- c(list(x=x,
                    file = file,
@@ -78,30 +80,6 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
               dots)
     res <- do.call(datwrite,args)
     
-if(F){
-  args.stamp <- dots[names(dots)%in%c("model")]
-    if(!is.null(args.stamp$model) && is.list(args.stamp$model)) args.stamp$model <- args.stamp$model$lst
-    
-    args.fun.path <- dots[intersect(names(dots),c("name","model","subdir"))]
-    #args.fun.path$file <- file
-
-    dots <- dots[names(dots)%in%names(formals(NMwriteData))]
-    
-    args <- c(list(data=x,
-                   file = do.call(fun.path,args.fun.path), 
-                   formats=formats.data,
-                   ##script=script,
-                   genText=FALSE,
-                   args.stamp=args.stamp
-                   ),
-              dots)
-    if("time"%in%names(args)){
-      args$args.stamp$time <- args$time
-      args$time <- NULL
-    }
-    res <- do.call(NMwriteData,args)
-    ##res <- do.call(datwrite,args )
-}
     
   }
 
@@ -136,4 +114,31 @@ if(F){
   }
   
   invisible(res)
+}
+
+
+### used to do this for data.frames
+if(F){
+  args.stamp <- dots[names(dots)%in%c("model")]
+    if(!is.null(args.stamp$model) && is.list(args.stamp$model)) args.stamp$model <- args.stamp$model$lst
+    
+    args.fun.path <- dots[intersect(names(dots),c("name","model","subdir"))]
+    #args.fun.path$file <- file
+
+    dots <- dots[names(dots)%in%names(formals(NMwriteData))]
+    
+    args <- c(list(data=x,
+                   file = do.call(fun.path,args.fun.path), 
+                   formats=formats.data,
+                   ##script=script,
+                   genText=FALSE,
+                   args.stamp=args.stamp
+                   ),
+              dots)
+    if("time"%in%names(args)){
+      args$args.stamp$time <- args$time
+      args$time <- NULL
+    }
+    res <- do.call(NMwriteData,args)
+    ##res <- do.call(datwrite,args )
 }

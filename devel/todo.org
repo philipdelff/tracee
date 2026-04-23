@@ -40,3 +40,5 @@ like ggwrite does
 ##     warning("No supported formats requested. Nothing done.")
 ##     return(invisible(NULL))
 ## }
+** lwrite project
+*** TODO ggplot output names - remove "main"
