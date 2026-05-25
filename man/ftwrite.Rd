@@ -15,7 +15,10 @@ ftwrite(
   script,
   time,
   model,
-  format.stamp
+  format.stamp,
+  fun.path,
+  subdir = NULL,
+  bg
 )
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
@@ -48,6 +51,8 @@ file(s).}
 \code{script} is provided. You can pass any string as \code{time} if you
 prefer a different format or a completely different string
 here instead (like model name?). Use \code{time=""} to omit.}
+
+\item{bg}{not used. Included for backward compatibility.}
 
 \item{...}{Arguments passed to stampFlextab.}
 }
