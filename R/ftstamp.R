@@ -34,7 +34,7 @@ ftstamp <- function(ft,file,script,time,model,format.stamp){
     ##         stop(paste("elements not allowed in format.stamp:",paste(newnames,collapse=", ")))
     ##     }
     ## }
-    
+  
     format.stamp <- modifyListCheck(x=format.stamp.0,format.stamp,elems.allowed=names(format.stamp.0))
     
     stamp.full <- createStamp(script=script,file=file,time=time,model=model)

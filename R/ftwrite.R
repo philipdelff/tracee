@@ -34,7 +34,9 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
     names(ft) <- file
   }
 
-  
+  if(missing(script)) script <- NULL
+  if(missing(time)) time <- NULL
+
   if(use.names){
     names.els <- names(ft)
     if(length(names.els)==0) names.els <- rep("",length(ft))
@@ -151,12 +153,8 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
                        ,docx=save_as_docx
                        ,pptx=save_as_pptx,
                         stop("format not supported. See ?ftwrite"))
-
     
-    if(!is.null(script)){
       ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
-    }
-    
     
     fun.write(ft,path=fn)
     if(!quiet&&!is.null(fn)) message("Written to ",fn)
