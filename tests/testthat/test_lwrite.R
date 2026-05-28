@@ -1,8 +1,8 @@
-library(devtools)
-unloadNamespace("tracee")
-unloadNamespace("NMdata")
-load_all("~/wdirs/NMdata")
-load_all("~/wdirs/tracee")
+## library(devtools)
+## unloadNamespace("tracee")
+## unloadNamespace("NMdata")
+## load_all("~/wdirs/NMdata")
+## load_all("~/wdirs/tracee")
 
 
   ## sudo apt install r-cran-webshot
@@ -30,9 +30,9 @@ traceit(p2,canvas="wide")
     autofit()
 
 
-class(p1)
-class(ft)
-class(mtc)
+## class(p1)
+## class(ft1)
+## class(mtc)
 
   time1 <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
@@ -79,9 +79,9 @@ lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,canvas=list(myc
 
 
 
-names(formals(NMwriteData))
-names(formals(ggwrite))
-names(formals(ftwrite))
+## names(formals(NMwriteData))
+## names(formals(ggwrite))
+## names(formals(ftwrite))
 
 
 
