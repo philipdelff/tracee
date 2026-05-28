@@ -423,7 +423,7 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
 
 
   if(!is.null(fn)&&type!="x11"){
-    dir.file <- basename(fn)
+    dir.file <- dirname(fn)
 
 
 
