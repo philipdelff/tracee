@@ -20,7 +20,8 @@ createStamp <- function(file,script,time,model,addto){
     if(all(c(is.null(script),is.null(script),is.null(model)))) return(NULL)
 
     if(missing(addto)) addto <- NULL
-    
+
+  if(is.list(script)) script <- script$label
     if(is.null(script)) script <- ""
     script <- as.character(script)
 

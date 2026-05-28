@@ -19,12 +19,13 @@
 ##'     powerpoint.
 ##' @param quiet Default is false but use TRUE to suppress messages
 ##'     about what was saved.
+##' @param bg not used. Included for backward compatibility.
 ##' @param ... Arguments passed to stampFlextab.
 ##' @import flextable
 ##' @importFrom NMdata fnExtension
 ##' @export
 
-ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir=NULL){
+ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir=NULL,bg){
   
   
   use.names <- TRUE
@@ -34,7 +35,9 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
     names(ft) <- file
   }
 
-  
+  if(missing(script)) script <- NULL
+  if(missing(time)) time <- NULL
+
   if(use.names){
     names.els <- names(ft)
     if(length(names.els)==0) names.els <- rep("",length(ft))
@@ -53,26 +56,6 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
 
   names.all <- names.els
 
-  if(F){
-    subdir <- NULL
-    if(lists.as.subdirs){
-      if(use.names) {
-        names.all <- names.els
-      } else {
-        ## names.all <- paste(names.els,sep="_")
-        ## names.all <- padZeros(paste(1:length(names.els)))
-        names.all <- names.els
-      }
-      subdir <- file
-    } else {
-      if(use.names) {
-        ### if no names provided, they will all get the same name(?) 
-        names.all <- rep(file,length(ft))
-      } else {
-        names.all <- paste(file,names.els,sep="_")
-      }
-    }
-  }
 
   if(missing(format.stamp)) format.stamp <- NULL
 
@@ -151,12 +134,8 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
                        ,docx=save_as_docx
                        ,pptx=save_as_pptx,
                         stop("format not supported. See ?ftwrite"))
-
     
-    if(!is.null(script)){
       ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
-    }
-    
     
     fun.write(ft,path=fn)
     if(!quiet&&!is.null(fn)) message("Written to ",fn)

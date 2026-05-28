@@ -43,6 +43,22 @@ pathStruct <- function(structure="model/file_model",subdir,dir){
         }
     }
 
+    if(structure=="file_model"){
+        fun.path <- function(name,model,subdir){
+            if(is.null(model)) return(filePathSimple(dir,name))
+            if(is.list(model)) {
+                model <- model$mod 
+            }
+            model.name <- basename(model) |> fnExtension("")
+            if(missing(subdir)) subdir <- NULL
+            
+            filePathSimple(dir,
+                           subdir,
+                           fnAppend(name,model.name,allow.noext=TRUE)
+                           )
+        }
+    }
+
     ## "gof1.png", model="103", > "103/103-gof1.png"
     ## name="gof1", model="103", > "103/103-gof1.png"
     if(structure=="model/model-file"){

@@ -482,6 +482,7 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
 
 ##' Resolve all output file names for ggwrite.
 ##' Returns a data.table with columns: format, name.canvas, width, height, file
+##' @import data.table
 ##' @keywords internal
 ggwrite_names <- function(file, formats, canvas) {
 

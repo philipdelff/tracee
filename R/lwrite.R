@@ -52,6 +52,7 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
     ## })
     
     res <- list()
+
     if(length(plots)) {
       res1 <- writer(x=plots,
                      file=name,
