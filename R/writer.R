@@ -1,21 +1,45 @@
-##' One interface for ggwrite and writeFlextab
-##' @param x
-##' @param file
-##' @param save
-##' @param show
-##' @param formats.ft
-##' @param formats.gg
-##' @param formats.data passed to NMwriteData() as format.write if file is a data set.
-##' @param script
-##' @param canvas
-##' @param fun.path
-##' @param lists.as.subdirs
-##' @param ...
+##' Write various R objects to files with flexible formatting
+##'
+##' A unified interface for ggwrite, ftwrite, and NMwriteData that automatically
+##' detects object type and applies the appropriate writing function with
+##' consistent file naming and stamping conventions.
+##'
+##' @param x Object to write. Can be a ggplot, flextable, data.frame, or list of such objects.
+##' @param file Character string specifying the base file name (without extension).
+##' @param formats.ft Character vector of file formats for flextable objects. 
+##'   Default is "png". See \code{\link{ftwrite}} for supported formats.
+##' @param formats.gg Character vector of file formats for ggplot objects. 
+##'   Default is "png". See \code{\link{ggwrite}} for supported formats.
+##' @param formats.data Character vector of file formats for data frame objects. 
+##'   Default is "rds". Passed to NMwriteData() as format.write if file is a data set.
+##' @param fun.path Function or character string defining the directory structure. 
+##'   See \code{\link{pathStruct}} for details on available structures.
+##' @param subdir Character string specifying a subdirectory within the path structure.
+##' @param ... Additional arguments passed to the specific writer functions 
+##'   (\code{\link{ggwrite}}, \code{\link{ftwrite}}, or \code{\link{NMwriteData}}).
+##'   Common arguments include \code{script}, \code{time}, \code{model}, \code{save}, 
+##'   \code{show}, \code{canvas}, and \code{quiet}.
+##'
+##' @details
+##' The function dispatches to appropriate writer functions based on object class:
+##' \itemize{
+##'   \item flextable objects -> \code{\link{ftwrite}}
+##'   \item data.frame objects -> \code{\link{datwrite}} (which wraps NMwriteData)
+##'   \item ggplot/gtable objects or lists -> \code{\link{ggwrite}}
+##' }
+##'
+##' For lists of objects, each element is written separately with appropriate naming.
+##' File paths are constructed using the \code{fun.path} structure, which can organize
+##' outputs by model, file name, or custom patterns.
+##'
+##' @return Invisibly returns the result from the called writer function.
+##'
+##' @seealso \code{\link{ggwrite}}, \code{\link{ftwrite}}, \code{\link{datwrite}}, 
+##'   \code{\link{pathStruct}}
+##'
 ##' @importFrom NMdata NMwriteData
 ##' @importFrom utils modifyList
-
-
-## add ,args.ggwrite and and args.flextable
+##' @export
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
                    fun.path,subdir=NULL,
                    ...){
@@ -83,12 +107,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
     
   }
 
-  ###if( class_x == "unknown"&&is.list(x) && !is.gg(x)){
   if(class_x=="list"){
-    ## if(is.list(x) && !is.ggplot(x) && ! "gtable"%in%class(x) ){
-    ## if(is.list(x) && !is.gg(x) ){
-    ##   x <- x[!sapply(x,is.null)]
-    ## }
     
     ## message("Calling ggwrite()")
     args.gg.def <- list(

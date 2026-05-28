@@ -37,6 +37,9 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
 
   if(missing(script)) script <- NULL
   if(missing(time)) time <- NULL
+  if(missing(model)) model <- NULL
+  if(missing(fun.path)) fun.path <- NULL
+  if(missing(formats)) formats <- NULL
 
   if(use.names){
     names.els <- names(ft)
@@ -109,6 +112,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
     ## formats <- sub(".*\\.(.+)$","\\1",file)
     formats <- fnExtension(file)
   }
+
 
   if(missing(script)) script <- NULL
   if(missing(time)) time <- NULL

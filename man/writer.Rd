@@ -2,7 +2,7 @@
 % Please edit documentation in R/writer.R
 \name{writer}
 \alias{writer}
-\title{One interface for ggwrite and writeFlextab}
+\title{Write various R objects to files with flexible formatting}
 \usage{
 writer(
   x,
@@ -16,8 +16,50 @@ writer(
 )
 }
 \arguments{
-\item{formats.data}{passed to NMwriteData() as format.write if file is a data set.}
+\item{x}{Object to write. Can be a ggplot, flextable, data.frame, or list of such objects.}
+
+\item{file}{Character string specifying the base file name (without extension).}
+
+\item{formats.ft}{Character vector of file formats for flextable objects.
+Default is "png". See \code{\link{ftwrite}} for supported formats.}
+
+\item{formats.gg}{Character vector of file formats for ggplot objects.
+Default is "png". See \code{\link{ggwrite}} for supported formats.}
+
+\item{formats.data}{Character vector of file formats for data frame objects.
+Default is "rds". Passed to NMwriteData() as format.write if file is a data set.}
+
+\item{fun.path}{Function or character string defining the directory structure.
+See \code{\link{pathStruct}} for details on available structures.}
+
+\item{subdir}{Character string specifying a subdirectory within the path structure.}
+
+\item{...}{Additional arguments passed to the specific writer functions
+(\code{\link{ggwrite}}, \code{\link{ftwrite}}, or \code{\link{NMwriteData}}).
+Common arguments include \code{script}, \code{time}, \code{model}, \code{save},
+\code{show}, \code{canvas}, and \code{quiet}.}
+}
+\value{
+Invisibly returns the result from the called writer function.
 }
 \description{
-One interface for ggwrite and writeFlextab
+A unified interface for ggwrite, ftwrite, and NMwriteData that automatically
+detects object type and applies the appropriate writing function with
+consistent file naming and stamping conventions.
+}
+\details{
+The function dispatches to appropriate writer functions based on object class:
+\itemize{
+\item flextable objects -> \code{\link{ftwrite}}
+\item data.frame objects -> \code{\link{datwrite}} (which wraps NMwriteData)
+\item ggplot/gtable objects or lists -> \code{\link{ggwrite}}
+}
+
+For lists of objects, each element is written separately with appropriate naming.
+File paths are constructed using the \code{fun.path} structure, which can organize
+outputs by model, file name, or custom patterns.
+}
+\seealso{
+\code{\link{ggwrite}}, \code{\link{ftwrite}}, \code{\link{datwrite}},
+\code{\link{pathStruct}}
 }

@@ -138,24 +138,23 @@ ggwrite <- function(plot, file, canvas="standard", formats,
     ## for (n in seq_len(nrow(allcombs))) {
     
 
-    ggwrite_save(
+    writeObj(
       plot      = plot,
-      ## allcombs=allcombs,
-      ## file      = allcombs[n, file],
       file      = file,
-      ## size      = allcombs[n, .(width, height)],
       script    = script,
       time      = time,
       model     = model,
+      canvas    = canvas,
       onefile   = onefile,
       use.names = use.names,
       quiet     = quiet,
       res       = res,
       paper     = paper,
       formats   = formats,
-      canvas    = canvas,
       fun.path  = fun.path
     )
+
+    
     ## }
   }
 
@@ -498,13 +497,6 @@ ggwrite_names <- function(file, formats, canvas) {
                    dt.canvas, quiet = TRUE)
 
   n.canvas <- allcombs[, uniqueN(name.canvas)]
-  ## allcombs[, file := {
-  ##     file.n <- file
-  ##     if (n.canvas > 1) {
-  ##         file.n <- fnAppend(file, name.canvas)
-  ##     }
-  ##     fnExtension(file.n, format)
-  ## }, by = seq_len(nrow(allcombs))]
 
   allcombs[,name.file.canvas := ""]
   if (n.canvas > 1) {
@@ -516,12 +508,3 @@ ggwrite_names <- function(file, formats, canvas) {
   allcombs
 }
 
-
-##' Write a single plot to a single file.
-##' @keywords internal
-ggwrite_save <- function(plot, file, script, time,model, canvas,onefile, use.names, quiet, ...) {
-  writeObj(plot=plot, file = file,  script = script, time = time, model=model,canvas=canvas,
-           onefile = onefile, use.names = use.names,quiet=quiet, ...)
-
-  invisible(file)
-}
