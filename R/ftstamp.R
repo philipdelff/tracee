@@ -23,7 +23,7 @@ ftstamp <- function(ft,file,script,time,model,format.stamp){
     if(missing(model)) model <- NULL
     if(missing(script)) script <- NULL
 
-    format.stamp.0 <- list(size=6,align="right",space=1,bg="#ffffff",color="#666666")
+    format.stamp.0 <- list(size=4,align="right",space=1,bg="#ffffff",color="#666666")
     if(missing(format.stamp)) format.stamp <- NULL
     ## if(is.null(format.stamp)){
     ##     format.stamp <- format.stamp.0
