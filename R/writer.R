@@ -43,7 +43,8 @@
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
                    fun.path,subdir=NULL,
                    ...){
-  
+
+  if(missing(fun.path))  fun.path <- NULL
   
   if(missing(formats.ft)||is.null(formats.ft)){
     formats.ft <- "png"
@@ -68,6 +69,9 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
   if( class_x == "unknown"&&is.data.frame(x)){
     class_x <- "data.frame"
   }
+  if( class_x == "unknown"&& is.gg(x)){
+    class_x <- "gg"
+  }
   if( class_x == "unknown"&&is.list(x) && !is.gg(x)){
     class_x <- "list"
   }
@@ -89,6 +93,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
 
   }
 
+  
   if(class_x=="data.frame") {
     dots <- dots[unique(names(dots)%in%c(
 
@@ -107,7 +112,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
     
   }
 
-  if(class_x=="list"){
+  if(class_x=="list" || class_x=="gg"){
     
     ## message("Calling ggwrite()")
     args.gg.def <- list(

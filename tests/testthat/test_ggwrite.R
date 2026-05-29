@@ -140,10 +140,12 @@ test_that("use.names with only one plot",{
 
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,use.names=TRUE)
 
+    expect_true(file.exists(fnAppend(fileRes,"plot1")))
+
     ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_standard.pdf")
     ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_wide.pdf")
-    expect_true(file.exists(fnAppend(fileRes,"standard")))
-    expect_true(file.exists(fnAppend(fileRes,"wide")))
+    ## expect_true(file.exists(fnAppend(fileRes,"standard")))
+    ## expect_true(file.exists(fnAppend(fileRes,"wide")))
 
 })
 

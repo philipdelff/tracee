@@ -1,4 +1,4 @@
-datwrite <- function(x,file,script,time,model,formats,fun.path,...){
+datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,...){
 
   if(!is.listnotplot(x)) x <- list(x)
 
@@ -23,7 +23,7 @@ datwrite <- function(x,file,script,time,model,formats,fun.path,...){
 
 
 
-datwriteOne <- function(x,file,formats,script,time,model,fun.path,...){
+datwriteOne <- function(x,file,formats,script,time,model,fun.path,subdir=NULL,...){
   
 
   ## if(missing(format.stamp)) format.stamp <- NULL
@@ -32,7 +32,7 @@ datwriteOne <- function(x,file,formats,script,time,model,fun.path,...){
   if(missing(script)) script <- NULL
   if(missing(time)) time <- NULL
   if(missing(model)) model <- NULL
-
+  
   ## if(!is.null(fun.path)) file <- fun.path(name=file,model=model)
 
   args.stamp <- list(script=script,time=time,model=model)
@@ -52,8 +52,11 @@ datwriteOne <- function(x,file,formats,script,time,model,fun.path,...){
   dots <- list(...)
   dots <- dots[names(dots)%in%names(formals(NMwriteData))]
   
+  if(!is.null(fun.path)) file <- fun.path(name=file,model=model,subdir=subdir)
+  
   args <- c(list(data=x,
-                 file = do.call(fun.path,args.fun.path), 
+                 ## file = do.call(fun.path,args.fun.path), 
+                 file = file,
                  #formats=formats,
                  ##script=script,
                  genText=FALSE,
