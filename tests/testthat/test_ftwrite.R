@@ -40,6 +40,7 @@ test_that("general use",{
     expect_snapshot_file(fileRes)
 })
 
+
 test_that("unsupported format",{
 
     data(mtcars)

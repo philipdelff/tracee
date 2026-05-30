@@ -19,6 +19,10 @@ Currently, writeObj is giving the error which may be confusing
 *** DONE support time arg to ggstamp
 *** TODO Support misc arg to ggstamp
 ** ftwrite
+*** TODO arg to set caption font size etc?
+Or is that just ft.fun?
+*** TODO Caption shout reuse background from main
+In stead of default to white
 *** DONE Support missing script argument
 This will be the same as NULL. Will result in a space in the stamp.
 *** TODO Fix line spacing in pptx files

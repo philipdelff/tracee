@@ -18,11 +18,10 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
 
   fun.path <- pathStruct(structure=structure,dir=dir,subdir=subdir)
 
-  dir.model <- fun.path("dummy",model=model,subdir=subdir) |> dirname()
-  if(!file.exists(dir.model)) dir.create(dir.model)
-  
-  if(!dir.exists(dir)) stop("dir must exist")
-  
+  dir.model <-
+    fun.path("dummy",model=model,subdir=subdir) |>
+    dirname()
+  OutputDirCreate(dir.model)
 
   ## make sure list2 is a list of lists
   nolist <- list[!sapply(list,is.listnotplot)]

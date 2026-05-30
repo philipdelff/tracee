@@ -10,7 +10,7 @@
 
 emptyDir <- function(dir,create=TRUE){
   unlink(dir,recursive = TRUE)
-  if(create) dir.create(dir.out)
+  if(create) dir.create(dir)
 }
 
 script <- "test_lwrite.R"

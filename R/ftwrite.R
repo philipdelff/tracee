@@ -126,8 +126,8 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
 
 
   if(!is.null(fun.path)) file <- fun.path(name=file,model=model,subdir=subdir)
-
-
+  dir.out <- dirname(file)
+  OutputDirCreate(dir.out)
 
   ## write all requested formats  
   silent <- lapply(formats,function(ext){
