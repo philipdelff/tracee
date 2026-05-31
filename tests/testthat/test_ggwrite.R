@@ -5,8 +5,8 @@ library(withr)
 # Use testthat edition 3 for snapshot testing
 options(testthat.edition = 3)
 
-found.files <- list.files(path="testOutput",pattern="ggwrite.+\\..+",full.names=TRUE)
-if(length(found.files)) unlink(found.files)
+## found.files <- list.files(path="testOutput",pattern="ggwrite.+\\..+",full.names=TRUE)
+## if(length(found.files)) unlink(found.files)
 
 p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
     geom_point()

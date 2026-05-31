@@ -17,7 +17,7 @@ traceit.ggplot <- function(x,...,quite=TRUE){
     ## add traceit class
     setattr(x,"class",c("trace",class(x)))
 
-    x
+    invisible(x)
 }
 
 ##' @method traceit flextable
@@ -32,7 +32,7 @@ traceit.flextable <- function(x,...,quite=TRUE){
     ## add traceit class
     setattr(x,"class",c("trace",class(x)))
 
-    x
+    invisible(x)
 }
 
 ##' @import NMdata
@@ -48,7 +48,7 @@ traceit.data.frame <- function(x,...,quite=TRUE){
     ## add traceit class
     setattr(x,"class",c("trace",class(x)))
 
-    x
+    invisible(x)
 }
 
 ##' @method traceit trace
@@ -64,7 +64,7 @@ traceit.trace <- function(x,...,quite=TRUE){
 
     setattr(x,"args",args)
 
-    x
+    invisible(x)
 }
 
 

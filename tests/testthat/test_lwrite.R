@@ -22,7 +22,7 @@ if(!dir.exists("testOutput")) dir.create("testOutput")
     geom_point()
 
 p2 <- p1
-traceit(p2,canvas="wide")
+p2 <- traceit(p2,canvas="wide")
 
   mtc1 <- mtcars
   
@@ -116,7 +116,7 @@ test_that("sublist",{
   dir.create(dir.out,showWarnings = FALSE)
 
   ## png and flat structure - no alist subdir
-  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time)
+  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1)
 
   ## ft output does not contain "alist"
   list.files(dir.out,recursive = T)
