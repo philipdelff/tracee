@@ -77,8 +77,6 @@ lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,canvas=list(myc
 
 
 
-
-
 ## names(formals(NMwriteData))
 ## names(formals(ggwrite))
 ## names(formals(ftwrite))

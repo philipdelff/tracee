@@ -75,11 +75,12 @@ ggwrite <- function(plot, file, canvas="standard", formats,
   
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
+  if(missing(fun.path)) fun.path <- NULL
+
   ## Which arguments were actually supplied by the caller
   args.given <- as.list(match.call())[-1]   # remove function name
   args.x <- argsFromTrace(sys.function(), plot)
-  if(missing(fun.path)) fun.path <- NULL
-
+  
   ## inject defaults into local environment
   if (length(args.x)) {
     for (nm in names(args.x)) {
@@ -93,6 +94,7 @@ ggwrite <- function(plot, file, canvas="standard", formats,
     stop("An existing plot must be passed as the plot argument.")
   }
 
+  ### deprecated in 0.0.4
   if(!missing(useNames)){
     if(!missing(use.names)){
       stop("use.names and useNames supplied. Use use.names and not the deprecated useNames.")
@@ -200,6 +202,28 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
     fnroot <- fnExtension(file,"")
   }
 
+ls.1 <- ls()
+  
+## Which arguments were actually supplied by the caller
+  args.given <- as.list(match.call())[-1]   # remove function name
+  args.x <- argsFromTrace(sys.function(), plot)
+  
+  ## inject defaults into local environment
+  if (length(args.x)) {
+    for (nm in names(args.x)) {
+      if (!nm %in% names(args.given)) {
+        assign(nm, args.x[[nm]], envir = environment())
+      }
+    }
+  }
+
+ls.2 <- ls()
+  
+  ls.1
+  ls.2
+setdiff(ls.1,ls.2)
+setdiff(ls.2,ls.1)
+
   if(missing(formats)) formats <- NULL
   if(is.null(formats)) formats <- fnExtension(type)
   if(is.null(formats)) formats <- "png"
@@ -211,6 +235,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
     stop("Only extensions .png and .pdf are supported")
   }
 
+  
+  
   if(F){
     ## type <- sub(".+\\.(.+)$","\\1",file)
     
@@ -278,20 +304,13 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         message("onefile can only be used with pdf device. Will not be used.")
         onefile <- FALSE
       }
-
-
-
       ## silent <- lapplydt(allcombs,by="name.file.canvas",fun=function(x)write1(plot[x$row],
       ##                                                                         fn=fnAppend(file,unique(x$name.file.canvas)),
       ##                                                                         script=script,
       ##                                                                         time=time,
       ##                                                                         type="pdf",
-      ##                                                                         size=list(width=unique(x$width),height=unique(x$height))))
+      ##                                                                        size=list(width=unique(x$width),height=unique(x$height))))
 
-      ##allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
-      
-      ## allcombs[,write1(plot,fn=fnAppend())]
-      ## write1(plot,fn=file,type=type,onefile=onefile,size=size,script=script,time=time,quiet=quiet,...)
     } 
     
     Nplots <- length(plot)
@@ -301,10 +320,11 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
     ## fname.num <- function(fnroot,type,I) paste(fnroot,"_",sprintf(fmt=paste("%0",Nplots.log10+1,"d",sep=""),I),".",type,sep="")
     ## fname.char <- function(fnroot,type,name) paste(fnroot,"_",name,".",type,sep="")
 
+
     if (type=="x11"){
       
       write1(plot[[1]],type="x11")
-      if(Nplots>2){
+      if(Nplots>1){
         silent <- lapply(2:Nplots,function(I){
           write1(plot=plot[[I]],type=type,size=size,script=script,time=time,model=model,quiet=quiet)
         })
@@ -389,7 +409,6 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=FALSE,...){  
   
   
-
   ## print(str(size))
   if(is.null(plot)) {
     message("plot is NULL, nothing to do.")
@@ -401,6 +420,25 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
     ## if(is.null(fn)) fn <- file
     fn <- fnExtension(fn,type)
   }
+
+  
+  
+if(F){
+args.given <- as.list(match.call())[-1]   # remove function name
+  args.x <- argsFromTrace(sys.function(), plot)
+  
+  ## inject defaults into local environment
+  if (length(args.x)) {
+    for (nm in names(args.x)) {
+      if (!nm %in% names(args.given)) {
+        assign(nm, args.x[[nm]], envir = environment())
+      }
+    }
+  }
+}
+  
+
+
   plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size)
 
   dots <- try(list(...),silent=T)
