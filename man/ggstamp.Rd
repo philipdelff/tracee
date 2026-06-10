@@ -11,6 +11,8 @@ ggstamp(plot, file, size, script, time, model, format.stamp)
 
 \item{file}{An optional output filename to be included in the stamp.}
 
+\item{size}{The size (list) for the plot, not the caption. Used to calculate the size of the caption.}
+
 \item{script}{the script name. Date and time will be added
 automatically.}
 

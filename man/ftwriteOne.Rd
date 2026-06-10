@@ -2,7 +2,7 @@
 % Please edit documentation in R/ftwrite.R
 \name{ftwriteOne}
 \alias{ftwriteOne}
-\title{write a single flextable object}
+\title{Write a single flextable object to file(s)}
 \usage{
 ftwriteOne(
   ft,
@@ -19,6 +19,40 @@ ftwriteOne(
   subdir
 )
 }
-\description{
-write a single flextable object
+\arguments{
+\item{ft}{A \code{flextable} object to write.}
+
+\item{file}{Character string, base file name (without extension).}
+
+\item{formats}{Character vector of output format(s). See \code{\link{ftwrite}}.}
+
+\item{save}{Logical, whether to save to file. Default \code{TRUE}.}
+
+\item{show}{Logical, whether to display the table. Default \code{!save}.}
+
+\item{quiet}{Logical, suppress messages. Default \code{FALSE}.}
+
+\item{script}{Character string, path to script for stamping.}
+
+\item{time}{Character string or POSIXct, timestamp for stamping.}
+
+\item{model}{Character string or model object, model identifier for stamping.}
+
+\item{format.stamp}{Format specification for stamp. Passed to \code{\link{ftstamp}}.}
+
+\item{fun.path}{Function for constructing file paths. See \code{\link{pathStruct}}.}
+
+\item{subdir}{Character string, subdirectory for outputs.}
 }
+\value{
+If \code{show = TRUE}, returns the flextable object (possibly stamped).
+Otherwise returns invisibly a list of file paths written.
+}
+\description{
+Internal function called by \code{\link{ftwrite}} to handle writing of individual
+flextable objects. Generally not called directly by users.
+}
+\seealso{
+\code{\link{ftwrite}}
+}
+\keyword{internal}

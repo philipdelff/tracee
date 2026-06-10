@@ -1,45 +1,120 @@
 ##' Write various R objects to files with flexible formatting
 ##'
-##' A unified interface for ggwrite, ftwrite, and NMwriteData that automatically
-##' detects object type and applies the appropriate writing function with
-##' consistent file naming and stamping conventions.
+##' A unified interface for \code{\link{ggwrite}}, \code{\link{ftwrite}}, and
+##' \code{\link[NMdata]{NMwriteData}} that automatically detects object type and
+##' applies the appropriate writing function with consistent file naming and
+##' stamping conventions.
 ##'
-##' @param x Object to write. Can be a ggplot, flextable, data.frame, or list of such objects.
+##' @param x Object to write. Can be a \code{ggplot}, \code{flextable},
+##'   \code{data.frame}, or list of such objects. Lists can be arbitrarily nested
+##'   and will be processed according to object type.
 ##' @param file Character string specifying the base file name (without extension).
-##' @param formats.ft Character vector of file formats for flextable objects. 
-##'   Default is "png". See \code{\link{ftwrite}} for supported formats.
-##' @param formats.gg Character vector of file formats for ggplot objects. 
-##'   Default is "png". See \code{\link{ggwrite}} for supported formats.
-##' @param formats.data Character vector of file formats for data frame objects. 
-##'   Default is "rds". Passed to NMwriteData() as format.write if file is a data set.
-##' @param fun.path Function or character string defining the directory structure. 
-##'   See \code{\link{pathStruct}} for details on available structures.
+##'   The actual extension will be determined by the \code{formats.*} arguments.
+##' @param formats.ft Character vector of file formats for flextable objects.
+##'   Default is \code{"png"}. Supported formats include: "png", "docx", "pptx",
+##'   "html". See \code{\link{ftwrite}} for details.
+##' @param formats.gg Character vector of file formats for ggplot objects.
+##'   Default is \code{"png"}. Supported formats: "png", "pdf".
+##'   See \code{\link{ggwrite}} for details.
+##' @param formats.data Character vector of file formats for data frame objects.
+##'   Default is \code{"rds"}. This is passed to \code{\link[NMdata]{NMwriteData}}
+##'   as the \code{format.write} argument. Common formats include: "rds", "csv",
+##'   "fst".
+##' @param fun.path Function or character string defining the directory structure.
+##'   If a character string, must be one of the predefined structures (e.g.,
+##'   "model/file_model", "model/model-file", "model-file", "file_model").
+##'   If a function, it should accept arguments \code{name}, \code{model}, and
+##'   \code{subdir} and return a file path. See \code{\link{pathStruct}} for
+##'   details on available structures and creating custom path functions.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
-##' @param ... Additional arguments passed to the specific writer functions 
-##'   (\code{\link{ggwrite}}, \code{\link{ftwrite}}, or \code{\link{NMwriteData}}).
-##'   Common arguments include \code{script}, \code{time}, \code{model}, \code{save}, 
-##'   \code{show}, \code{canvas}, and \code{quiet}.
+##'   This is passed to the \code{fun.path} function if provided.
+##' @param ... Additional arguments passed to the specific writer functions
+##'   (\code{\link{ggwrite}}, \code{\link{ftwrite}}, or \code{\link[NMdata]{NMwriteData}}).
+##'   Common arguments include:
+##'   \itemize{
+##'     \item \code{script}: Path to the script file (for stamping)
+##'     \item \code{time}: Time stamp (for stamping)
+##'     \item \code{model}: Model identifier (for stamping and path construction)
+##'     \item \code{save}: Logical, whether to save the output (default \code{TRUE})
+##'     \item \code{show}: Logical, whether to show/print the output (default \code{!save})
+##'     \item \code{canvas}: Canvas size for plots (see \code{\link{canvasSize}})
+##'     \item \code{quiet}: Logical, suppress messages (default \code{FALSE})
+##'   }
 ##'
 ##' @details
 ##' The function dispatches to appropriate writer functions based on object class:
 ##' \itemize{
-##'   \item flextable objects -> \code{\link{ftwrite}}
-##'   \item data.frame objects -> \code{\link{datwrite}} (which wraps NMwriteData)
-##'   \item ggplot/gtable objects or lists -> \code{\link{ggwrite}}
+##'   \item \code{flextable} objects → \code{\link{ftwrite}}
+##'   \item \code{data.frame} objects → \code{\link{datwrite}} (which wraps
+##'         \code{\link[NMdata]{NMwriteData}})
+##'   \item \code{ggplot}/\code{gtable} objects or lists → \code{\link{ggwrite}}
 ##' }
 ##'
 ##' For lists of objects, each element is written separately with appropriate naming.
+##' The function intelligently handles nested lists by flattening them and constructing
+##' meaningful file names from the list structure.
+##'
 ##' File paths are constructed using the \code{fun.path} structure, which can organize
-##' outputs by model, file name, or custom patterns.
+##' outputs by model, file name, or custom patterns. This is particularly useful in
+##' modeling workflows where outputs need to be organized by model number or name.
+##'
+##' @section Object Type Detection:
+##' The function determines object type in the following order:
+##' \enumerate{
+##'   \item Check if \code{flextable}
+##'   \item Check if \code{data.frame}
+##'   \item Check if \code{ggplot} or \code{gtable} (using \code{\link{is.gg}})
+##'   \item Check if \code{list} (and not a plot object)
+##'   \item If none of the above, throw an error
+##' }
+##'
+##' @section Trace Attributes:
+##' If the object \code{x} has trace attributes (added via \code{\link{traceit}}),
+##' those attributes will be automatically extracted and used by the writer function,
+##' unless explicitly overridden by arguments passed to \code{writer}.
 ##'
 ##' @return Invisibly returns the result from the called writer function.
+##'   The specific return value depends on which writer function was dispatched to.
 ##'
-##' @seealso \code{\link{ggwrite}}, \code{\link{ftwrite}}, \code{\link{datwrite}}, 
-##'   \code{\link{pathStruct}}
+##' @seealso
+##' \code{\link{ggwrite}} for writing ggplot objects,
+##' \code{\link{ftwrite}} for writing flextable objects,
+##' \code{\link{datwrite}} for writing data frames,
+##' \code{\link{lwrite}} for writing lists with subdirectory organization,
+##' \code{\link{pathStruct}} for path structure options,
+##' \code{\link{traceit}} for adding trace attributes to objects
 ##'
 ##' @importFrom NMdata NMwriteData
 ##' @importFrom utils modifyList
 ##' @export
+##'
+##' @examples
+##' \dontrun{
+##' library(ggplot2)
+##' library(flextable)
+##'
+##' # Write a ggplot
+##' p1 <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+##' writer(p1, file = "myplot", formats.gg = c("png", "pdf"))
+##'
+##' # Write a flextable
+##' ft1 <- flextable(head(mtcars))
+##' writer(ft1, file = "mytable", formats.ft = c("png", "docx"))
+##'
+##' # Write a data frame
+##' writer(mtcars, file = "mydata", formats.data = "csv")
+##'
+##' # Use with model organization
+##' path.fun <- pathStruct("model/file_model")
+##' writer(p1, file = "gof", model = "run001", fun.path = path.fun)
+##' # Writes to: run001/gof_run001.png
+##'
+##' # Write with stamping
+##' writer(p1, file = "myplot",
+##'        script = "analysis.R",
+##'        time = Sys.time(),
+##'        model = "run001")
+##' }
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
                    fun.path,subdir=NULL,
                    ...){

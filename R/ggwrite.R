@@ -1,67 +1,164 @@
-##' Export plots created with ggplot (and more) or tables to files
-##' (png or pdf) - or show them on screen.
+##' Export ggplot plots (and related objects) to files with stamping support
 ##'
-##' @param plot A plot object or a list of plots. Normally generated
-##'     with ggplot or qplot. But it can also be from grid.arrange or
-##'     arrangeGrob with class gtable. That is experimental
-##'     though. Not sure exactly what classes are supported.
-##' @param file A file to export to. Must end in .png or .pdf. If plot
-##'     is a list, see onefile. If missing, plot is shown on screen.
-##' @param script This should normally be the path to your
-##'     script. Requires ggplot >=2.2.1.
-##' @param time Passed to ggwrite.
-##' @param canvas Either a list of height and width or a shortname of
-##'     predefined canvas size. See ?canvasSize.
-##' @param formats File formats to write to as a character
-##'     vector. Must be a subset of c("png","pdf"). Default is to only
-##'     write to the format matching the file name extension of
-##'     `file`.
-##' @param onefile Only applicable if plot is a list. If plot is a
-##'     list and onefile=TRUE, all plots will be put in a pdf (file
-##'     must end in pdf) with one plot per page. If plot is a list and
-##'     onefile=FALSE, numbered files will be created - one per list
-##'     element.
-##' @param res Resolution. Passed to png.
-##' @param save Save the plot to the given file or just show? Defaults
-##'     to TRUE. If a variable is used to control whether a script
-##'     generates outputs (say `writeOutputs=TRUE/FALSE`), if you use
-##'     `save=writeOutputs` to comply with this.
-##' @param show Print the plot to the screen? Defaults to the opposite
-##'     of save. Hint, combining save and show in knitr can give you
-##'     both a high quality plot in your pdf and a png optimized for
-##'     powerpoint.
-##' @param paper Only used with pdf device. See ?pdf.
-##' @param use.names If length(plot)>1 use names(plot) in the file
-##'     names? Default is to use 1:length(plot). Only used if save is
-##'     TRUE, and length(plot)>1.
-##' @param quiet Default is false but use TRUE to suppress messages
-##'     about what was saved.
+##' Writes \code{ggplot} plots, \code{gtable} objects, or lists thereof to PNG or PDF
+##' files with optional stamping (caption with script name, timestamp, and model information).
+##' Supports flexible canvas sizing, multiple output formats, and both single-file and
+##' multi-file output for lists of plots.
+##'
+##' @param plot A plot object or a list of plot objects. Normally generated with
+##'   \code{ggplot} or \code{qplot}. Can also be \code{gtable} objects from
+##'   \code{\link[gridExtra]{grid.arrange}} or \code{\link[gridExtra]{arrangeGrob}}.
+##'   Support for \code{gtable} is experimental.
+##' @param file Character string specifying the output file path. Must end in
+##'   \code{.png} or \code{.pdf}. If missing and \code{save = TRUE}, an error is raised.
+##'   If missing and \code{save = FALSE}, the plot is shown on screen instead.
+##'   For lists of plots, see \code{onefile} for naming behavior.
+##' @param script Character string or path to the script file. If provided, a stamp
+##'   (caption) will be added to the plot showing the script name, timestamp, and
+##'   optionally the model. Requires \code{ggplot2} >= 2.2.1.
+##' @param time Character string or POSIXct timestamp. By default, a timestamp is
+##'   included if \code{script} is provided. You can pass a custom time string or
+##'   use \code{time = ""} to omit the timestamp.
+##' @param model Character string or model object specifying the model name/identifier.
+##'   Used for stamping and for organizing output directories via \code{fun.path}.
+##' @param canvas Either a list with \code{height} and \code{width} elements (in inches),
+##'   or a character string shortname of a predefined canvas size. Default is
+##'   \code{"standard"}. See \code{\link{canvasSize}} for available sizes and custom
+##'   size specification. Multiple canvas sizes can be specified as a named list to
+##'   generate outputs at different sizes.
+##' @param formats Character vector specifying file format(s) to write. Must be a
+##'   subset of \code{c("png", "pdf")}. Default is to use the format matching the
+##'   \code{file} extension. Multiple formats can be specified to write the same
+##'   plot in different formats.
+##' @param onefile Logical. Only applicable if \code{plot} is a list. If \code{TRUE},
+##'   all plots are written to a single multi-page PDF (\code{file} must end in
+##'   \code{.pdf}). If \code{FALSE}, numbered files are created - one per list element.
+##'   Default is \code{FALSE}.
+##' @param res Numeric. Resolution in pixels per inch for PNG output. Default is 200.
+##'   Passed to \code{\link[grDevices]{png}}.
+##' @param save Logical. Should the plot be saved to file? Default is \code{TRUE}.
+##'   Set to \code{FALSE} to only display the plot without saving. Useful when
+##'   controlled by a flag variable (e.g., \code{save = writeOutputs}).
+##' @param show Logical. Should the plot be displayed on screen? Default is the
+##'   opposite of \code{save} (i.e., \code{!save}). Setting both \code{save = TRUE}
+##'   and \code{show = TRUE} in knitr documents can display the plot in the rendered
+##'   document while also saving high-quality files.
+##' @param paper Character string specifying paper type. Only used with PDF device.
+##'   Default is \code{"special"}. See \code{\link[grDevices]{pdf}} for options.
+##' @param use.names Logical. If \code{length(plot) > 1}, should \code{names(plot)}
+##'   be used in the output file names? Default is \code{FALSE}, which uses numeric
+##'   indices (1, 2, 3, ...). Only used if \code{save = TRUE} and the plot is a list.
+##' @param quiet Logical. If \code{TRUE}, suppresses messages about files being written.
+##'   Default is \code{FALSE}.
+##' @param fun.path Function or character string defining the directory structure for
+##'   output files. If a character string, must be one of the predefined structures.
+##'   If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments.
+##'   See \code{\link{pathStruct}} for details.
 ##' @param useNames Deprecated. Use \code{use.names} instead.
-##' @export
-##' @return Nothing. Files written and/or plots shown, depending on
-##'     argument values.
-##' @examples
-##' library(ggplot2)
-##' writeOutput <- FALSE
-##' data(ChickWeight)
-##' p1 <- ggplot(ChickWeight,aes(Time,weight,group=Chick,colour=factor(Diet)))+geom_line()
-##' ggwrite(p1)  ## view plot on screen
-##' script <- "note"
-##' ggwrite(p1,script=script,canvas="wide",file="myplot1.png",save=writeOutput)
+##'
+##' @details
+##' The function handles both single plot objects and lists of plots with flexible
+##' output options:
+##'
+##' \strong{Single plots:}
+##' \itemize{
+##'   \item Written to \code{file} with specified format(s)
+##'   \item Can generate multiple formats simultaneously
+##'   \item Can generate multiple canvas sizes simultaneously
+##' }
+##'
+##' \strong{Lists of plots:}
+##' \itemize{
+##'   \item If \code{onefile = TRUE}: creates a single multi-page PDF
+##'   \item If \code{onefile = FALSE}: creates separate files (numbered or named)
+##'   \item Automatic naming based on list element names or indices
+##' }
+##'
+##' @section Canvas Sizes:
+##' Predefined canvas sizes (see \code{\link{canvasSize}}):
+##' \itemize{
+##'   \item \code{"standard"}: 7.2 × 5.4 inches
+##'   \item \code{"wide"}: 9.6 × 5.4 inches
+##'   \item \code{"wide-screen"}: 18.6 × 9 inches
+##'   \item \code{"square"}: 5.4 × 5.4 inches
+##'   \item \code{"A4"}: 5.4 × 7.2 inches
+##'   \item \code{"letter"}: 6.5 × 9 inches
+##' }
+##'
+##' Custom sizes can be specified as \code{list(width = w, height = h)} where
+##' \code{w} and \code{h} are in inches.
+##'
+##' @section Stamping:
+##' When \code{script} is provided, a caption is added to the plot using
+##' \code{\link{ggstamp}}. The stamp typically includes:
+##' \itemize{
+##'   \item Script file name
+##'   \item Timestamp (unless \code{time = ""})
+##'   \item Model identifier (if \code{model} is provided)
+##' }
+##'
+##' The stamp is added as a ggplot2 caption and will appear at the bottom of the plot.
+##'
+##' @section Trace Attributes:
+##' If \code{plot} has trace attributes (added via \code{\link{traceit}}), those
+##' attributes will be automatically extracted and used, unless explicitly overridden
+##' by arguments passed to \code{ggwrite}.
+##'
+##' @return Returns \code{NULL} invisibly. Files are written as a side effect.
+##'   If \code{show = TRUE}, plots are also displayed.
+##'
+##' @seealso
+##' \code{\link{ggstamp}} for adding stamps to plots,
+##' \code{\link{canvasSize}} for canvas size options,
+##' \code{\link{writer}} for a unified interface to write various object types,
+##' \code{\link{pathStruct}} for organizing output directories,
+##' \code{\link{traceit}} for adding trace attributes,
+##' \code{\link[grDevices]{png}}, \code{\link[grDevices]{pdf}} for graphics devices
+##'
 ##' @family Plotting
 ##' @import grDevices
 ##' @import grid
 ##' @import data.table
 ##' @import NMdata
-
-### had to skip this example - lagging data.table
-## library(gridExtra)
-## tab1 <- pksim1[,.N,by=.(ID,EVID,CMT)]
-## tg1 <- tableGrob(tab1)
-## ggwrite(tg1,script=script,file="mytab1.png",save=writeOutput)
-
-
-
+##' @export
+##'
+##' @examples
+##' library(ggplot2)
+##' writeOutput <- FALSE
+##' data(ChickWeight)
+##' p1 <- ggplot(ChickWeight, aes(Time, weight, group = Chick, colour = factor(Diet))) +
+##'   geom_line()
+##'
+##' # View plot on screen
+##' ggwrite(p1)
+##'
+##' # Save plot with stamping
+##' script <- "analysis.R"
+##' ggwrite(p1, script = script, canvas = "wide",
+##'         file = "myplot1.png", save = writeOutput)
+##'
+##' # Save in multiple formats
+##' ggwrite(p1, file = "myplot1.png",
+##'         formats = c("png", "pdf"),
+##'         save = writeOutput)
+##'
+##' # Multiple canvas sizes
+##' ggwrite(p1, file = "myplot1.png",
+##'         canvas = list(small = "standard", large = "wide"),
+##'         save = writeOutput)
+##' # Creates: myplot1_small.png, myplot1_large.png
+##'
+##' # List of plots to separate files
+##' p2 <- ggplot(ChickWeight, aes(Time, weight)) + geom_point()
+##' plots <- list(lines = p1, points = p2)
+##' ggwrite(plots, file = "chickweight.png",
+##'         use.names = TRUE, save = writeOutput)
+##' # Creates: chickweight_lines.png, chickweight_points.png
+##'
+##' # List of plots to single PDF
+##' ggwrite(plots, file = "chickweight.pdf",
+##'         onefile = TRUE, save = writeOutput)
+##' # Creates: chickweight.pdf (2 pages)
 ggwrite <- function(plot, file, canvas="standard", formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, 
@@ -496,8 +593,18 @@ args.given <- as.list(match.call())[-1]   # remove function name
 
 
 
-##' Resolve all output file names for ggwrite.
-##' Returns a data.table with columns: format, name.canvas, width, height, file
+##' Resolve all output file names for ggwrite
+##'
+##' Internal function that generates all combinations of file formats and canvas sizes
+##' for \code{\link{ggwrite}}. Returns a \code{data.table} with columns: format,
+##' name.canvas, width, height, name.file.canvas, row.
+##'
+##' @param file Character string, base file name
+##' @param formats Character vector of file formats ("png", "pdf")
+##' @param canvas Canvas size specification (see \code{\link{canvasSize}})
+##'
+##' @return A \code{data.table} with one row per format-canvas combination
+##'
 ##' @import data.table
 ##' @keywords internal
 ggwrite_names <- function(file, formats, canvas) {
@@ -543,4 +650,3 @@ ggwrite_names <- function(file, formats, canvas) {
 
   allcombs
 }
-

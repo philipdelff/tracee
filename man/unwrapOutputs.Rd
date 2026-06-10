@@ -2,7 +2,7 @@
 % Please edit documentation in R/unwrapOutputs.R
 \name{unwrapOutputs}
 \alias{unwrapOutputs}
-\title{Unwraps a nested list of R objects into a flat list of outputs.}
+\title{Unwrap nested lists of R objects into a flat list of outputs}
 \usage{
 unwrapOutputs(input_list)
 }
@@ -15,12 +15,14 @@ will not appear in the final output list.}
 \value{
 A flattened list containing \code{data.frame}, \code{flextable}, and \code{ggplot}
 objects (or lists of \code{ggplot} objects), with names appropriately assigned
-or modified.
+or modified according to the naming rules described above. Returns an empty list
+if no output objects are found.
 }
 \description{
 This function takes a potentially nested list containing \code{data.frame}s,
 \code{flextable} objects, and \code{ggplot} objects, and flattens it into a single
-list containing only these output types.
+list containing only these output types. Non-output objects (vectors, matrices,
+functions, etc.) are ignored during the flattening process.
 }
 \details{
 The function processes the input list with the following rules:
@@ -35,7 +37,13 @@ is kept as a single list object in the flattened output. Its internal
 ensures \code{ggplot} objects can remain grouped at a maximum depth of one.
 Any nested list within this \code{ggplot}-only list (e.g., \code{list(list(p))})
 will cause \code{p} to be extracted, as the outer list is not purely \code{ggplot}s.
-\item Object naming follows these rules:
+\item Non-output objects (numeric vectors, character strings, matrices, functions, etc.)
+are silently ignored and do not appear in the output.
+}
+}
+\section{Naming Rules}{
+
+Object naming follows these rules:
 \itemize{
 \item If an object (or a list of \code{ggplot}s that is kept as a group)
 has an existing name in its parent list, that name is used as its
@@ -52,7 +60,7 @@ is flattened, \code{df1} will be named something like \code{my_list_df_1}
 recursively for deeply nested structures.
 }
 }
-}
+
 \examples{
 \dontrun{
 # Ensure required libraries are loaded for objects
@@ -93,9 +101,12 @@ unwrapped_output <- unwrapOutputs(input_example)
 # Inspect the names of the top-level flattened list
 print(names(unwrapped_output))
 # Expected output (counters might vary slightly based on R version/object order):
-# [1] "my_dataframe"                                      "flextable_1"
-# [3] "plot_group_A"                                      "nested_container_df_1"
-# [5] "nested_container_another_flextable"                "nested_container_deeply_nested_plots_final_plot"
+# [1] "my_dataframe"
+# [2] "flextable_1"
+# [3] "plot_group_A"
+# [4] "nested_container_df_1"
+# [5] "nested_container_another_flextable"
+# [6] "nested_container_deeply_nested_plots_final_plot"
 # [7] "nested_container_deeply_nested_plots_inner_plot_container_p4"
 # [8] "standalone_plot"
 
@@ -113,4 +124,9 @@ non_output_list <- list(1, "hello", TRUE, matrix(1:4, 2))
 unwrapped_non_output <- unwrapOutputs(non_output_list)
 print(unwrapped_non_output) # Expected: list()
 }
+}
+\seealso{
+\code{\link{lwrite}} for writing lists of outputs,
+\code{\link{writer}} for writing individual outputs,
+\code{\link{is.listnotplot}} for checking if an object is a non-plot list
 }

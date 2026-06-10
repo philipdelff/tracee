@@ -2,13 +2,23 @@
 % Please edit documentation in R/ggwrite.R
 \name{ggwrite_names}
 \alias{ggwrite_names}
-\title{Resolve all output file names for ggwrite.
-Returns a data.table with columns: format, name.canvas, width, height, file}
+\title{Resolve all output file names for ggwrite}
 \usage{
 ggwrite_names(file, formats, canvas)
 }
+\arguments{
+\item{file}{Character string, base file name}
+
+\item{formats}{Character vector of file formats ("png", "pdf")}
+
+\item{canvas}{Canvas size specification (see \code{\link{canvasSize}})}
+}
+\value{
+A \code{data.table} with one row per format-canvas combination
+}
 \description{
-Resolve all output file names for ggwrite.
-Returns a data.table with columns: format, name.canvas, width, height, file
+Internal function that generates all combinations of file formats and canvas sizes
+for \code{\link{ggwrite}}. Returns a \code{data.table} with columns: format,
+name.canvas, width, height, name.file.canvas, row.
 }
 \keyword{internal}
