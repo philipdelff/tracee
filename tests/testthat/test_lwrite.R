@@ -5,8 +5,8 @@
 ## load_all("~/wdirs/tracee")
 
 
-  ## sudo apt install r-cran-webshot
-  ## webshot::install_phantoms()
+## sudo apt install r-cran-webshot
+## webshot::install_phantoms()
 
 emptyDir <- function(dir,create=TRUE){
   unlink(dir,recursive = TRUE)
@@ -17,30 +17,30 @@ script <- "test_lwrite.R"
 
 if(!dir.exists("testOutput")) dir.create("testOutput")
 
-  #### plots
-  p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
-    geom_point()
+#### plots
+p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+  geom_point()
 
 p2 <- p1
 p2 <- traceit(p2,canvas="wide")
 
-  mtc1 <- mtcars
-  
-  ft1 <- flextable(mtc1) |>
-    autofit()
+mtc1 <- mtcars
+
+ft1 <- flextable(mtc1) |>
+  autofit()
 
 
 ## class(p1)
 ## class(ft1)
 ## class(mtc)
 
-  time1 <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
+time1 <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
 
-  lsave.flat <- list(
-     a_dataset=mtc1,
-    a_ft=ft1,
-    a_plot=p1)
+lsave.flat <- list(
+  a_dataset=mtc1,
+  a_ft=ft1,
+  a_plot=p1)
 
 
 test_that("general ft, data, and gg",{
@@ -49,12 +49,12 @@ test_that("general ft, data, and gg",{
   ## emptyDir(dir.out,create=FALSE)
   unlink(dir.out,recursive = TRUE)
 
-lsave <- lsave.flat
-names(lsave)  
+  lsave <- lsave.flat
+  names(lsave)  
   ###
 
 
-lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
+  lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
 
   ## test subdir
   ## *** TODO ggplot output names - remove "main"
@@ -67,9 +67,9 @@ test_that("pass arg - custom canvas",{
   unlink(dir.out,recursive = TRUE)
   dir.create(dir.out)
   
-lsave <- lsave.flat
-## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
-lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,canvas=list(mycanvas=list(height=9,width=21)))
+  lsave <- lsave.flat
+  ## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
+  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,canvas=list(mycanvas=list(height=9,width=21)))
 
 
   
@@ -151,12 +151,12 @@ test_that("sublist with subdir - png",{
   lsave <- list(
     ## a_dataset=mtc1,
     a_ft=ft1,
-  ##  a_plot=p1,
+    ##  a_plot=p1,
     alist=list(plot2=p1,
                ft2=ft1)
   )
 
-## getting  testOutput/lwrite_04/model1/alist/1_model1.png - should be ft2 instead of 1.
+  ## getting  testOutput/lwrite_04/model1/alist/1_model1.png - should be ft2 instead of 1.
   unlink(file.path(dir.out,"model1"),recursive = T)
   lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="png",lists.as.subdirs = T)
   lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="png",lists.as.subdirs = F)
@@ -165,3 +165,16 @@ test_that("sublist with subdir - png",{
   
 })
 
+test_that("lwrite with traceit to multiple canvases",{
+  p2 <- p1
+p2 <- traceit(p2,canvas=c("wide","standard"))
+
+lsave.flat2 <- list(
+  a_ft=ft1,
+  a_tplot=p2)
+
+  lwrite(lsave.flat2,dir="testOutput",model="model2",script=script,time=time1)
+
+## todo: test that both wide and standard were saved
+
+})

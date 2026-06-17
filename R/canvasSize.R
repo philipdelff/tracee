@@ -30,6 +30,7 @@ canvasSize <- function(canvas,scale=1,simplify=TRUE){
 
     possible.canvases <- list(
         standard=list(width=7.2,height=5.4),
+        default=list(width=7.2,height=5.4),
         wide=list(width=9.6,height=5.4),
         A4=list(width=5.4,height=7.2),
         letter=list(width=6.5,height=9),
@@ -49,7 +50,7 @@ canvasSize <- function(canvas,scale=1,simplify=TRUE){
             size.matched <- grep(paste0("^ *",canvas," *$"),names(possible.canvases),ignore.case=TRUE)
             if(length(size.matched)!=1) stop(
                                             paste("If a character string, canvas to match exactly one of",paste(names(possible.canvases),collapse=", "),". Matching is not case-sensitive.")
-                                        )
+            )
             canvas <- possible.canvases[[size.matched]]
         }
 
