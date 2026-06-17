@@ -1,6 +1,8 @@
+if(F){
 library(ggplot2)
 library(testthat)
 library(withr)
+}
 
 # Use testthat edition 3 for snapshot testing
 options(testthat.edition = 3)
