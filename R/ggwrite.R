@@ -100,7 +100,7 @@
 ##' The stamp is added as a ggplot2 caption and will appear at the bottom of the plot.
 ##'
 ##' @section Trace Attributes:
-##' If \code{plot} has trace attributes (added via \code{\link{traceit}}), those
+##' If \code{plot} has traceit attributes (added via \code{\link{traceit}}), those
 ##' attributes will be automatically extracted and used, unless explicitly overridden
 ##' by arguments passed to \code{ggwrite}.
 ##'
@@ -112,7 +112,7 @@
 ##' \code{\link{canvasSize}} for canvas size options,
 ##' \code{\link{writer}} for a unified interface to write various object types,
 ##' \code{\link{pathStruct}} for organizing output directories,
-##' \code{\link{traceit}} for adding trace attributes,
+##' \code{\link{traceit}} for adding traceit attributes,
 ##' \code{\link[grDevices]{png}}, \code{\link[grDevices]{pdf}} for graphics devices
 ##'
 ##' @family Plotting
@@ -159,7 +159,7 @@
 ##' ggwrite(plots, file = "chickweight.pdf",
 ##'         onefile = TRUE, save = writeOutput)
 ##' # Creates: chickweight.pdf (2 pages)
-ggwrite <- function(plot, file, canvas="standard", formats,
+ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, 
                     script, time, model,quiet=FALSE, fun.path,useNames){
@@ -199,8 +199,8 @@ ggwrite <- function(plot, file, canvas="standard", formats,
     message("useNames is deprecated. Use use.names.")
     use.names <- useNames
   }
-
   if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
+  ## Fall back to "standard" only when neither caller nor traceit attrs supplied a canvas
   if(is.null(canvas)) canvas <- "standard"
   if(missing(time)) time <- NULL
   if(missing(model)) model <- NULL
@@ -290,36 +290,13 @@ print1 <- function(plot){
 ##' @keywords internal
 ## Don't export
 writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
-  
-  ## get filname extension to determine device
+    ## get filname extension to determine device
   type <- "x11"
   fnroot <- NULL
   if(!is.null(file)){
     type <- "file"
     fnroot <- fnExtension(file,"")
   }
-
-ls.1 <- ls()
-  
-## Which arguments were actually supplied by the caller
-  args.given <- as.list(match.call())[-1]   # remove function name
-  args.x <- argsFromTrace(sys.function(), plot)
-  
-  ## inject defaults into local environment
-  if (length(args.x)) {
-    for (nm in names(args.x)) {
-      if (!nm %in% names(args.given)) {
-        assign(nm, args.x[[nm]], envir = environment())
-      }
-    }
-  }
-
-ls.2 <- ls()
-  
-  ls.1
-  ls.2
-setdiff(ls.1,ls.2)
-setdiff(ls.2,ls.1)
 
   if(missing(formats)) formats <- NULL
   if(is.null(formats)) formats <- fnExtension(type)
@@ -437,11 +414,17 @@ setdiff(ls.2,ls.1)
       ## silent <- lapply(1:Nplots,function(I){
       ##     allcombs[,mapply(write1,plot=plot[[I]],type=type,fn=fname.char(fn=file,name=names(plot)[I]),size=list(height=height,width=width),script=script,time=time,quiet=quiet,...)]
       ## })
-      
-      if(nrow(allcombs)){
+        if(nrow(allcombs)){
         silent <- lapply(1:Nplots,function(I){
-          allcombs[,write1(plot=plot[[I]],type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),script=script,time=time,model=model,quiet=quiet,...),by=row]
-
+          ## Resolve per-element traceit attributes; caller-level values take priority
+          elem <- plot[[I]]
+          elem.args  <- argsFromTrace(ggwrite, elem)
+          elem.canvas <- if(!is.null(elem.args[["canvas"]])) elem.args[["canvas"]] else canvas
+          elem.script <- if(!is.null(elem.args[["script"]])) elem.args[["script"]] else script
+          elem.time   <- if(!is.null(elem.args[["time"]]))   elem.args[["time"]]   else time
+          elem.model  <- if(!is.null(elem.args[["model"]]))  elem.args[["model"]]  else model
+          elem.combs  <- ggwrite_names(file = file, formats = formats, canvas = elem.canvas)
+          elem.combs[,write1(plot=elem,type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),script=elem.script,time=elem.time,model=elem.model,quiet=quiet,...),by=row]
         })
       }
       

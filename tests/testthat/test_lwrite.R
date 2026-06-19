@@ -1,4 +1,4 @@
-## library(devtools)
+ ## library(devtools)
 ## unloadNamespace("tracee")
 ## unloadNamespace("NMdata")
 ## load_all("~/wdirs/NMdata")
@@ -166,8 +166,19 @@ test_that("sublist with subdir - png",{
 })
 
 test_that("lwrite with traceit to multiple canvases",{
+p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+  geom_point()
+
+class(p1)
+attr(p1,"args")
+
   p2 <- p1
-p2 <- traceit(p2,canvas=c("wide","standard"))
+  p2 <- traceit(p2,canvas=c("wide","standard"))
+  attr(p2,"args")
+class(p1)
+    attr(p1,"args")
+
+
 
 lsave.flat2 <- list(
   a_ft=ft1,
@@ -178,3 +189,5 @@ lsave.flat2 <- list(
 ## todo: test that both wide and standard were saved
 
 })
+
+

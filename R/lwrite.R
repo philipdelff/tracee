@@ -249,7 +249,8 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
                                 ...),
                   SIMPLIFY=FALSE)
   } else {  
-    res <- mapply(lwrite1,list2,name=names(list2),
+
+  res <- mapply(lwrite1,list2,name=names(list2),
                   MoreArgs=list(model=model,
                                 lists.as.subdirs=lists.as.subdirs,
                                 ...),

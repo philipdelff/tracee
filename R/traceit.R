@@ -21,14 +21,14 @@
 ##'   \item \code{traceit.ggplot}: For ggplot objects
 ##'   \item \code{traceit.flextable}: For flextable objects
 ##'   \item \code{traceit.data.frame}: For data frames
-##'   \item \code{traceit.trace}: For objects that already have trace attributes
+##'   \item \code{traceit.traceit}: For objects that already have traceit attributes
 ##'         (allows updating existing trace information)
 ##' }
 ##'
 ##' When an object is traced, two attributes are added:
 ##' \itemize{
 ##'   \item \code{args}: A list of arguments to be used when writing the object
-##'   \item \code{class}: The class vector is prepended with "trace" to indicate
+##'   \item \code{class}: The class vector is prepended with "traceit" to indicate
 ##'         the object has been traced
 ##' }
 ##'
@@ -86,13 +86,14 @@ traceit <- function(x,...){
 ##' @export
 traceit.ggplot <- function(x,...,quite=TRUE){
 
+
     ## add rags as attributes
     dots <- list(...)
     args <- dots[names(dots)%in%names(formals(ggwrite))]
 
     setattr(x,"args",args)
     ## add traceit class
-    setattr(x,"class",c("trace",class(x)))
+    setattr(x,"class",c("traceit",class(x)))
 
     invisible(x)
 }
@@ -108,7 +109,7 @@ traceit.flextable <- function(x,...,quite=TRUE){
 
     setattr(x,"args",args)
     ## add traceit class
-    setattr(x,"class",c("trace",class(x)))
+    setattr(x,"class",c("traceit",class(x)))
 
     invisible(x)
 }
@@ -125,15 +126,15 @@ traceit.data.frame <- function(x,...,quite=TRUE){
 
     setattr(x,"args",args)
     ## add traceit class
-    setattr(x,"class",c("trace",class(x)))
+    setattr(x,"class",c("traceit",class(x)))
 
     invisible(x)
 }
 
 ##' @rdname traceit
-##' @method traceit trace
+##' @method traceit traceit
 ##' @export
-traceit.trace <- function(x,...,quite=TRUE){
+traceit.traceit <- function(x,...,quite=TRUE){
 
 
     ## add rags as attributes

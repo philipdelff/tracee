@@ -69,7 +69,7 @@
 ##' }
 ##'
 ##' @section Trace Attributes:
-##' If the object \code{x} has trace attributes (added via \code{\link{traceit}}),
+##' If the object \code{x} has traceit attributes (added via \code{\link{traceit}}),
 ##' those attributes will be automatically extracted and used by the writer function,
 ##' unless explicitly overridden by arguments passed to \code{writer}.
 ##'
@@ -82,7 +82,7 @@
 ##' \code{\link{datwrite}} for writing data frames,
 ##' \code{\link{lwrite}} for writing lists with subdirectory organization,
 ##' \code{\link{pathStruct}} for path structure options,
-##' \code{\link{traceit}} for adding trace attributes to objects
+##' \code{\link{traceit}} for adding traceit attributes to objects
 ##'
 ##' @importFrom NMdata NMwriteData
 ##' @importFrom utils modifyList
@@ -135,24 +135,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
 
   dots <- list(...)
   
-  
-
-  class_x <- "unknown"
-  if("flextable" %in% class(x)) {
-    class_x <- "flextable"
-  }
-  if( class_x == "unknown"&&is.data.frame(x)){
-    class_x <- "data.frame"
-  }
-  if( class_x == "unknown"&& is.gg(x)){
-    class_x <- "gg"
-  }
-  if( class_x == "unknown"&&is.list(x) && !is.gg(x)){
-    class_x <- "list"
-  }
-  if( class_x == "unknown"){
-    stop("x is an unknown format",paste(class(x),collapse=", "))
-  }
+  class_x <- trclass(x)
   
   if(class_x=="flextable") {
     
@@ -191,8 +174,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
     
     ## message("Calling ggwrite()")
     args.gg.def <- list(
-      onefile=TRUE,
-      canvas="standard"
+      onefile=TRUE
     )
     
     dots <- dots[names(dots)%in%names(formals(ggwrite))]    
