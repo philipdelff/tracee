@@ -161,7 +161,7 @@
 ##' # Creates: chickweight.pdf (2 pages)
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
-                    save=TRUE, show=!save, use.names=FALSE, 
+                    save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
                     script, time, model,quiet=FALSE, fun.path,useNames){
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
@@ -250,7 +250,8 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
       res       = res,
       paper     = paper,
       formats   = formats,
-      fun.path  = fun.path
+      fun.path  = fun.path,
+      subdir=subdir
     )
 
     
@@ -258,7 +259,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
   }
 
   if(show){
-    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL)
+    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path,subdir=subdir)
   }
   invisible(NULL)
 }
@@ -289,7 +290,7 @@ print1 <- function(plot){
 
 ##' @keywords internal
 ## Don't export
-writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,...){
+writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,...){
     ## get filname extension to determine device
   type <- "x11"
   fnroot <- NULL
@@ -302,8 +303,11 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
   if(is.null(formats)) formats <- fnExtension(type)
   if(is.null(formats)) formats <- "png"
 
-  allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
   
+  allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
+  if(is.null(subdir)) subdir <- ""
+  ## allcombs[,subdir := var.subdir,env=list(var.subdir=subdir)]
+  allcombs[,subdir := subdir]
 
   if(!is.null(file) && allcombs[,any(!format%in%c("png","pdf"))]){
     stop("Only extensions .png and .pdf are supported")
@@ -369,6 +373,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
                         time=time,
                         model=model,
                         quiet=quiet,
+                        subdir=subdir,
+                        fun.path=fun.path,
                         ...),
                  by=row]
         
@@ -400,7 +406,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       write1(plot[[1]],type="x11")
       if(Nplots>1){
         silent <- lapply(2:Nplots,function(I){
-          write1(plot=plot[[I]],type=type,size=size,script=script,time=time,model=model,quiet=quiet)
+          write1(plot=plot[[I]],type=type,size=size,subdir=subdir,                        fun.path=fun.path,
+script=script,time=time,model=model,quiet=quiet)
         })
       }
     } else {
@@ -417,6 +424,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         if(nrow(allcombs)){
         silent <- lapply(1:Nplots,function(I){
           ## Resolve per-element traceit attributes; caller-level values take priority
+          
           elem <- plot[[I]]
           elem.args  <- argsFromTrace(ggwrite, elem)
           elem.canvas <- if(!is.null(elem.args[["canvas"]])) elem.args[["canvas"]] else canvas
@@ -424,7 +432,9 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
           elem.time   <- if(!is.null(elem.args[["time"]]))   elem.args[["time"]]   else time
           elem.model  <- if(!is.null(elem.args[["model"]]))  elem.args[["model"]]  else model
           elem.combs  <- ggwrite_names(file = file, formats = formats, canvas = elem.canvas)
-          elem.combs[,write1(plot=elem,type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),script=elem.script,time=elem.time,model=elem.model,quiet=quiet,...),by=row]
+          elem.combs[,write1(plot=elem,type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),
+                             subdir=subdir,
+                        fun.path=fun.path,                             script=elem.script,time=elem.time,model=elem.model,quiet=quiet,...),by=row]
         })
       }
       
@@ -458,6 +468,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         size=list(width=width[1],height=height[1]),
         ##args that are not taken from allcombs, so "constant" 
         plot=plot,
+        subdir=subdir,
+        fun.path=fun.path,
         script=script,time=time,model=model,quiet=quiet,...
       )
       ))
@@ -486,9 +498,11 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
-write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=FALSE,...){  
+write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
+                   fun.path=NULL,...){  
+
   
-  
+
   ## print(str(size))
   if(is.null(plot)) {
     message("plot is NULL, nothing to do.")
@@ -500,23 +514,7 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
     ## if(is.null(fn)) fn <- file
     fn <- fnExtension(fn,type)
   }
-
-  
-  
-if(F){
-args.given <- as.list(match.call())[-1]   # remove function name
-  args.x <- argsFromTrace(sys.function(), plot)
-  
-  ## inject defaults into local environment
-  if (length(args.x)) {
-    for (nm in names(args.x)) {
-      if (!nm %in% names(args.given)) {
-        assign(nm, args.x[[nm]], envir = environment())
-      }
-    }
-  }
-}
-  
+  if(subdir=="") subdir <- NULL
 
 
   plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size)
@@ -532,12 +530,14 @@ args.given <- as.list(match.call())[-1]   # remove function name
   }
   if(is.null(dir)) dir <- "."
 
+  
   if("fun.path"%in%names(dots) && !is.null(dots$fun.path)) {
     fun.path <- dots$fun.path
-    fn <- fun.path(fn,model=model)
     dots$fun.path <- NULL
   }
-
+if(!is.null(fun.path)){
+    fn <- fun.path(fn,model=model,subdir=subdir)
+}
 
   if(!is.null(fn)&&type!="x11"){
     dir.file <- dirname(fn)

@@ -100,7 +100,7 @@ The function determines object type in the following order:
 
 \section{Trace Attributes}{
 
-If the object \code{x} has trace attributes (added via \code{\link{traceit}}),
+If the object \code{x} has traceit attributes (added via \code{\link{traceit}}),
 those attributes will be automatically extracted and used by the writer function,
 unless explicitly overridden by arguments passed to \code{writer}.
 }
@@ -139,5 +139,5 @@ writer(p1, file = "myplot",
 \code{\link{datwrite}} for writing data frames,
 \code{\link{lwrite}} for writing lists with subdirectory organization,
 \code{\link{pathStruct}} for path structure options,
-\code{\link{traceit}} for adding trace attributes to objects
+\code{\link{traceit}} for adding traceit attributes to objects
 }

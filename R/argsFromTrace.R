@@ -1,6 +1,6 @@
 argsFromTrace <- function(fun, x, attr = "args") {
 
-  if (!inherits(x, "trace")) return(list())
+  if (!inherits(x, "traceit")) return(list())
 
   defs <- attr(x, attr)
   if (!is.list(defs)) return(list())

@@ -53,8 +53,9 @@ test_that("traceit settings",{
     expect_snapshot_file("testOutput/ggwrite_04.png")
 
     traceit(p1,canvas=list(namecanv=list(height=4,width=12)))
+    
     ## traceit(p1,canvas="wide") # This line is commented in original, keeping it that way
-
+## class(p1)
     ggwrite(p1,file="testOutput/ggwrite_05.png")
     expect_snapshot_file("testOutput/ggwrite_05.png")
 

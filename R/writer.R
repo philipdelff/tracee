@@ -166,8 +166,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
                    ),
               dots)
     res <- do.call(datwrite,args)
-    
-    
+
   }
 
   if(class_x=="list" || class_x=="gg"){
@@ -187,39 +186,15 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
            file=file,
            use.names=TRUE,
            formats=formats.gg,
-           fun.path=fun.path),
+           fun.path=fun.path,
+           subdir=subdir),
       args.gg
     )
     
-    res <- try(do.call(ggwrite,args.ggwrite))
+    ## res <- try(do.call(ggwrite,args.ggwrite))
+    res <- do.call(ggwrite,args.ggwrite)
   }
   
   invisible(res)
 }
 
-
-### used to do this for data.frames
-if(F){
-  args.stamp <- dots[names(dots)%in%c("model")]
-    if(!is.null(args.stamp$model) && is.list(args.stamp$model)) args.stamp$model <- args.stamp$model$lst
-    
-    args.fun.path <- dots[intersect(names(dots),c("name","model","subdir"))]
-    #args.fun.path$file <- file
-
-    dots <- dots[names(dots)%in%names(formals(NMwriteData))]
-    
-    args <- c(list(data=x,
-                   file = do.call(fun.path,args.fun.path), 
-                   formats=formats.data,
-                   ##script=script,
-                   genText=FALSE,
-                   args.stamp=args.stamp
-                   ),
-              dots)
-    if("time"%in%names(args)){
-      args$args.stamp$time <- args$time
-      args$time <- NULL
-    }
-    res <- do.call(NMwriteData,args)
-    ##res <- do.call(datwrite,args )
-}

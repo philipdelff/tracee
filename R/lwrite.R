@@ -165,7 +165,7 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
   ### Shouldn't we run pathStruct on it?
   if(missing(structure)) structure <- NULL
 
-  fun.path <- pathStruct(structure=structure,dir=dir,subdir=subdir)
+  fun.path <- pathStruct(structure=structure,dir=dir)
 
   dir.model <-
     fun.path("dummy",model=model,subdir=subdir) |>
@@ -177,8 +177,8 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
   list2 <- c(list[sapply(list,is.listnotplot)],
              list(main=nolist))
   list2 <- list2[sapply(list2,function(x)length(x) > 0)]
-
-  lwrite1 <- function(x,name,model,...){
+  
+  lwrite1 <- function(x,name,model,subdir,...){
     
     if(any(
       sapply(x,is.listnotplot)
@@ -188,24 +188,23 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
     plots <- x[sapply(x,is.gg)]
     notplots <- x[!sapply(x,is.gg)]
     
-    
-    ## xlist <- c(notplots,plots=list(plots))
-    ## file.out <- fun.path(name=name,dir=dir,model=model)
-    ## res <- lapply(1:length(xlist),function(n){
-    ##     file.out <- fun.path(name=name,dir=dir,model=model)
-    ##     writer(x=xlist[[n]],
-    ##            file=file.out,
-    ##            model=model,
-    ##            ...)
-    ## })
-    
     res <- list()
 
+    
     if(length(plots)) {
-      res1 <- writer(x=plots,
+
+    subdir <- NULL
+    if(lists.as.subdirs) {
+      subdir <- filePathSimple(subdir,name)
+    } else {
+        names(plots) <- paste0(name,"_",names(plots))
+    }
+
+  res1 <- writer(x=plots,
                      file=name,
                      model=model,
                      fun.path=fun.path,
+                     subdir=subdir,
                      ...)
       res <- append(res,res1)
     }
@@ -213,12 +212,13 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
     ## dots <- list(...)
 
     if(length(notplots)) {
-      subdir <- NULL
-      if(lists.as.subdirs) {
-        subdir <- name
-      } else {
+
+    subdir <- NULL
+    if(lists.as.subdirs) {
+      subdir <- filePathSimple(subdir,name)
+    } else {
         names(notplots) <- paste0(name,"_",names(notplots))
-      }
+    }
 
       res1 <- mapply(FUN=writer,
                      notplots,
@@ -243,9 +243,11 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
   
    
   if(lists.as.subdirs){
+    
     res <- mapply(lwrite1,list2,name=names(list2),
                   MoreArgs=list(model=model,
                                 lists.as.subdirs=lists.as.subdirs,
+                                subdir=subdir,
                                 ...),
                   SIMPLIFY=FALSE)
   } else {  
@@ -253,6 +255,7 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
   res <- mapply(lwrite1,list2,name=names(list2),
                   MoreArgs=list(model=model,
                                 lists.as.subdirs=lists.as.subdirs,
+                                subdir=subdir,
                                 ...),
                   SIMPLIFY=FALSE)
   }

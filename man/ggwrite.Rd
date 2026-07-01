@@ -7,7 +7,7 @@
 ggwrite(
   plot,
   file,
-  canvas = "standard",
+  canvas = NULL,
   formats,
   onefile = FALSE,
   res = 200,
@@ -149,7 +149,7 @@ The stamp is added as a ggplot2 caption and will appear at the bottom of the plo
 
 \section{Trace Attributes}{
 
-If \code{plot} has trace attributes (added via \code{\link{traceit}}), those
+If \code{plot} has traceit attributes (added via \code{\link{traceit}}), those
 attributes will be automatically extracted and used, unless explicitly overridden
 by arguments passed to \code{ggwrite}.
 }
@@ -197,7 +197,7 @@ ggwrite(plots, file = "chickweight.pdf",
 \code{\link{canvasSize}} for canvas size options,
 \code{\link{writer}} for a unified interface to write various object types,
 \code{\link{pathStruct}} for organizing output directories,
-\code{\link{traceit}} for adding trace attributes,
+\code{\link{traceit}} for adding traceit attributes,
 \code{\link[grDevices]{png}}, \code{\link[grDevices]{pdf}} for graphics devices
 
 Other Plotting: 
