@@ -1,4 +1,10 @@
+
 if(F){
+  unloadNamespace("tracee")
+  unloadNamespace("NMdata")
+  load_all("~/wdirs/NMdata")
+  load_all("~/wdirs/tracee")
+
 library(ggplot2)
 library(testthat)
 library(withr)
@@ -151,6 +157,29 @@ test_that("use.names with only one plot",{
     ## expect_true(file.exists(fnAppend(fileRes,"wide")))
 
 })
+
+
+test_that("plots in list, unnamed file",{
+    
+  fileRes <- "testOutput/.png"
+    stamp <- "test_ggwrite.R"
+    
+    p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+        geom_point()+
+        labs(title="plot 1")
+
+    p2 <- p1 +
+        labs(title="plot 2")
+
+    plots <- list("plot 1"=p1,
+                  "plot 2"=p2)
+
+    ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",use.names=TRUE)
+
+    expect_snapshot_file("testOutput/plot1.png")
+    expect_snapshot_file("testOutput/plot2.png")
+})
+
 
 
 ######## what happens if a list of lists is passed

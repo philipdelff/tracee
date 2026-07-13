@@ -11,6 +11,7 @@ lwrite(
   structure,
   subdir = NULL,
   lists.as.subdirs = FALSE,
+  name.all.pdf = "main_all.pdf",
   ...
 )
 }
@@ -171,6 +172,7 @@ lwrite(outputs,
        script = "analysis.R",
        time = Sys.time())
 }
+
 }
 \seealso{
 \code{\link{writer}} for the underlying writing function,

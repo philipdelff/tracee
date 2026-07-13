@@ -1,9 +1,11 @@
- ## library(devtools)
-## unloadNamespace("tracee")
-## unloadNamespace("NMdata")
-## load_all("~/wdirs/NMdata")
-## load_all("~/wdirs/tracee")
+## library(devtools)
 
+if(FALSE){
+  unloadNamespace("tracee")
+  unloadNamespace("NMdata")
+  load_all("~/wdirs/NMdata")
+  load_all("~/wdirs/tracee")
+}
 
 ## sudo apt install r-cran-webshot
 ## webshot::install_phantoms()
@@ -93,7 +95,7 @@ test_that("pass arg - custom canvas",{
   ## attributes(lsave$a_plot)
   untrace(lsave$a_plot)
 
-## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
+  ## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
   lwrite(lsave,dir=dir.out,model="model1_args",script=script,time=time1,canvas=list(mycanvas=list(height=9,width=21),
                                                                                     wide=canvasSize("wide")))
 
@@ -108,13 +110,13 @@ test_that("pass arg - custom canvas",{
   
   # canvas name not included wh
   expect_true(
-    any(grepl("main_a_plot.*mycanvas.*\\.png$", files))
+    any(grepl("a_plot.*mycanvas.*\\.png$", files))
    ,
-              info = paste("Files found:", paste(files, collapse=", ")))
+    info = paste("Files found:", paste(files, collapse=", ")))
   
   # Check that flextable and dataset files exist
-  expect_true(any(grepl("main_a_ft.*\\.png$", files)))
-  expect_true(any(grepl("main_a_dataset.*\\.rds$", files)))
+  expect_true(any(grepl("a_ft.*\\.png$", files)))
+  expect_true(any(grepl("a_dataset.*\\.rds$", files)))
 
 })
 
@@ -157,6 +159,7 @@ test_that("general ft, data, and two gg",{
   dir.out2 <- "testOutput/model1"
   unlink(dir.out2, recursive = TRUE)
   
+  ##### TODO plots get saved without using their own names, only ""
   lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf")
   
   files2 <- list.files(dir.out2)
@@ -167,7 +170,7 @@ test_that("general ft, data, and two gg",{
   pdf_files <- files2[grepl("\\.pdf$", files2)]
   expect_true(length(pdf_files) >= 1,
               info = paste("PDF files found:", paste(pdf_files, collapse=", "), 
-                          "All files:", paste(files2, collapse=", ")))
+                           "All files:", paste(files2, collapse=", ")))
   
   # Still should have dataset and flextable
   expect_true(any(grepl("a_dataset.*\\.rds$", files2)))
@@ -235,13 +238,13 @@ test_that("sublist no subdir - pdf",{
   
   # Check for PDF plot files
   ## individual plot not saved - only main
-  expect_true(any(grepl("main_model1.pdf$", files)),
+  expect_true(any(grepl("main_all_model1.pdf$", files)),
               info = paste("Files found:", paste(files, collapse=", ")))
   
   expect_false(any(grepl("a_plot.*\\.pdf$", files)),
-              info = paste("Files found:", paste(files, collapse=", ")))
+               info = paste("Files found:", paste(files, collapse=", ")))
 
-## alist plots are also collected in a single pdf  
+  ## alist plots are also collected in a single pdf  
   expect_true(any(grepl("alist_model1\\.pdf$", files)),
               info = paste("Files found:", paste(files, collapse=", ")))
   
@@ -271,7 +274,7 @@ test_that("sublist with subdir - png",{
   ## getting  testOutput/lwrite_04/model1/alist/1_model1.png - should be ft2 instead of 1.
   unlink(file.path(dir.out,"model1"),recursive = T)
   
-###### todo: this creates a mix of prefix and subdir. The plot is saved using prefix, that's wrong.
+  ###### todo: this creates a mix of prefix and subdir. The plot is saved using prefix, that's wrong.
 
 
   # Test with lists.as.subdirs = TRUE

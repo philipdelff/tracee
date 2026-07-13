@@ -15,9 +15,11 @@ ggwrite(
   save = TRUE,
   show = !save,
   use.names = FALSE,
+  subdir = NULL,
   script,
   time,
   model,
+  name.all.pdf,
   quiet = FALSE,
   fun.path,
   useNames

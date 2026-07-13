@@ -153,8 +153,14 @@
 ##'        script = "analysis.R",
 ##'        time = Sys.time())
 ##' }
-lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FALSE,...){
+##'
 
+#### send name.main.pdf as name.pdf.onefile?
+
+lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FALSE,name.all.pdf="main_all.pdf",...){
+
+name.main <- "name.root.elements.random.qqq"
+  
   if(missing(model)) model <- NULL
   
   if(is.list(model)) {
@@ -175,7 +181,8 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
   ## make sure list2 is a list of lists
   nolist <- list[!sapply(list,is.listnotplot)]
   list2 <- c(list[sapply(list,is.listnotplot)],
-             list(main=nolist))
+             setNames(list(nolist),name.main)
+             )
   list2 <- list2[sapply(list2,function(x)length(x) > 0)]
   
   lwrite1 <- function(x,name,model,subdir,...){
@@ -196,15 +203,16 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
     subdir <- NULL
     if(lists.as.subdirs) {
       subdir <- filePathSimple(subdir,name)
-    } else {
-        names(plots) <- paste0(name,"_",names(plots))
-    }
-
+    } ## else {
+    ##   names(plots) <- paste0(name,"_",names(plots))
+    ## }
+      
   res1 <- writer(x=plots,
-                     file=name,
+                     file=ifelse(name==name.main,"",name),
                      model=model,
                      fun.path=fun.path,
-                     subdir=subdir,
+                 subdir=subdir,
+                   name.all.pdf=  name.all.pdf,
                      ...)
       res <- append(res,res1)
     }
@@ -212,13 +220,16 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
     ## dots <- list(...)
 
     if(length(notplots)) {
-
-    subdir <- NULL
-    if(lists.as.subdirs) {
-      subdir <- filePathSimple(subdir,name)
-    } else {
-        names(notplots) <- paste0(name,"_",names(notplots))
-    }
+      subdir <- NULL
+      names.notplots <- names(notplots)
+      if(name==name.main) name <- ""
+      if(lists.as.subdirs) {
+        subdir <- filePathSimple(subdir,name)
+      } else {
+        ## names(notplots) <- paste0(name,"_",names(notplots))
+      
+        names(notplots) <- fnAppend(name,names.notplots,allow.noext = TRUE,collapse=NULL)
+      }
 
       res1 <- mapply(FUN=writer,
                      notplots,

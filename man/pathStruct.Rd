@@ -4,7 +4,7 @@
 \alias{pathStruct}
 \title{Create a function to derive structured output file paths}
 \usage{
-pathStruct(structure = "model/file_model", subdir, dir)
+pathStruct(structure = "model/file_model", dir)
 }
 \arguments{
 \item{structure}{A character string specifying a predefined path structure, or a
@@ -22,12 +22,12 @@ model subdirectory. Example: \code{"run001-gof.png"}}
 }
 Default is \code{"model/file_model"}.}
 
+\item{dir}{Character string specifying the base directory for all outputs. This is
+prepended to all generated paths. Default is \code{NULL} (current directory).}
+
 \item{subdir}{Character string specifying an additional subdirectory to include in
 the path structure. This is applied within the model directory if applicable.
 Default is \code{NULL} (no subdirectory).}
-
-\item{dir}{Character string specifying the base directory for all outputs. This is
-prepended to all generated paths. Default is \code{NULL} (current directory).}
 }
 \value{
 A function with signature \code{function(name, model, subdir)} that

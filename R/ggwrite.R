@@ -54,6 +54,7 @@
 ##'   output files. If a character string, must be one of the predefined structures.
 ##'   If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments.
 ##'   See \code{\link{pathStruct}} for details.
+##' 
 ##' @param useNames Deprecated. Use \code{use.names} instead.
 ##'
 ##' @details
@@ -162,14 +163,15 @@
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
-                    script, time, model,quiet=FALSE, fun.path,useNames){
+                    script, time, model,name.all.pdf,quiet=FALSE, fun.path,useNames){
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
   
   name.canvas <- NULL
   . <- NULL
   size <- NULL
-  
+
+ 
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
   if(missing(fun.path)) fun.path <- NULL
@@ -200,6 +202,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
     use.names <- useNames
   }
   if(!missing(file) && (missing(formats)||is.null(formats))) formats <- fnExtension(file)
+
   ## Fall back to "standard" only when neither caller nor traceit attrs supplied a canvas
   if(is.null(canvas)) canvas <- "standard"
   if(missing(time)) time <- NULL
@@ -222,10 +225,13 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
     if(!all(file==file2)) message("Blank characters in filename have been removed.")
     file <- file2
   }
+
+  if(missing(name.all.pdf)) name.all.pdf <- NULL
   
-  if( !is.null(file) && length(file)==1 && file=="" ) {
-    file <- NULL
-  }
+  ### we want to allow "", especially for named lists
+  ## if( !is.null(file) && length(file)==1 && file=="" ) {
+  ##   file <- NULL
+  ## }
 
   #### check inputs done
 
@@ -251,6 +257,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
       paper     = paper,
       formats   = formats,
       fun.path  = fun.path,
+      name.all.pdf=name.all.pdf,
       subdir=subdir
     )
 
@@ -290,7 +297,7 @@ print1 <- function(plot){
 
 ##' @keywords internal
 ## Don't export
-writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,...){
+writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",...){
     ## get filname extension to determine device
   type <- "x11"
   fnroot <- NULL
@@ -338,8 +345,9 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       fn <- fnAppend(fn,name,allow.noext=TRUE) 
     }
     if(length(dots)) {
-      str.dots <- do.call(mypaste,dots)
-      fn <- fnAppend(fn,str.dots,allow.noext=TRUE)
+      ## str.dots <- do.call(mypaste,dots)
+      ## fn <- fnAppend(fn,str.dots,allow.noext=TRUE)
+      fn <- fnAppend(fn,unlist(dots),allow.noext=TRUE)
     } 
     cleanFileNames(fn,allow.slash=TRUE)
   }
@@ -363,11 +371,15 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       ##all.canvas.names <- allcombs[,unique(name.file.canvas)]
       
       if(nrow(allcombs[format=="pdf"])){
-        allcombs[format=="pdf",
+        allcombs[format=="pdf",{
                  ## run write1 on all plots. Each row in allcombs is for all plots, not one row per plot
+
+                 name <- NULL
+                 if(file=="") name <- name.all.pdf
+
                  write1(plot=plot,
                         type="pdf",
-                        fn=fname.char(fn=file,name=NULL,name.file.canvas),
+                        fn=fname.char(fn=file,name=name,name.file.canvas),
                         size=list(height=height,width=width),
                         script=script,
                         time=time,
@@ -375,7 +387,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
                         quiet=quiet,
                         subdir=subdir,
                         fun.path=fun.path,
-                        ...),
+                        ...)
+        },
                  by=row]
         
         allcombs <- allcombs[format!="pdf"]
@@ -460,7 +473,7 @@ script=script,time=time,model=model,quiet=quiet)
     ##                 )
     ##          ]
 
-
+    
     res <- lapplydt(allcombs,by="row",fun=function(x)
       with(x,write1(
         type=format[1],
@@ -508,13 +521,13 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
     message("plot is NULL, nothing to do.")
     return(NULL)
   }
-  if(fn=="") fn <- NULL
+  if(!is.null(fn) && fn=="") fn <- NULL
 
   if(!is.null(fn)){
     ## if(is.null(fn)) fn <- file
     fn <- fnExtension(fn,type)
   }
-  if(subdir=="") subdir <- NULL
+  if(!is.null(subdir) && subdir=="") subdir <- NULL
 
 
   plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size)
