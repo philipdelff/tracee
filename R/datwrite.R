@@ -1,3 +1,21 @@
+##' Write data to file(s) using NMwriteData
+##'
+##' This function writes data objects to files, with support for lists of data objects.
+##' It wraps NMwriteData and provides additional functionality for file path construction
+##' and metadata stamping.
+##'
+##' @param x A data frame or list of data frames to write
+##' @param file Character string specifying the output file name
+##' @param script Optional character string specifying the script name for stamping
+##' @param time Optional time stamp to include in output
+##' @param model Optional model object or path for organizing output files
+##' @param formats Character vector of output formats (passed to NMwriteData)
+##' @param fun.path Optional function to construct file paths based on name, model, and subdir
+##' @param subdir Optional subdirectory for organizing output files
+##' @param ... Additional arguments passed to NMwriteData
+##'
+##' @return A list of results from NMwriteData calls
+##' @export
 datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,...){
 
   if(!is.listnotplot(x)) x <- list(x)
@@ -22,7 +40,24 @@ datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,...){
 
 
 
-
+##' Write a single data object to file
+##'
+##' Internal function that handles writing a single data frame to file using NMwriteData.
+##' Constructs file paths, prepares stamping arguments, and calls NMwriteData with
+##' appropriate parameters.
+##'
+##' @param x A data frame to write
+##' @param file Character string specifying the output file name
+##' @param formats Character vector of output formats
+##' @param script Optional character string specifying the script name for stamping
+##' @param time Optional time stamp to include in output
+##' @param model Optional model object or path for organizing output files
+##' @param fun.path Optional function to construct file paths based on name, model, and subdir
+##' @param subdir Optional subdirectory for organizing output files
+##' @param ... Additional arguments passed to NMwriteData
+##'
+##' @return Result from NMwriteData call
+##' @keywords internal
 datwriteOne <- function(x,file,formats,script,time,model,fun.path,subdir=NULL,...){
   
 

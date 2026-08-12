@@ -2,7 +2,7 @@
 % Please edit documentation in R/stampFlextab.R
 \name{stampFlextab}
 \alias{stampFlextab}
-\title{Stamp and write flextab objects to one or multiple formats}
+\title{Stamp and write flextab objects (deprecated - use ftstamp)}
 \usage{
 stampFlextab(ft, file, script, bg = "#ffffff", time)
 }
@@ -21,5 +21,5 @@ Sys.time(). Using the time argument you can overrule this by
 setting a fixed string instead. Use "" to omit.}
 }
 \description{
-Stamp and write flextab objects to one or multiple formats
+Deprecated - use \code{ftstamp()} instead.
 }

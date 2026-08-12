@@ -111,6 +111,7 @@
 ##' identical(path_fun4, my_fun)  # TRUE
 pathStruct <- function(structure="model/file_model",dir){
 
+  
     if(missing(structure)) structure <- NULL
     if(is.null(structure)) structure <- "model/file_model"
     if(is.function(structure)) return(structure)

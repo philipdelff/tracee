@@ -3,10 +3,6 @@
 ##' @param x a string to clean
 ##' @return A character vector
 ##' @keywords internal
-##' @examples
-##' cleanFileNames("e w% # ff!l3:t,3?.csv")
-##' cleanFileNames("3!?:#;<>=, {}|=g+&-
-##' .csv")
 ## don't export - belongs in NMdata
 
 

@@ -1,4 +1,6 @@
-##' Stamp and write flextab objects to one or multiple formats
+##' Stamp and write flextab objects (deprecated - use ftstamp)
+##'
+##' Deprecated - use `ftstamp()` instead.
 ##' @param ft a flextable object
 ##' @param script path to script - will be pasted as caption.
 ##' @param file The file that the flextable will be written to (no
@@ -13,6 +15,6 @@
 ## put stamps on tables plus a little tailoring of visuals
 stampFlextab <- function(ft,file,script,bg="#ffffff",time){
     .Deprecated(new="ftstamp")
-    ftstamp(ft,file,script,bg="#ffffff",time)
+    ftstamp(ft,file,script,format.stamp=list(bg="#ffffff"),time)
 }
 

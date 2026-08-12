@@ -8,7 +8,13 @@
 ##'     automatically.
 ##' @param file An optional output filename to be included in the stamp.
 ##' @param time The timestamp to be included.
+##' @param model An optional model name or object to be included in the stamp.
 ##' @param size The size (list) for the plot, not the caption. Used to calculate the size of the caption.
+##' @param format.stamp A list of formatting options for the stamp text. For ggplot objects,
+##'     valid elements include size, colour, hjust, vjust, and other parameters accepted by
+##'     \code{ggplot2::element_text()}. For gtable objects, valid elements include col, fill,
+##'     alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
+##'     fontface, lineheight, and font. Default formatting is applied if not specified.
 ##'
 ##' @return the plot with a stamp
 ##' @details The stamp is adding using the caption label. If a caption
@@ -56,7 +62,19 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
     if(missing(format.stamp)) format.stamp <- NULL
 
 
-    stamp1 <- function(plot){
+  stamp1 <- function(plot){
+    
+    fill <- NULL
+    lty <- NULL
+    lwd <- NULL
+    lex <- NULL
+    lineend <- NULL
+    linejoin <- NULL
+    linemitre <- NULL
+    cex <- NULL
+    fontfamily <- NULL
+    fontface <- NULL
+    lineheight <- NULL
         caption.existing <- NULL
 ### determine method to use. otype is object type
         otype <- NA

@@ -3,10 +3,17 @@
 ##' @param script path to script - will be pasted as caption.
 ##' @param file The file that the flextable will be written to (no
 ##'     file is written by this function)
-##' @param bg Default background colour is #ffffff.
 ##' @param time The default is to insert a time stamp taken from result of
 ##'     Sys.time(). Using the time argument you can overrule this by
-##'     setting a fixed string instead. Use "" to omit. 
+##'     setting a fixed string instead. Use "" to omit.
+##' @param model Character string or model object specifying the model name/identifier.
+##'     Used for stamping. If a list (model object) is provided, the \code{$label}
+##'     element is extracted.
+##' @param format.stamp A list specifying formatting options for the stamp. Valid
+##'     elements include: \code{size} (font size, default 4), \code{align} (text
+##'     alignment, default "right"), \code{space} (line spacing, default 1),
+##'     \code{bg} (background color, default "#ffffff"), and \code{color} (text
+##'     color, default "#666666"). Any unspecified elements use the defaults.
 ##' @import flextable
 ##' @export
 
@@ -72,7 +79,7 @@ ftstamp <- function(ft,file,script,time,model,format.stamp){
                        space = format.stamp$space, 
                        part = "footer")
 
-    if(!is.null(bg)){
+    if(!is.null(format.stamp$bg)){
         ft <- bg(ft, i=rows.stamp,part = "footer", bg = format.stamp$bg)
     }
     ft

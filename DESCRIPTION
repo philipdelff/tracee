@@ -1,7 +1,7 @@
 Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
-Version: 0.0.4.921
+Version: 0.0.4.922
 Authors@R: person("Philip", "Delff", email = "philip@delff.dk",
                   role = c("aut", "cre"))
 Maintainer: Philip Delff <philip@delff.dk>
@@ -16,7 +16,9 @@ Imports:
  ggplot2,
  grid,
  gridExtra,
- flextable
+ flextable,
+ patchwork
+VignetteBuilder: knitr 
 Suggests:
  knitr
 Encoding: UTF-8

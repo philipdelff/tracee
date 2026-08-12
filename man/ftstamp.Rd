@@ -18,7 +18,15 @@ file is written by this function)}
 Sys.time(). Using the time argument you can overrule this by
 setting a fixed string instead. Use "" to omit.}
 
-\item{bg}{Default background colour is #ffffff.}
+\item{model}{Character string or model object specifying the model name/identifier.
+Used for stamping. If a list (model object) is provided, the \code{$label}
+element is extracted.}
+
+\item{format.stamp}{A list specifying formatting options for the stamp. Valid
+elements include: \code{size} (font size, default 4), \code{align} (text
+alignment, default "right"), \code{space} (line spacing, default 1),
+\code{bg} (background color, default "#ffffff"), and \code{color} (text
+color, default "#666666"). Any unspecified elements use the defaults.}
 }
 \description{
 Stamp and write flextab objects to one or multiple formats

@@ -1,2 +1,4 @@
 ^devel$
 ^\.github$
+^\.aider
+^inst/doc$

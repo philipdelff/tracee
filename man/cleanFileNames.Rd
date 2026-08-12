@@ -17,9 +17,4 @@ A character vector
 Drop spaces and odd characters. Use to ensure generated file names
 are usable.
 }
-\examples{
-cleanFileNames("e w\% # ff!l3:t,3?.csv")
-cleanFileNames("3!?:#;<>=, {}|=g+&-
-.csv")
-}
 \keyword{internal}
