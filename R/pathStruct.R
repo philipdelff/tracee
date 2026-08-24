@@ -18,9 +18,6 @@
 ##'           model subdirectory. Example: \code{"run001-gof.png"}}
 ##'   }
 ##'   Default is \code{"model/file_model"}.
-##' @param subdir Character string specifying an additional subdirectory to include in
-##'   the path structure. This is applied within the model directory if applicable.
-##'   Default is \code{NULL} (no subdirectory).
 ##' @param dir Character string specifying the base directory for all outputs. This is
 ##'   prepended to all generated paths. Default is \code{NULL} (current directory).
 ##'
@@ -135,7 +132,7 @@ pathStruct <- function(structure="model/file_model",dir){
                            )
         }
     }
-
+  
     if(structure=="file_model"){
         fun.path <- function(name,model,subdir){
             if(is.null(model)) return(filePathSimple(dir,name))

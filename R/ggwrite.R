@@ -166,6 +166,7 @@
 ##' ggwrite(plots, file = "chickweight.pdf",
 ##'         onefile = TRUE, save = writeOutput)
 ##' # Creates: chickweight.pdf (2 pages)
+
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
@@ -179,7 +180,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
   size <- NULL
   subdir <- NULL
 
- 
+  
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
   if(missing(fun.path)) fun.path <- NULL
@@ -274,7 +275,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
   }
 
   if(show){
-    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path,subdir=subdir)
+    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path=NULL,subdir=subdir,onefile=onefile)
   }
   invisible(NULL)
 }
