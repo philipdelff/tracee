@@ -2,8 +2,9 @@ Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
 Version: 0.0.4.931
-Authors@R: person("Philip", "Delff", email = "philip@delff.dk",
-                  role = c("aut", "cre"))
+Authors@R: c(person("Philip", "Delff", email = "philip@delff.dk",role = c("aut", "cre")),
+  person("Sanaya","Shroff",email="sanaya.n.shroff@gmail.com",role = c("aut")))
+
 Maintainer: Philip Delff <philip@delff.dk>
 Description: Write output (plots and tables) ensuring traceability back to code. Includes a graphics saver with simple automation of stamping with source, destination and creation time. A list of plots can be saved at once. A user-friendly selection of output dimensions for presentations, on-screen inspections, and more available.
 License: MIT + file LICENSE
