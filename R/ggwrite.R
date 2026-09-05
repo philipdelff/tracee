@@ -224,6 +224,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
     if(onefile) onefile <- TRUE
   }
   if(is.null(file)) save <- FALSE
+  if(is.null(file)) type <- "x11"
 
   if(missing(script)) script <- NULL
 
@@ -250,7 +251,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
     ## Write each combination
     ## for (n in seq_len(nrow(allcombs))) {
     
-
+    
     writeObj(
       plot      = plot,
       file      = file,
@@ -310,7 +311,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
   name.file.canvas <- NULL
   size <- NULL
   
-    ## get filname extension to determine device
+  ## get filname extension to determine device
   type <- "x11"
   fnroot <- NULL
   if(!is.null(file)){
@@ -318,11 +319,13 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
     fnroot <- fnExtension(file,"")
   }
 
+  if(type=="x11") onefile <- FALSE
+
   if(missing(formats)) formats <- NULL
   if(is.null(formats)) formats <- fnExtension(type)
   if(is.null(formats)) formats <- "png"
 
-  
+    
   allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
   if(is.null(subdir)) subdir <- ""
   ## allcombs[,subdir := var.subdir,env=list(var.subdir=subdir)]
@@ -523,7 +526,7 @@ script=script,time=time,model=model,quiet=quiet)
 
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
-write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
+write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
                    fun.path=NULL,...){  
 
   
@@ -534,8 +537,9 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
     return(NULL)
   }
   if(!is.null(fn) && fn=="") fn <- NULL
-
-  if(!is.null(fn)){
+  if(type=="") type <- NULL
+    if(is.null(file)&&(is.null(type)||type=="")) type <- "x11"
+  if(!is.null(fn)&&!is.null(type)&&type!="x11"){
     ## if(is.null(fn)) fn <- file
     fn <- fnExtension(fn,type)
   }
@@ -560,7 +564,9 @@ write1 <- function(plot,fn=NULL,type,onefile=FALSE,size,script,time,model,quiet=
     fun.path <- dots$fun.path
     dots$fun.path <- NULL
   }
-if(!is.null(fun.path)){
+
+  
+  if(!is.null(type) && type!="x11" && !is.null(fun.path)){
     fn <- fun.path(fn,model=model,subdir=subdir)
 }
 

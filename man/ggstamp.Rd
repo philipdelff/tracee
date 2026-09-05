@@ -17,6 +17,14 @@ ggstamp(plot, file, size, script, time, model, format.stamp)
 automatically.}
 
 \item{time}{The timestamp to be included.}
+
+\item{model}{An optional model name or object to be included in the stamp.}
+
+\item{format.stamp}{A list of formatting options for the stamp text. For ggplot objects,
+valid elements include size, colour, hjust, vjust, and other parameters accepted by
+\code{ggplot2::element_text()}. For gtable objects, valid elements include col, fill,
+alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
+fontface, lineheight, and font. Default formatting is applied if not specified.}
 }
 \value{
 the plot with a stamp

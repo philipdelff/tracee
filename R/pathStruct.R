@@ -18,9 +18,6 @@
 ##'           model subdirectory. Example: \code{"run001-gof.png"}}
 ##'   }
 ##'   Default is \code{"model/file_model"}.
-##' @param subdir Character string specifying an additional subdirectory to include in
-##'   the path structure. This is applied within the model directory if applicable.
-##'   Default is \code{NULL} (no subdirectory).
 ##' @param dir Character string specifying the base directory for all outputs. This is
 ##'   prepended to all generated paths. Default is \code{NULL} (current directory).
 ##'
@@ -112,86 +109,86 @@
 pathStruct <- function(structure="model/file_model",dir){
 
   
-    if(missing(structure)) structure <- NULL
-    if(is.null(structure)) structure <- "model/file_model"
-    if(is.function(structure)) return(structure)
+  if(missing(structure)) structure <- NULL
+  if(is.null(structure)) structure <- "model/file_model"
+  if(is.function(structure)) return(structure)
 
-    if(missing(dir)) dir <- NULL
+  if(missing(dir)) dir <- NULL
 
-    fun.path <- NULL
-    if(structure=="model/file_model"){
-        fun.path <- function(name,model,subdir){
-            if(is.null(model)) return(filePathSimple(dir,name))
-            if(is.list(model)) {
-                model <- model$mod 
-            }
-            model.name <- basename(model) |> fnExtension("")
-            if(missing(subdir)) subdir <- NULL
-            
-            filePathSimple(dir,
-                           model.name,
-                           subdir,
-                           fnAppend(name,model.name,allow.noext=TRUE)
-                           )
-        }
+  fun.path <- NULL
+  if(structure=="model/file_model"){
+    fun.path <- function(name,model,subdir){
+      if(is.null(model)) return(filePathSimple(dir,name))
+      if(is.list(model)) {
+        model <- model$mod 
+      }
+      model.name <- fnExtension(basename(model),"")
+      if(missing(subdir)) subdir <- NULL
+      
+      filePathSimple(dir,
+                     model.name,
+                     subdir,
+                     fnAppend(name,model.name,allow.noext=TRUE)
+                     )
     }
+  }
 
-    if(structure=="file_model"){
-        fun.path <- function(name,model,subdir){
-            if(is.null(model)) return(filePathSimple(dir,name))
-            if(is.list(model)) {
-                model <- model$mod 
-            }
-            model.name <- basename(model) |> fnExtension("")
-            if(missing(subdir)) subdir <- NULL
-            
-            filePathSimple(dir,
-                           subdir,
-                           fnAppend(name,model.name,allow.noext=TRUE)
-                           )
-        }
+  if(structure=="file_model"){
+    fun.path <- function(name,model,subdir){
+      if(is.null(model)) return(filePathSimple(dir,name))
+      if(is.list(model)) {
+        model <- model$mod 
+      }
+      model.name <- fnExtension(basename(model),"")
+      if(missing(subdir)) subdir <- NULL
+      
+      filePathSimple(dir,
+                     subdir,
+                     fnAppend(name,model.name,allow.noext=TRUE)
+                     )
     }
+  }
 
-    ## "gof1.png", model="103", > "103/103-gof1.png"
-    ## name="gof1", model="103", > "103/103-gof1.png"
-    if(structure=="model/model-file"){
-        fun.path <- function(name,model,subdir){
-            if(is.null(model)) filePathSimple(dir,name,subdir)
-            if(is.list(model)) {
-                model <- model$mod 
-            }
-            ## model.lst -> model
-            model.name <- basename(model) |> fnExtension("")
-            if(missing(subdir)) subdir <- NULL
+  ## "gof1.png", model="103", > "103/103-gof1.png"
+  ## name="gof1", model="103", > "103/103-gof1.png"
+  if(structure=="model/model-file"){
+    fun.path <- function(name,model,subdir){
+      if(is.null(model)) filePathSimple(dir,name,subdir)
+      if(is.list(model)) {
+        model <- model$mod 
+      }
+      ## model.lst -> model
+      model.name <- fnExtension(basename(model),"")
+      if(missing(subdir)) subdir <- NULL
 
-            filePathSimple(dir,
-                           model.name,
-                           subdir,
-                           paste(model.name,name,sep="-")
-                           )
-        }
+      filePathSimple(dir,
+                     model.name,
+                     subdir,
+                     paste(model.name,name,sep="-")
+                     )
     }
+  }
 
-    if(structure=="model-file"){
-        fun.path <- function(name,model,subdir){
-            if(is.null(model)) filePathSimple(dir,name)
-            if(is.list(model)) {
-                model <- model$mod 
-            }
-            model.name <- basename(model) |> fnExtension("")
-            if(missing(subdir)) subdir <- NULL
-            
-            filePathSimple(dir,
-                           subdir,
-                           paste(model.name,name,sep="-")
-                           )
-        }
+  if(structure=="model-file"){
+    fun.path <- function(name,model,subdir){
+      if(is.null(model)) filePathSimple(dir,name)
+      if(is.list(model)) {
+        model <- model$mod 
+      }
+      model.name <- fnExtension(basename(model),"")
+      if(missing(subdir)) subdir <- NULL
+      
+      filePathSimple(dir,
+                     subdir,
+                     paste(model.name,name,sep="-")
+                     )
     }
+  }
 
-    if(is.null(fun.path)){
-        stop("structure not recognized.")
-    }
+  if(is.null(fun.path)){
+    stop("structure not recognized.")
+  }
 
 
-    fun.path
+  fun.path
 }

@@ -17,8 +17,7 @@ ftwrite(
   model,
   format.stamp,
   fun.path,
-  subdir = NULL,
-  bg
+  subdir = NULL
 )
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
@@ -72,8 +71,6 @@ and return a file path. See \code{\link{pathStruct}} for details.}
 
 \item{subdir}{Character string specifying a subdirectory within the path structure.
 Used in conjunction with \code{fun.path}.}
-
-\item{bg}{Not currently used. Included for backward compatibility.}
 
 \item{...}{Additional arguments passed to \code{\link{ftstamp}} for stamp customization.}
 }

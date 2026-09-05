@@ -180,8 +180,8 @@ name.main <- "name.root.elements.random.qqq"
   fun.path <- pathStruct(structure=structure,dir=dir)
 
   dir.model <-
-    fun.path("dummy",model=model,subdir=subdir) |>
-    dirname()
+    dirname(fun.path("dummy",model=model,subdir=subdir))
+
   OutputDirCreate(dir.model)
 
   ## make sure list2 is a list of lists
@@ -202,7 +202,6 @@ name.main <- "name.root.elements.random.qqq"
     notplots <- x[!sapply(x,is.gg)]
     
     res <- list()
-
     
     if(length(plots)) {
 

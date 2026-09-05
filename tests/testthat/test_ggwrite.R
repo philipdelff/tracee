@@ -5,9 +5,9 @@ if(F){
   load_all("~/wdirs/NMdata")
   load_all("~/wdirs/tracee")
 
-library(ggplot2)
-library(testthat)
-library(withr)
+  library(ggplot2)
+  library(testthat)
+  library(withr)
 }
 
 # Use testthat edition 3 for snapshot testing
@@ -26,6 +26,9 @@ test_that("single plot, single format",{
     fileRes <- "testOutput/ggwrite_01.png"
 
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test")
+
+    ## ggwrite(p1,script=stamp,time="test")
+
     expect_snapshot_file(fileRes)
 })
 

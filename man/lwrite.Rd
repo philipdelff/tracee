@@ -45,6 +45,10 @@ rather than being incorporated into file names. Default is \code{FALSE}.
 (e.g., \code{list1/item1.png})
 }}
 
+\item{name.all.pdf}{Character string specifying the filename to use when writing
+all plots to a single PDF file. Only used when the file name is empty and
+plots are being combined into one PDF. Default is \code{"main_all.pdf"}.}
+
 \item{...}{Additional arguments passed to \code{\link{writer}} and subsequently
 to the specific writer functions (\code{\link{ggwrite}}, \code{\link{ftwrite}},
 or \code{\link{datwrite}}). Common arguments include:

@@ -42,7 +42,6 @@
 ##'   and return a file path. See \code{\link{pathStruct}} for details.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   Used in conjunction with \code{fun.path}.
-##' @param bg Not currently used. Included for backward compatibility.
 ##' @param ... Additional arguments passed to \code{\link{ftstamp}} for stamp customization.
 ##'
 ##' @details
@@ -124,7 +123,7 @@
 ##'         fun.path = path.fun)
 ##' # Writes to: run001/summary_run001.png
 ##' }
-ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir=NULL,bg){
+ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir=NULL){
   
   
   use.names <- TRUE

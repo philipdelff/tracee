@@ -24,10 +24,6 @@ Default is \code{"model/file_model"}.}
 
 \item{dir}{Character string specifying the base directory for all outputs. This is
 prepended to all generated paths. Default is \code{NULL} (current directory).}
-
-\item{subdir}{Character string specifying an additional subdirectory to include in
-the path structure. This is applied within the model directory if applicable.
-Default is \code{NULL} (no subdirectory).}
 }
 \value{
 A function with signature \code{function(name, model, subdir)} that
