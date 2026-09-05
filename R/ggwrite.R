@@ -166,6 +166,7 @@
 ##' ggwrite(plots, file = "chickweight.pdf",
 ##'         onefile = TRUE, save = writeOutput)
 ##' # Creates: chickweight.pdf (2 pages)
+
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
@@ -179,7 +180,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
   size <- NULL
   subdir <- NULL
 
- 
+
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
   if(missing(fun.path)) fun.path <- NULL
@@ -224,6 +225,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
     if(onefile) onefile <- TRUE
   }
   if(is.null(file)) save <- FALSE
+
   if(is.null(file)) type <- "x11"
 
   if(missing(script)) script <- NULL
@@ -251,7 +253,6 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
     ## Write each combination
     ## for (n in seq_len(nrow(allcombs))) {
     
-    
     writeObj(
       plot      = plot,
       file      = file,
@@ -275,7 +276,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
   }
 
   if(show){
-    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path,subdir=subdir)
+    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path=NULL,subdir=subdir,onefile=onefile)
   }
   invisible(NULL)
 }
@@ -310,8 +311,9 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 
   name.file.canvas <- NULL
   size <- NULL
-  
+
   ## get filname extension to determine device
+
   type <- "x11"
   fnroot <- NULL
   if(!is.null(file)){
@@ -319,13 +321,13 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
     fnroot <- fnExtension(file,"")
   }
 
+
   if(type=="x11") onefile <- FALSE
 
   if(missing(formats)) formats <- NULL
   if(is.null(formats)) formats <- fnExtension(type)
   if(is.null(formats)) formats <- "png"
 
-    
   allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
   if(is.null(subdir)) subdir <- ""
   ## allcombs[,subdir := var.subdir,env=list(var.subdir=subdir)]
@@ -387,24 +389,24 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       
       if(nrow(allcombs[format=="pdf"])){
         allcombs[format=="pdf",{
-                 ## run write1 on all plots. Each row in allcombs is for all plots, not one row per plot
+          ## run write1 on all plots. Each row in allcombs is for all plots, not one row per plot
 
-                 name <- NULL
-                 if(file=="") name <- name.all.pdf
+          name <- NULL
+          if(file=="") name <- name.all.pdf
 
-                 write1(plot=plot,
-                        type="pdf",
-                        fn=fname.char(fn=file,name=name,name.file.canvas),
-                        size=list(height=height,width=width),
-                        script=script,
-                        time=time,
-                        model=model,
-                        quiet=quiet,
-                        subdir=subdir,
-                        fun.path=fun.path,
-                        ...)
+          write1(plot=plot,
+                 type="pdf",
+                 fn=fname.char(fn=file,name=name,name.file.canvas),
+                 size=list(height=height,width=width),
+                 script=script,
+                 time=time,
+                 model=model,
+                 quiet=quiet,
+                 subdir=subdir,
+                 fun.path=fun.path,
+                 ...)
         },
-                 by=row]
+        by=row]
         
         allcombs <- allcombs[format!="pdf"]
       }
@@ -435,7 +437,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       if(Nplots>1){
         silent <- lapply(2:Nplots,function(I){
           write1(plot=plot[[I]],type=type,size=size,subdir=subdir,                        fun.path=fun.path,
-script=script,time=time,model=model,quiet=quiet)
+                 script=script,time=time,model=model,quiet=quiet)
         })
       }
     } else {
@@ -449,7 +451,7 @@ script=script,time=time,model=model,quiet=quiet)
       ## silent <- lapply(1:Nplots,function(I){
       ##     allcombs[,mapply(write1,plot=plot[[I]],type=type,fn=fname.char(fn=file,name=names(plot)[I]),size=list(height=height,width=width),script=script,time=time,quiet=quiet,...)]
       ## })
-        if(nrow(allcombs)){
+      if(nrow(allcombs)){
         silent <- lapply(1:Nplots,function(I){
           ## Resolve per-element traceit attributes; caller-level values take priority
           
@@ -462,7 +464,7 @@ script=script,time=time,model=model,quiet=quiet)
           elem.combs  <- ggwrite_names(file = file, formats = formats, canvas = elem.canvas)
           elem.combs[,write1(plot=elem,type=format,fn=fname.char(fn=file,name=names(plot)[I],name.file.canvas),size=list(height=height,width=width),
                              subdir=subdir,
-                        fun.path=fun.path,                             script=elem.script,time=elem.time,model=elem.model,quiet=quiet,...),by=row]
+                             fun.path=fun.path,                             script=elem.script,time=elem.time,model=elem.model,quiet=quiet,...),by=row]
         })
       }
       
@@ -526,10 +528,9 @@ script=script,time=time,model=model,quiet=quiet)
 
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
+
 write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
                    fun.path=NULL,...){  
-
-  
 
   ## print(str(size))
   if(is.null(plot)) {
@@ -537,20 +538,20 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
     return(NULL)
   }
   if(!is.null(fn) && fn=="") fn <- NULL
+
   if(type=="") type <- NULL
-    if(is.null(file)&&(is.null(type)||type=="")) type <- "x11"
+  if(is.null(file)&&(is.null(type)||type=="")) type <- "x11"
   if(!is.null(fn)&&!is.null(type)&&type!="x11"){
+
     ## if(is.null(fn)) fn <- file
     fn <- fnExtension(fn,type)
   }
   if(!is.null(subdir) && subdir=="") subdir <- NULL
 
-
   plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size)
 
   dots <- try(list(...),silent=T)
   if("try-error"%in%class(dots)) dots <- NULL
-  
 
   dir <- NULL
   if("dir"%in%names(dots)) {
@@ -564,11 +565,10 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
     fun.path <- dots$fun.path
     dots$fun.path <- NULL
   }
-
   
   if(!is.null(type) && type!="x11" && !is.null(fun.path)){
     fn <- fun.path(fn,model=model,subdir=subdir)
-}
+  }
 
   if(!is.null(fn)&&type!="x11"){
     dir.file <- dirname(fn)

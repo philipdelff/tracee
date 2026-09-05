@@ -131,6 +131,7 @@ pathStruct <- function(structure="model/file_model",dir){
                      fnAppend(name,model.name,allow.noext=TRUE)
                      )
     }
+
   }
 
   if(structure=="file_model"){
@@ -146,6 +147,7 @@ pathStruct <- function(structure="model/file_model",dir){
                      subdir,
                      fnAppend(name,model.name,allow.noext=TRUE)
                      )
+
     }
   }
 

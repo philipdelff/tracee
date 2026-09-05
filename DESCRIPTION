@@ -20,6 +20,7 @@ Imports:
  patchwork
 VignetteBuilder: knitr 
 Suggests:
- knitr
+ knitr,
+ kableExtra
 Encoding: UTF-8
 Config/testthat/edition: 3
