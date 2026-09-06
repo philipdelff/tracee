@@ -157,6 +157,7 @@
 ##'        time = Sys.time())
 ##' }
 ##'
+##' @import NMdata
 ##' @importFrom stats setNames
 
 
@@ -165,7 +166,9 @@
 
 lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FALSE,name.all.pdf="main_all.pdf",...){
 
-name.main <- "name.root.elements.random.qqq"
+  filePathSimple <- NMdata:::filePathSimple
+  
+  name.main <- "name.root.elements.random.qqq"
   
   if(missing(model)) model <- NULL
   

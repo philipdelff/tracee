@@ -73,6 +73,7 @@
 ##' \code{\link{ggwrite}}, \code{\link{ftwrite}}, \code{\link{lwrite}} for functions
 ##' that accept \code{fun.path} arguments
 ##'
+##' @import NMdata
 ##' @export
 ##'
 ##' @examples
@@ -115,6 +116,8 @@ pathStruct <- function(structure="model/file_model",dir){
 
   if(missing(dir)) dir <- NULL
 
+  filePathSimple <- NMdata:::filePathSimple
+  
   fun.path <- NULL
   if(structure=="model/file_model"){
     fun.path <- function(name,model,subdir){
