@@ -4,6 +4,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tracee)](https://CRAN.R-project.org/package=tracee)
+[![R-CMD-check](https://github.com/philipdelff/tracee/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/philipdelff/tracee/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 
