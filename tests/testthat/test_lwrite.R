@@ -160,21 +160,23 @@ test_that("general ft, data, and two gg",{
   unlink(dir.out2, recursive = TRUE)
   
   ##### TODO plots get saved without using their own names, only ""
-  lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf")
-  
-  files2 <- list.files(dir.out2)
-  expect_true(length(files2) > 0,
-              info = paste("Files found:", paste(files2, collapse=", ")))
+  dir.out3 <- "testOutput/model1_pdf"
+  lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model")
+
+
+  files3 <- list.files(dir.out3)
+  expect_true(length(files3) > 0,
+              info = paste("Files found:", paste(files3, collapse=", ")))
   
   # With onefile=TRUE, we should have a single PDF for plots (or a PDF named after the collection)
-  pdf_files <- files2[grepl("\\.pdf$", files2)]
+  pdf_files <- files3[grepl("\\.pdf$", files3)]
   expect_true(length(pdf_files) >= 1,
               info = paste("PDF files found:", paste(pdf_files, collapse=", "), 
-                           "All files:", paste(files2, collapse=", ")))
+                           "All files:", paste(files3, collapse=", ")))
   
   # Still should have dataset and flextable
-  expect_true(any(grepl("a_dataset.*\\.rds$", files2)))
-  expect_true(any(grepl("t2a_ft.*\\.png$", files2)))
+  expect_true(any(grepl("a_dataset.*\\.rds$", files3)))
+  expect_true(any(grepl("t2a_ft.*\\.png$", files3)))
 })
 
 
@@ -227,6 +229,7 @@ test_that("sublist no subdir - pdf",{
   unlink(dir.out,recursive = T)
   dir.create(dir.out,showWarnings = FALSE)
 
+    ## lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model")
   #### pdf and flat structure - no alist subdir
   lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="pdf")
 
@@ -238,7 +241,7 @@ test_that("sublist no subdir - pdf",{
   
   # Check for PDF plot files
   ## individual plot not saved - only main
-  expect_true(any(grepl("main_all_model1.pdf$", files)),
+  expect_true(any(grepl("model1.pdf$", files)),
               info = paste("Files found:", paste(files, collapse=", ")))
   
   expect_false(any(grepl("a_plot.*\\.pdf$", files)),

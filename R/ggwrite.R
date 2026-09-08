@@ -308,7 +308,7 @@ print1 <- function(plot){
 ##' @keywords internal
 ## Don't export
 writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",...){
-
+  
   name.file.canvas <- NULL
   size <- NULL
 
@@ -393,7 +393,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 
           name <- NULL
           if(file=="") name <- name.all.pdf
-
+          
           write1(plot=plot,
                  type="pdf",
                  fn=fname.char(fn=file,name=name,name.file.canvas),
@@ -409,6 +409,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         by=row]
         
         allcombs <- allcombs[format!="pdf"]
+        
       }
       if(nrow(allcombs)) {
         message("onefile can only be used with pdf device. Will not be used.")
@@ -531,7 +532,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 
 write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
                    fun.path=NULL,...){  
-
+  
   ## print(str(size))
   if(is.null(plot)) {
     message("plot is NULL, nothing to do.")
@@ -573,7 +574,8 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
   if(!is.null(fn)&&type!="x11"){
     dir.file <- dirname(fn)
     OutputDirCreate(dir.file)
-    
+
+    fn <- fnExtension(fn,type)
     switch(type,
            png={
              

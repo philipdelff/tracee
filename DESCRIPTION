@@ -1,7 +1,7 @@
 Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
-Version: 0.0.4.932
+Version: 0.0.4.933
 Authors@R: c(person("Philip", "Delff", email = "philip@delff.dk",role = c("aut", "cre")),
   person("Sanaya","Shroff",email="sanaya.n.shroff@gmail.com",role = c("aut")))
 Maintainer: Philip Delff <philip@delff.dk>
@@ -20,6 +20,8 @@ Imports:
  patchwork
 VignetteBuilder: knitr 
 Suggests:
+ testthat,
+ withr,
  knitr,
  kableExtra
 Encoding: UTF-8
