@@ -36,9 +36,6 @@
 ##' The generated function handles \code{NULL} model arguments gracefully - if
 ##' \code{model = NULL}, the model name component is omitted from the path.
 ##'
-##' Path components are combined using \code{\link{filePathSimple}}, which handles
-##' platform-specific path separators and normalizes the resulting path.
-##'
 ##' @section Structure Details:
 ##' \describe{
 ##'   \item{\code{"model/file_model"}}{
@@ -68,7 +65,6 @@
 ##'   is already a function, it is returned unchanged.
 ##'
 ##' @seealso
-##' \code{\link{filePathSimple}} for path combination,
 ##' \code{\link{writer}} for using path structures in writing functions,
 ##' \code{\link{ggwrite}}, \code{\link{ftwrite}}, \code{\link{lwrite}} for functions
 ##' that accept \code{fun.path} arguments

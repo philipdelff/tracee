@@ -49,9 +49,6 @@ passed to \code{pathStruct})}
 
 The generated function handles \code{NULL} model arguments gracefully - if
 \code{model = NULL}, the model name component is omitted from the path.
-
-Path components are combined using \code{\link{filePathSimple}}, which handles
-platform-specific path separators and normalizes the resulting path.
 }
 \section{Structure Details}{
 
@@ -112,7 +109,6 @@ path_fun4 <- pathStruct(structure = my_fun)
 identical(path_fun4, my_fun)  # TRUE
 }
 \seealso{
-\code{\link{filePathSimple}} for path combination,
 \code{\link{writer}} for using path structures in writing functions,
 \code{\link{ggwrite}}, \code{\link{ftwrite}}, \code{\link{lwrite}} for functions
 that accept \code{fun.path} arguments
