@@ -582,7 +582,14 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
              dots <- dots[intersect(names(dots),"res")]
              args <- c(list(filename = fn, width = size$width, 
                             height = size$height, units = "in"),dots)
-             do.call(png,args)
+             
+             ## do.call(png,args)
+             if (requireNamespace("ragg", quietly = TRUE)) {
+               do.call(ragg::agg_png, args)
+             } else {
+               do.call(png, args)
+             }
+
              ## png(filename = fn, width = size$width, 
              ##     height = size$height, units = "in",
              ##     ...

@@ -6,6 +6,8 @@ local_edition(3)
 script <- "test_writer.R"
 
 test_that("general ft",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
 
     fileRes <- "testOutput/writer_01.png"
     
