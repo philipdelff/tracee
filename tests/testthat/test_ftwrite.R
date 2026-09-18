@@ -88,7 +88,9 @@ test_that("",{
     ## ft <- set_caption(ft,"a first caption line")
     ft <- add_footer_lines(ft, "a first caption line")
 
-    ftwrite(ft,file=fileRes,script="test_ftwrite.R",time=time1)
+  ftwrite(ft,file=fileRes,script="test_ftwrite.R",time=time1)
+
+      local_edition(3)
     expect_snapshot_file(fileRes)
 
 })
