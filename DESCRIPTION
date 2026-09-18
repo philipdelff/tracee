@@ -1,7 +1,7 @@
 Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
-Version: 0.0.4.933
+Version: 0.0.4.934
 Authors@R: c(person("Philip", "Delff", email = "philip@delff.dk",role = c("aut", "cre")),
   person("Sanaya","Shroff",email="sanaya.n.shroff@gmail.com",role = c("aut")))
 Maintainer: Philip Delff <philip@delff.dk>
@@ -23,6 +23,7 @@ Suggests:
  testthat,
  withr,
  knitr,
- kableExtra
+ kableExtra,
+ ragg
 Encoding: UTF-8
 Config/testthat/edition: 3

@@ -1,6 +1,6 @@
 ## library(devtools)
 
-if(FALSE){
+if(FALSE){ 
   unloadNamespace("tracee")
   unloadNamespace("NMdata")
   load_all("~/wdirs/NMdata")

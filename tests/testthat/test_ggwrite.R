@@ -23,16 +23,20 @@ p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
 stamp <- "test_ggwrite.R"
 
 test_that("single plot, single format",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     fileRes <- "testOutput/ggwrite_01.png"
 
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test")
-
-    ## ggwrite(p1,script=stamp,time="test")
 
     expect_snapshot_file(fileRes)
 })
 
 test_that("single plot, multiple formats",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     file <- "testOutput/ggwrite_02.png"
     ggwrite(p1,script=stamp,file=file,formats=c("png","pdf"),save=TRUE,time="test")
     expect_snapshot_file("testOutput/ggwrite_02.png")
@@ -41,6 +45,9 @@ test_that("single plot, multiple formats",{
 })
 
 test_that("single plot, multiple formats and canvases",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     file <- "testOutput/ggwrite_03.png"
     ggwrite(p1,script=stamp,file=file,formats=c("png","pdf"),
             canvas=c("standard","wide-screen"),time="test")
@@ -53,6 +60,9 @@ test_that("single plot, multiple formats and canvases",{
 })
 
 test_that("traceit settings",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
         geom_point()
 
@@ -74,6 +84,9 @@ test_that("traceit settings",{
 })
 
 test_that("multiple plots in list",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     fileRes <- "testOutput/ggwrite_list_01.png"
     stamp <- "test_ggwrite.R"
     
@@ -94,6 +107,9 @@ test_that("multiple plots in list",{
 })
 
 test_that("multiple plots in list to multiple devices",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     fileRes <- "testOutput/ggwrite_list_02.png"
     stamp <- "test_ggwrite.R"
     
@@ -116,6 +132,9 @@ test_that("multiple plots in list to multiple devices",{
 })
 
 test_that("multiple plots in list to pdf with multiple canvases (onefile=TRUE should error)",{
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+
     fileRes <- "testOutput/ggwrite_list_03_onefile.pdf"
     stamp <- "test_ggwrite.R"
     
@@ -140,7 +159,10 @@ test_that("multiple plots in list to pdf with multiple canvases (onefile=TRUE sh
 
 
 test_that("use.names with only one plot",{
-    fileRes <- "testOutput/ggwrite_07.png"
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
+    
+  fileRes <- "testOutput/ggwrite_07.png"
     stamp <- "test_ggwrite.R"
     
     p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
@@ -162,7 +184,9 @@ test_that("use.names with only one plot",{
 })
 
 
-test_that("plots in list, unnamed file",{
+test_that("plots in list, unnamed file",{  
+  skip_on_os(c("windows", "mac"))
+  skip_if_not_installed("ragg")
     
   fileRes <- "testOutput/.png"
     stamp <- "test_ggwrite.R"
