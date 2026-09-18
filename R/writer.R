@@ -118,7 +118,7 @@
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
                    fun.path,subdir=NULL,
                    ...){
-
+  
   if(missing(fun.path))  fun.path <- NULL
   
   if(missing(formats.ft)||is.null(formats.ft)){

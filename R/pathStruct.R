@@ -154,7 +154,7 @@ pathStruct <- function(structure="model/file_model",dir){
   ## name="gof1", model="103", > "103/103-gof1.png"
   if(structure=="model/model-file"){
     fun.path <- function(name,model,subdir){
-      if(is.null(model)) filePathSimple(dir,name,subdir)
+      if(is.null(model)) return(filePathSimple(dir,name,subdir))
       if(is.list(model)) {
         model <- model$mod 
       }
@@ -172,7 +172,7 @@ pathStruct <- function(structure="model/file_model",dir){
 
   if(structure=="model-file"){
     fun.path <- function(name,model,subdir){
-      if(is.null(model)) filePathSimple(dir,name)
+      if(is.null(model)) return(filePathSimple(dir,name))
       if(is.list(model)) {
         model <- model$mod 
       }
@@ -185,6 +185,7 @@ pathStruct <- function(structure="model/file_model",dir){
                      )
     }
   }
+
 
   if(is.null(fun.path)){
     stop("structure not recognized.")

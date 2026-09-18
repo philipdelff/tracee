@@ -174,7 +174,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
   
-  name.all.pdf <- NULL
+  ## name.all.pdf <- NULL
   name.canvas <- NULL
   . <- NULL
   size <- NULL
@@ -390,7 +390,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       if(nrow(allcombs[format=="pdf"])){
         allcombs[format=="pdf",{
           ## run write1 on all plots. Each row in allcombs is for all plots, not one row per plot
-
+          
           name <- NULL
           if(file=="") name <- name.all.pdf
           

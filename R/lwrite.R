@@ -175,6 +175,8 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
   if(is.list(model)) {
     model <- model$label
   }
+
+  
   
   ### how about if fun.path is a string, like "model/model-file"?
   ### Shouldn't we run pathStruct on it?
