@@ -46,3 +46,10 @@ like ggwrite does
 ## }
 ** lwrite project
 *** TODO ggplot output names - remove "main"
+** parameter functions
+- include createParameterTable and printParameterTable from NMwork
+New name for createParameterTable? "create" may be uninformative? Could
+be NMparameterTable() NMparTab() 
+It would make sense to create a print method for simply:
+> print(createParameterTable(file.mod))
+would give an R console parameter table
