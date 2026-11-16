@@ -530,8 +530,10 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
 
+##' @import ragg
+
 write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
-                   fun.path=NULL,...){  
+                   fun.path=NULL,method.png="ragg",...){  
   
   ## print(str(size))
   if(is.null(plot)) {
@@ -582,13 +584,16 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
              dots <- dots[intersect(names(dots),"res")]
              args <- c(list(filename = fn, width = size$width, 
                             height = size$height, units = "in"),dots)
-             
+             switch(method.png,
+                    ragg=do.call(ragg::agg_png, args),
+                    png=do.call(png, args)
+                    )
              ## do.call(png,args)
-             if (requireNamespace("ragg", quietly = TRUE)) {
-               do.call(ragg::agg_png, args)
-             } else {
-               do.call(png, args)
-             }
+             ## if (requireNamespace("ragg", quietly = TRUE)) {
+             ##   do.call(ragg::agg_png, args)
+             ## } else {
+             ##   do.call(png, args)
+             ## }
 
              ## png(filename = fn, width = size$width, 
              ##     height = size$height, units = "in",

@@ -1,7 +1,7 @@
 Package: tracee
 Type: Package
 Title: Easily Save Output and Trace it Back to Code
-Version: 0.0.4.934
+Version: 0.0.4.941
 Authors@R: c(person("Philip", "Delff", email = "philip@delff.dk",role = c("aut", "cre")),
   person("Sanaya","Shroff",email="sanaya.n.shroff@gmail.com",role = c("aut")))
 Maintainer: Philip Delff <philip@delff.dk>
@@ -17,13 +17,13 @@ Imports:
  grid,
  gridExtra,
  flextable,
- patchwork
+ patchwork,
+ ragg
 VignetteBuilder: knitr 
 Suggests:
  testthat,
  withr,
  knitr,
- kableExtra,
- ragg
+ kableExtra
 Encoding: UTF-8
 Config/testthat/edition: 3
