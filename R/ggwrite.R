@@ -170,7 +170,7 @@
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
-                    script, time, model,name.all.pdf,quiet=FALSE, fun.path,useNames){
+                    script, time, model,name.all.pdf,quiet=FALSE, fun.path,method.png=c("png","ragg"),useNames){
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
   
@@ -184,6 +184,7 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
   if(missing(fun.path)) fun.path <- NULL
+  method.png <- match.arg(method.png)
 
   ## Which arguments were actually supplied by the caller
   args.given <- as.list(match.call())[-1]   # remove function name
@@ -268,7 +269,8 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
       formats   = formats,
       fun.path  = fun.path,
       name.all.pdf=name.all.pdf,
-      subdir=subdir
+      subdir=subdir,
+      method.png= method.png
     )
 
     
@@ -307,7 +309,7 @@ print1 <- function(plot){
 
 ##' @keywords internal
 ## Don't export
-writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",...){
+writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",method.png=c("png","ragg"),...){
   
   name.file.canvas <- NULL
   size <- NULL
@@ -327,6 +329,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
   if(missing(formats)) formats <- NULL
   if(is.null(formats)) formats <- fnExtension(type)
   if(is.null(formats)) formats <- "png"
+
+  method.png <- match.arg(method.png)
 
   allcombs <- ggwrite_names(file = file, formats = formats, canvas = canvas)
   if(is.null(subdir)) subdir <- ""
@@ -404,6 +408,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
                  quiet=quiet,
                  subdir=subdir,
                  fun.path=fun.path,
+                 method.png=method.png,
                  ...)
         },
         by=row]
@@ -437,8 +442,10 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
       write1(plot[[1]],type="x11")
       if(Nplots>1){
         silent <- lapply(2:Nplots,function(I){
-          write1(plot=plot[[I]],type=type,size=size,subdir=subdir,                        fun.path=fun.path,
-                 script=script,time=time,model=model,quiet=quiet)
+          write1(plot=plot[[I]],type=type,size=size,subdir=subdir,
+                 fun.path=fun.path,
+                 script=script,time=time,model=model,
+                 method.png=method.png,quiet=quiet)
         })
       }
     } else {
@@ -501,7 +508,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
         plot=plot,
         subdir=subdir,
         fun.path=fun.path,
-        script=script,time=time,model=model,quiet=quiet,...
+        script=script,time=time,model=model,
+        method.png=method.png,quiet=quiet,...
       )
       ))
     ## allcombs[,write1(
@@ -532,8 +540,8 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 
 ##' @import ragg
 
-write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,
-                   fun.path=NULL,method.png="ragg",...){  
+write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,method.png=c("png","ragg"),
+                   fun.path=NULL,...){  
   
   ## print(str(size))
   if(is.null(plot)) {
@@ -550,6 +558,7 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
     fn <- fnExtension(fn,type)
   }
   if(!is.null(subdir) && subdir=="") subdir <- NULL
+  method.png <- match.arg(method.png)
 
   plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size)
 

@@ -56,7 +56,7 @@ test_that("general ft, data, and gg",{
   names(lsave)  
   ###
 
-  lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
+  lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1,method.png="ragg")
 
   # Check that output directory was created
   expect_true(dir.exists(dir.out))
@@ -97,7 +97,8 @@ test_that("pass arg - custom canvas",{
 
   ## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
   lwrite(lsave,dir=dir.out,model="model1_args",script=script,time=time1,canvas=list(mycanvas=list(height=9,width=21),
-                                                                                    wide=canvasSize("wide")))
+                                                                                    wide=canvasSize("wide")),
+        method.png="ragg")
 
   # Check that output directory exists
   model_dir <- file.path(dir.out, "model1_args")
@@ -139,7 +140,7 @@ test_that("general ft, data, and two gg",{
   dir.out1 <- "testOutput/test2/model1"
   unlink("testOutput/test2", recursive = TRUE)
   
-  lwrite(lsave,dir="testOutput/test2",model="model1",script=script,time=time1)
+  lwrite(lsave,dir="testOutput/test2",model="model1",script=script,time=time1,method.png="ragg")
   
   files1 <- list.files(dir.out1)
   expect_true(length(files1) > 0,
@@ -161,7 +162,7 @@ test_that("general ft, data, and two gg",{
   
   ##### TODO plots get saved without using their own names, only ""
   dir.out3 <- "testOutput/model1_pdf"
-  lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model")
+  lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model",method.png="ragg")
 
 
   files3 <- list.files(dir.out3)
@@ -195,7 +196,7 @@ test_that("sublist",{
   dir.create(dir.out,showWarnings = FALSE)
 
   ## png and flat structure - no alist subdir
-  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1)
+  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,method.png="ragg")
 
   ## ft output does not contain "alist"
   files <- list.files(file.path(dir.out, "model1"), recursive = TRUE)
@@ -281,7 +282,7 @@ test_that("sublist with subdir - png",{
 
 
   # Test with lists.as.subdirs = TRUE
-  res <- lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="png",lists.as.subdirs = TRUE)
+  res <- lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="png",lists.as.subdirs = TRUE,method.png="ragg")
   
   # Check that alist subdirectory was created
   expect_true(dir.exists(file.path(dir.out,"model1","alist")))
@@ -304,7 +305,7 @@ test_that("sublist with subdir - png",{
   
   # Test with lists.as.subdirs = FALSE
   unlink(file.path(dir.out,"model1"),recursive = T)
-  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="png",lists.as.subdirs = FALSE)
+  lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="png",lists.as.subdirs = FALSE,method.png="ragg")
   
   files_flat <- list.files(file.path(dir.out,"model1"))
   expect_true(length(files_flat) > 0,
@@ -344,7 +345,7 @@ test_that("lwrite with traceit to multiple canvases",{
   dir.out <- "testOutput/model2"
   unlink(dir.out, recursive = TRUE)
   
-  lwrite(lsave.flat2,dir="testOutput",model="model2",script=script,time=time1)
+  lwrite(lsave.flat2,dir="testOutput",model="model2",script=script,time=time1,method.png="ragg")
 
   # Check that directory exists
   expect_true(dir.exists(dir.out))
@@ -368,3 +369,4 @@ test_that("lwrite with traceit to multiple canvases",{
   expect_true(length(files) >= 3,
               info = paste("Expected >=3 files, found", length(files), ":", paste(files, collapse=", ")))
 })
+ 

@@ -217,7 +217,7 @@ lwrite <- function(list,model,dir=".",structure,subdir=NULL,lists.as.subdirs=FAL
     ##   names(plots) <- paste0(name,"_",names(plots))
     ## }
       
-  res1 <- writer(x=plots,
+      res1 <- writer(x=plots,
                      file=ifelse(name==name.main,"",name),
                      model=model,
                      fun.path=fun.path,
