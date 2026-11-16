@@ -369,3 +369,4 @@ test_that("lwrite with traceit to multiple canvases",{
   expect_true(length(files) >= 3,
               info = paste("Expected >=3 files, found", length(files), ":", paste(files, collapse=", ")))
 })
+

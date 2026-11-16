@@ -4,11 +4,11 @@
 ## library(testthat)
 
 if(F){
-myprint <- function(ft){
+  myprint <- function(ft){
     mytmpfile <- path.expand("~/tmp/myhtml.html")
     save_as_html(ft,path=mytmpfile)
     browseURL(mytmpfile)
-}
+  }
 }
 
 time1 <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
@@ -17,30 +17,30 @@ test_that("general use",{
   skip_on_os(c("windows", "mac"))
   skip_if_not_installed("ragg")
   
-    ## library(data.table)
-    ## .datatable.aware = TRUE
-    fileRes <- "testOutput/ftwrite_01.png"
-    
-    data(mtcars)
+  ## library(data.table)
+  ## .datatable.aware = TRUE
+  fileRes <- "testOutput/ftwrite_01.png"
+  
+  data(mtcars)
 
 
-    ## mtc <- as.data.table(mtcars)
-    mtc <- mtcars
-    
-    ft <- flextable(mtc)
+  ## mtc <- as.data.table(mtcars)
+  mtc <- mtcars
+  
+  ft <- flextable(mtc)
 
-    ft <- autofit(ft)
+  ft <- autofit(ft)
 
-    ## sudo apt install r-cran-webshot
-    ## webshot::install_phantomjs()
-    ## time1 <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
+  ## sudo apt install r-cran-webshot
+  ## webshot::install_phantomjs()
+  ## time1 <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
-### getting a markdown error on html.
-    ## ftwrite(ft,file=fileRes,script="test_ftwrite.R",formats=c(".png",".pptx",".html",".docx"),time=time1)
-ftwrite(ft,file=fileRes,script="test_ftwrite.R",formats=c(".png",".pptx",".docx"),time=time1)
+  ### getting a markdown error on html.
+  ## ftwrite(ft,file=fileRes,script="test_ftwrite.R",formats=c(".png",".pptx",".html",".docx"),time=time1)
+  ftwrite(ft,file=fileRes,script="test_ftwrite.R",formats=c(".png",".pptx",".docx"),time=time1)
 
-    local_edition(3)
-    expect_snapshot_file(fileRes)
+  local_edition(3)
+  expect_snapshot_file(fileRes)
 })
 
 
@@ -48,13 +48,13 @@ test_that("unsupported format",{
   skip_on_os(c("windows", "mac"))
   skip_if_not_installed("ragg")
   
-    data(mtcars)
+  data(mtcars)
 
-    ft <- flextable(mtcars)
+  ft <- flextable(mtcars)
 
-    expect_error(
-      ftwrite(ft,file="testOutput/ftwrite_02.jpg",script="test_ftwrite.R",time=time1)
-    )
+  expect_error(
+    ftwrite(ft,file="testOutput/ftwrite_02.jpg",script="test_ftwrite.R",time=time1)
+  )
 
 })
 
@@ -62,18 +62,18 @@ test_that("without script arg",{
   skip_on_os(c("windows", "mac"))
   skip_if_not_installed("ragg")
   
-    fileRes <- "testOutput/ftwrite_03.png"
+  fileRes <- "testOutput/ftwrite_03.png"
 
-    data(mtcars)
+  data(mtcars)
 
-    ft <- flextable(mtcars)
+  ft <- flextable(mtcars)
 
-    ## ftwrite(ft,file=fileRes,formats=c(".png"),time="")
-    ftwrite(ft,file=fileRes,formats=c(".png"))
+  ## ftwrite(ft,file=fileRes,formats=c(".png"),time="")
+  ftwrite(ft,file=fileRes,formats=c(".png"))
 
-    local_edition(3)
-    expect_snapshot_file(fileRes)
-    
+  local_edition(3)
+  expect_snapshot_file(fileRes)
+  
 })
 
 
@@ -81,17 +81,17 @@ test_that("",{
   ## skip_on_os(c("windows", "mac"))
   ## skip_if_not_installed("ragg")
 
-    fileRes <- "testOutput/ftwrite_04.png"
-    data(mtcars)
+  fileRes <- "testOutput/ftwrite_04.png"
+  data(mtcars)
 
-    ft <- flextable(mtcars)
-    ## ft <- set_caption(ft,"a first caption line")
-    ft <- add_footer_lines(ft, "a first caption line")
+  ft <- flextable(mtcars)
+  ## ft <- set_caption(ft,"a first caption line")
+  ft <- add_footer_lines(ft, "a first caption line")
 
   ftwrite(ft,file=fileRes,script="test_ftwrite.R",time=time1)
 
-      local_edition(3)
-    ## expect_snapshot_file(fileRes)
-      expect_true(file.exists(fileRes))
+  local_edition(3)
+  ## expect_snapshot_file(fileRes)
+  expect_true(file.exists(fileRes))
 
 })
