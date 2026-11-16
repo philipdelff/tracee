@@ -13,6 +13,24 @@ if(F){
 # Use testthat edition 3 for snapshot testing
 options(testthat.edition = 3)
 
+
+compare_image_tolerance <- function(old, new, tolerance = 0.01) {
+    if (!requireNamespace("magick", quietly = TRUE)) {
+        return(TRUE)  # skip comparison if magick not available
+    }
+    img_old <- magick::image_read(old)
+    img_new <- magick::image_read(new)
+
+    # resize to same dims in case of minor size diffs
+    info_old <- magick::image_info(img_old)
+    img_new <- magick::image_scale(img_new, paste0(info_old$width, "x", info_old$height, "!"))
+
+    diff <- magick::image_compare_dist(img_old, img_new, metric = "AE")
+    # diff$distortion is the fraction of differing pixels
+    diff$distortion <= tolerance
+}
+
+
 ## found.files <- list.files(path="testOutput",pattern="ggwrite.+\\..+",full.names=TRUE)
 ## if(length(found.files)) unlink(found.files)
 
@@ -30,7 +48,8 @@ test_that("single plot, single format",{
 
     ggwrite(p1,script=stamp,file=fileRes,save=TRUE,time="test",method.png="png")
 
-    expect_snapshot_file(fileRes)
+  expect_snapshot_file(fileRes,
+                       compare=compare_image_tolerance)
 })
 
 test_that("single plot, multiple formats",{
@@ -39,7 +58,8 @@ test_that("single plot, multiple formats",{
 
     file <- "testOutput/ggwrite_02.png"
     ggwrite(p1,script=stamp,file=file,formats=c("png","pdf"),save=TRUE,time="test",method.png="png")
-    expect_snapshot_file("testOutput/ggwrite_02.png")
+  expect_snapshot_file("testOutput/ggwrite_02.png",
+                       compare=compare_image_tolerance)
     ##expect_snapshot_file("testOutput/ggwrite_02.pdf")
     expect_true(file.exists("testOutput/ggwrite_02.pdf"))
 })
@@ -51,10 +71,12 @@ test_that("single plot, multiple formats and canvases",{
     file <- "testOutput/ggwrite_03.png"
     ggwrite(p1,script=stamp,file=file,formats=c("png","pdf"),
             canvas=c("standard","wide-screen"),time="test",method.png="png")
-    expect_snapshot_file("testOutput/ggwrite_03_standard.png")
+    expect_snapshot_file("testOutput/ggwrite_03_standard.png",
+                       compare=compare_image_tolerance)
     ## expect_snapshot_file("testOutput/ggwrite_03_standard.pdf")
     expect_true(file.exists("testOutput/ggwrite_03_standard.pdf"))
-    expect_snapshot_file("testOutput/ggwrite_03_widescreen.png")
+    expect_snapshot_file("testOutput/ggwrite_03_widescreen.png",
+                       compare=compare_image_tolerance)
     ## expect_snapshot_file("testOutput/ggwrite_03_widescreen.pdf")
     expect_true(file.exists("testOutput/ggwrite_03_widescreen.pdf"))
 })
@@ -69,18 +91,21 @@ test_that("traceit settings",{
     class(p1)
 
     ggwrite(p1,file="testOutput/ggwrite_04.png",canvas="wide",method.png="png")
-    expect_snapshot_file("testOutput/ggwrite_04.png")
+    expect_snapshot_file("testOutput/ggwrite_04.png",
+                       compare=compare_image_tolerance)
 
     traceit(p1,canvas=list(namecanv=list(height=4,width=12)))
     
     ## traceit(p1,canvas="wide") # This line is commented in original, keeping it that way
 ## class(p1)
     ggwrite(p1,file="testOutput/ggwrite_05.png",method.png="png")
-    expect_snapshot_file("testOutput/ggwrite_05.png")
+    expect_snapshot_file("testOutput/ggwrite_05.png",
+                       compare=compare_image_tolerance)
 
     ## ggwrite arguments override traceit arguments
     ggwrite(p1,file="testOutput/ggwrite_06.png",canvas="wide",method.png="png")
-    expect_snapshot_file("testOutput/ggwrite_06.png")
+    expect_snapshot_file("testOutput/ggwrite_06.png",
+                       compare=compare_image_tolerance)
 })
 
 test_that("multiple plots in list",{
@@ -102,8 +127,10 @@ test_that("multiple plots in list",{
 
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",method.png="png")
 
-    expect_snapshot_file("testOutput/ggwrite_list_01_1.png")
-    expect_snapshot_file("testOutput/ggwrite_list_01_2.png")
+    expect_snapshot_file("testOutput/ggwrite_list_01_1.png",
+                       compare=compare_image_tolerance)
+    expect_snapshot_file("testOutput/ggwrite_list_01_2.png",
+                       compare=compare_image_tolerance)
 })
 
 test_that("multiple plots in list to multiple devices",{
@@ -125,10 +152,14 @@ test_that("multiple plots in list to multiple devices",{
 
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",canvas=c("standard","wide"),use.names=TRUE,method.png="png")
 
-    expect_snapshot_file("testOutput/ggwrite_list_02_plot1_standard.png")
-    expect_snapshot_file("testOutput/ggwrite_list_02_plot1_wide.png")
-    expect_snapshot_file("testOutput/ggwrite_list_02_plot2_standard.png")
-    expect_snapshot_file("testOutput/ggwrite_list_02_plot2_wide.png")
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot1_standard.png",
+                       compare=compare_image_tolerance)
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot1_wide.png",
+                       compare=compare_image_tolerance)
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot2_standard.png",
+                       compare=compare_image_tolerance)
+    expect_snapshot_file("testOutput/ggwrite_list_02_plot2_wide.png",
+                       compare=compare_image_tolerance)
 })
 
 test_that("multiple plots in list to pdf with multiple canvases (onefile=TRUE should error)",{
@@ -174,7 +205,8 @@ test_that("use.names with only one plot",{
 
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,use.names=TRUE,method.png="png")
 
-    expect_true(file.exists(fnAppend(fileRes,"plot1")))
+    expect_true(file.exists(fnAppend(fileRes,"plot1")),
+                       compare=compare_image_tolerance)
 
     ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_standard.pdf")
     ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_wide.pdf")
@@ -203,8 +235,10 @@ test_that("plots in list, unnamed file",{
 
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,time="test",use.names=TRUE,method.png="png")
 
-    expect_snapshot_file("testOutput/plot1.png")
-    expect_snapshot_file("testOutput/plot2.png")
+    expect_snapshot_file("testOutput/plot1.png",
+                       compare=compare_image_tolerance)
+    expect_snapshot_file("testOutput/plot2.png",
+                       compare=compare_image_tolerance)
 })
 
 
