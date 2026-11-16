@@ -60,7 +60,11 @@
 ##'   output files. If a character string, must be one of the predefined structures.
 ##'   If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments.
 ##'   See \code{\link{pathStruct}} for details.
-##' 
+##' @param method.png Character string, one of \code{"png"} or \code{"ragg"}, controlling
+##'   which graphics device is used for PNG output. \code{"png"} uses the base
+##'   \code{\link[grDevices]{png}} device; \code{"ragg"} uses \code{\link[ragg]{agg_png}},
+##'   which produces output that renders more consistently across platforms (recommended
+##'   for reproducible/snapshot-tested figures). Default is \code{"png"}.
 ##' @param useNames Deprecated. Use \code{use.names} instead.
 ##'
 ##' @details
@@ -285,11 +289,22 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
 
 
 ###### functions to be used internally
-### print1 does the actual printing to the device. Because if the plot is a
-### table it must be written with draw.grid, and if not by print.
+
+##' Print a plot or gtable object to the current device
+##'
+##' Internal helper that dispatches to the correct printing mechanism depending
+##' on the class of \code{plot}. \code{gtable} objects (e.g. from
+##' \code{\link[gridExtra]{grid.arrange}}) must be drawn with
+##' \code{\link[grid]{grid.draw}}, while other objects (e.g. \code{ggplot}) use
+##' the standard \code{print} method. \code{NULL} input is silently ignored.
+##'
+##' @param plot A plot object (\code{ggplot}, \code{gtable}, or similar), or \code{NULL}.
+##'
+##' @return \code{NULL}, invisibly. Called for the side effect of drawing to
+##'   the current device.
+##'
 ##' @keywords internal
 ## Don't export
-
 print1 <- function(plot){
   if("gtable"%in%class(plot)) {
     ## message("plot is of class gtable. Using grid::grid.draw.")
@@ -306,7 +321,44 @@ print1 <- function(plot){
 
 ## I think type should be dropped. formats seem to mean the same thing. And why not use allcombs instead of formats, canvas, etc? 
 
-
+##' Write a plot or list of plots to one or more files
+##'
+##' Internal workhorse function called by \code{\link{ggwrite}}. Resolves the
+##' combination of output formats and canvas sizes (via \code{\link{ggwrite_names}}),
+##' and dispatches to \code{\link{write1}} for each individual plot/format/canvas
+##' combination. Handles both single plot objects and lists of plots, including
+##' the \code{onefile} (multi-page PDF) case.
+##'
+##' @param plot A plot object or a list of plot objects. See \code{\link{ggwrite}}.
+##' @param file Character string, base output file path, or \code{NULL} to only
+##'   display the plot(s) on screen.
+##' @param script Character string or path to the calling script, used for stamping.
+##'   See \code{\link{ggstamp}}.
+##' @param time Character string or POSIXct timestamp used for stamping.
+##' @param model Character string or model object used for stamping and path
+##'   construction.
+##' @param onefile Logical. If \code{TRUE} and \code{plot} is a list, all plots are
+##'   combined into a single multi-page PDF.
+##' @param use.names Logical. If \code{plot} is a list, should \code{names(plot)}
+##'   be used in output file names rather than numeric indices?
+##' @param formats Character vector of file formats, a subset of \code{c("png","pdf")}.
+##' @param canvas Canvas size specification. See \code{\link{canvasSize}}.
+##' @param quiet Logical. If \code{TRUE}, suppresses messages about files written.
+##' @param fun.path Function or character string defining output directory structure.
+##'   See \code{\link{pathStruct}}.
+##' @param subdir Character string, subdirectory passed on to \code{fun.path}.
+##' @param name.all.pdf Character string, file name to use for a combined multi-page
+##'   PDF when \code{file = ""} and \code{onefile = TRUE}. Default \code{"all.pdf"}.
+##' @param method.png Character string, one of \code{"png"} or \code{"ragg"},
+##'   specifying which graphics device to use for PNG output. See \code{\link{write1}}.
+##' @param ... Passed on to \code{\link{write1}} (and ultimately to
+##'   \code{\link[grDevices]{png}}/\code{\link[grDevices]{pdf}}).
+##'
+##' @return \code{NULL}, invisibly. Files are written (and/or plots displayed) as
+##'   a side effect.
+##'
+##' @seealso \code{\link{ggwrite}}, \code{\link{write1}}, \code{\link{ggwrite_names}}
+##'
 ##' @keywords internal
 ## Don't export
 writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",method.png=c("png","ragg"),...){
@@ -538,8 +590,55 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ## make function to use for one plot. Then we will call tht on plot or loop
 ## it over the elements of plot in case plot is a list.
 
+##' Write a single plot to a single file (or display it)
+##'
+##' Internal function that performs the actual device handling (opening a
+##' \code{\link[grDevices]{png}}/\code{\link[ragg]{agg_png}} or
+##' \code{\link[grDevices]{pdf}} device, printing the plot, and closing the
+##' device) for a single plot/file/size combination. Also applies stamping via
+##' \code{\link{ggstamp}} before printing. If \code{fn} or \code{type} indicate
+##' on-screen display ("x11"), the plot is printed directly without opening a
+##' file device.
+##'
+##' @param plot A single plot object (\code{ggplot}, \code{gtable}, or similar).
+##' @param fn Character string, output file name (without or with extension;
+##'   the extension is replaced/added based on \code{type}). \code{NULL} or
+##'   \code{""} to only display on screen.
+##' @param type Character string, one of \code{"png"}, \code{"pdf"}, or
+##'   \code{"x11"} (display only, no file written).
+##' @param onefile Logical, passed to the \code{pdf} device via \code{dots} when
+##'   writing multiple pages to a single PDF file. Not directly used for the
+##'   \code{png} device.
+##' @param size A list with \code{width} and \code{height} elements (in inches),
+##'   as produced by \code{\link{canvasSize}}/\code{\link{ggwrite_names}}.
+##' @param script Character string or path to the calling script, used for
+##'   stamping. See \code{\link{ggstamp}}.
+##' @param time Character string or POSIXct timestamp used for stamping.
+##' @param model Character string or model object used for stamping and path
+##'   construction.
+##' @param quiet Logical. If \code{TRUE}, suppresses the "Written to ..." message.
+##' @param subdir Character string, subdirectory passed on to \code{fun.path}.
+##' @param method.png Character string, one of \code{"png"} or \code{"ragg"}.
+##'   Controls whether \code{\link[grDevices]{png}} or \code{\link[ragg]{agg_png}}
+##'   is used as the PNG graphics device. \code{ragg} produces output that is
+##'   more consistent across platforms.
+##' @param fun.path Function or character string defining output directory
+##'   structure, applied to \code{fn} before the file is written. See
+##'   \code{\link{pathStruct}}.
+##' @param ... Additional arguments. \code{res} is passed on to the \code{png}/
+##'   \code{ragg} device, \code{onefile} to the \code{pdf} device. A \code{dir}
+##'   element (if present) is extracted but currently only used as a default
+##'   working directory. A \code{fun.path} element (if present) overrides the
+##'   \code{fun.path} argument.
+##'
+##' @return \code{NULL}, invisibly. Called for the side effect of writing a file
+##'   and/or displaying the plot.
+##'
+##' @seealso \code{\link{ggwrite}}, \code{\link{writeObj}}, \code{\link{ggstamp}}
+##'
 ##' @import ragg
-
+##' @keywords internal
+## Don't export
 write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,method.png=c("png","ragg"),
                    fun.path=NULL,...){  
   

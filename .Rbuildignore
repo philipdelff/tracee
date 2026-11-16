@@ -1,3 +1,4 @@
 ^devel$
 ^\.github$
 ^\.aider
+testOutput

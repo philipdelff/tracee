@@ -22,6 +22,7 @@ ggwrite(
   name.all.pdf,
   quiet = FALSE,
   fun.path,
+  method.png = c("png", "ragg"),
   useNames
 )
 }
@@ -97,6 +98,12 @@ Default is \code{FALSE}.}
 output files. If a character string, must be one of the predefined structures.
 If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments.
 See \code{\link{pathStruct}} for details.}
+
+\item{method.png}{Character string, one of \code{"png"} or \code{"ragg"}, controlling
+which graphics device is used for PNG output. \code{"png"} uses the base
+\code{\link[grDevices]{png}} device; \code{"ragg"} uses \code{\link[ragg]{agg_png}},
+which produces output that renders more consistently across platforms (recommended
+for reproducible/snapshot-tested figures). Default is \code{"png"}.}
 
 \item{useNames}{Deprecated. Use \code{use.names} instead.}
 }
