@@ -18,7 +18,7 @@ writeObj(
   fun.path,
   subdir,
   name.all.pdf = "all.pdf",
-  method.png = c("png", "ragg"),
+  method.png = c("ragg", "png"),
   ...
 )
 }

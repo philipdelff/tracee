@@ -174,7 +174,7 @@
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
-                    script, time, model,name.all.pdf,quiet=FALSE, fun.path,method.png=c("png","ragg"),useNames){
+                    script, time, model,name.all.pdf,quiet=FALSE, fun.path,method.png=c("ragg","png"),useNames){
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
   
@@ -361,7 +361,7 @@ print1 <- function(plot){
 ##'
 ##' @keywords internal
 ## Don't export
-writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",method.png=c("png","ragg"),...){
+writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,formats,canvas,quiet=FALSE,fun.path,subdir,name.all.pdf="all.pdf",method.png=c("ragg","png"),...){
   
   name.file.canvas <- NULL
   size <- NULL
@@ -639,7 +639,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ##' @import ragg
 ##' @keywords internal
 ## Don't export
-write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,method.png=c("png","ragg"),
+write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,method.png=c("ragg","png"),
                    fun.path=NULL,...){  
   
   ## print(str(size))

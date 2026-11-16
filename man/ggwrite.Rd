@@ -22,7 +22,7 @@ ggwrite(
   name.all.pdf,
   quiet = FALSE,
   fun.path,
-  method.png = c("png", "ragg"),
+  method.png = c("ragg", "png"),
   useNames
 )
 }

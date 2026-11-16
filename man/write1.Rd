@@ -15,7 +15,7 @@ write1(
   model,
   quiet = FALSE,
   subdir = NULL,
-  method.png = c("png", "ragg"),
+  method.png = c("ragg", "png"),
   fun.path = NULL,
   ...
 )
