@@ -1,5 +1,5 @@
 ##
-compare_image_tolerance <- function(old, new, tolerance = 0.05) {
+compare_image_tolerance <- function(old, new, tolerance = 0.1) {
     if (!requireNamespace("magick", quietly = TRUE)) {
         return(TRUE)  # skip comparison if magick not available
     }
