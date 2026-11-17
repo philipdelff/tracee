@@ -177,17 +177,18 @@ ggwrite <- function(plot, file, canvas=NULL, formats,
                     script, time, model,name.all.pdf,quiet=FALSE, fun.path,method.png=c("ragg","png"),useNames){
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
-  
+
+if(FALSE) {
   ## name.all.pdf <- NULL
   name.canvas <- NULL
   . <- NULL
   size <- NULL
-  subdir <- NULL
-
+ }  
 
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
   if(missing(fun.path)) fun.path <- NULL
+  if(!is.null(fun.path)) fun.path <- pathStruct(fun.path)
   method.png <- match.arg(method.png)
 
   ## Which arguments were actually supplied by the caller
@@ -672,10 +673,12 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
   if(is.null(dir)) dir <- "."
 
   
-  if("fun.path"%in%names(dots) && !is.null(dots$fun.path)) {
-    fun.path <- dots$fun.path
-    dots$fun.path <- NULL
-  }
+  ## if("fun.path"%in%names(dots) && !is.null(dots$fun.path)) {
+  ##   fun.path <- dots$fun.path
+  ##   dots$fun.path <- NULL
+  ## }
+  if(missing(fun.path)) fun.path <- NULL
+  
   
   if(!is.null(type) && type!="x11" && !is.null(fun.path)){
     fn <- fun.path(fn,model=model,subdir=subdir)
