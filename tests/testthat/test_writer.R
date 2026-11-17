@@ -29,7 +29,7 @@ test_that("general ft",{
 
   ## expect_snapshot_file(fileRes)
     expect_snapshot_file(fileRes,
-                       compare=compare_image_tolerance)
+                      compare=compare_image_tolerance)
 
 
 #### plots
