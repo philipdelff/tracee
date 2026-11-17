@@ -13,23 +13,7 @@ if(F){
 # Use testthat edition 3 for snapshot testing
 options(testthat.edition = 3)
 
-
-compare_image_tolerance <- function(old, new, tolerance = 0.01) {
-    if (!requireNamespace("magick", quietly = TRUE)) {
-        return(TRUE)  # skip comparison if magick not available
-    }
-    img_old <- magick::image_read(old)
-    img_new <- magick::image_read(new)
-
-    # resize to same dims in case of minor size diffs
-    info_old <- magick::image_info(img_old)
-    img_new <- magick::image_scale(img_new, paste0(info_old$width, "x", info_old$height, "!"))
-
-    diff <- magick::image_compare_dist(img_old, img_new, metric = "AE")
-    # diff$distortion is the fraction of differing pixels
-    diff$distortion <= tolerance
-}
-
+source("compare_image_tolerance.R")
 
 ## found.files <- list.files(path="testOutput",pattern="ggwrite.+\\..+",full.names=TRUE)
 ## if(length(found.files)) unlink(found.files)
@@ -205,8 +189,7 @@ test_that("use.names with only one plot",{
 
     ggwrite(plots,script=stamp,file=fileRes,save=TRUE,use.names=TRUE,method.png="png")
 
-    expect_true(file.exists(fnAppend(fileRes,"plot1")),
-                       compare=compare_image_tolerance)
+    expect_true(file.exists(fnAppend(fileRes,"plot1")))
 
     ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_standard.pdf")
     ## expect_snapshot_file("testOutput/ggwrite_list_03_onefile_wide.pdf")

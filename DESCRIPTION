@@ -24,6 +24,7 @@ Suggests:
  testthat,
  withr,
  knitr,
- kableExtra
+ kableExtra,
+ magick
 Encoding: UTF-8
 Config/testthat/edition: 3

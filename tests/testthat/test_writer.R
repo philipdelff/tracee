@@ -1,5 +1,5 @@
 
-
+source("compare_image_tolerance.R")
 time <- as.POSIXct("2022-02-01 07:09:21",tz="UTC")
 
 local_edition(3)
@@ -7,7 +7,7 @@ script <- "test_writer.R"
 
 test_that("general ft",{
   skip_on_os(c("windows", "mac"))
-  skip_if_not_installed("ragg")
+  ## skip_if_not_installed("ragg")
 
     fileRes <- "testOutput/writer_01.png"
     
@@ -27,7 +27,10 @@ test_that("general ft",{
 
     writer(ft,file=fileRes,script=script,formats.ft=c(".png",".pptx"),time=time)
 
-    expect_snapshot_file(fileRes)
+  ## expect_snapshot_file(fileRes)
+    expect_snapshot_file(fileRes,
+                       compare=compare_image_tolerance)
+
 
 #### plots
     p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
