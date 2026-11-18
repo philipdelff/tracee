@@ -42,6 +42,10 @@
 ##'   and return a file path. See \code{\link{pathStruct}} for details.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   Used in conjunction with \code{fun.path}.
+##' @param use.names Logical. If \code{length(ft) > 1}, should \code{names(ft)}
+##'   be used in the output file names? Default is \code{TRUE}. If \code{FALSE},
+##'   numeric indices (1, 2, 3, ...) are used instead. Only used if \code{save = TRUE}
+##'   and \code{ft} is a list.
 ##' @param ... Additional arguments passed to \code{\link{ftstamp}} for stamp customization.
 ##'
 ##' @details
@@ -123,14 +127,18 @@
 ##'         fun.path = path.fun)
 ##' # Writes to: run001/summary_run001.png
 ##' }
-ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir=NULL){
+ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir=NULL,use.names=TRUE){
   
+
   
-  use.names <- TRUE
-  if(!is.listnotplot(ft)) {
+  if(is.listnotplot(ft)) {
+    was.list <- TRUE
+  } else {
+    was.list <- FALSE
     ## ft was not a list, so cannot be named
     ft <- list(ft)
-    names(ft) <- file
+    ## names(ft) <- file
+    names.all <- file
   }
 
   if(missing(script)) script <- NULL
@@ -139,28 +147,29 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
   if(missing(fun.path)) fun.path <- NULL
   if(missing(formats)) formats <- NULL
 
-  if(use.names){
-    names.els <- names(ft)
-    if(length(names.els)==0) names.els <- rep("",length(ft))
-    
-    nulls <- which(sapply(names.els,function(x)x==""))
+  if(was.list){ 
+    if(use.names){
+      names.els <- names(ft)
+      if(length(names.els)==0) names.els <- rep("",length(ft))
+      
+      nulls <- which(sapply(names.els,function(x)x==""))
 
-    if(length(nulls)){
+      if(length(nulls)){
+        nchars <- round(log10(length(ft)))+1
+        names.els[nulls] <- padZeros(nulls,nchars=nchars)
+      }
+    } else {
+      ## not sure this is necessary. Handled already?
       nchars <- round(log10(length(ft)))+1
-      names.els[nulls] <- padZeros(nulls,nchars=nchars)
+      names.els <- padZeros(1:length(ft),nchars=nchars)
     }
-  } else {
-    ## not sure this is necessary. Handled already?
-    nchars <- round(log10(length(ft)))+1
-    names.els <- padZeros(1:length(ft),nchars=nchars)
+
+    names.all <- fnAppend(file,names.els,collapse=NULL)
   }
-
-  names.all <- names.els
-
 
   if(missing(format.stamp)) format.stamp <- NULL
 
-
+  
 
   res <- mapply(FUN=ftwriteOne,
                 ft,
@@ -247,7 +256,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
   if(!is.null(fun.path)) file <- fun.path(name=file,model=model,subdir=subdir)
   dir.out <- dirname(file)
   OutputDirCreate(dir.out)
-
+  
   ## write all requested formats  
   silent <- lapply(formats,function(ext){
     fn <- fnExtension(file,ext)
@@ -258,7 +267,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
                        ,pptx=save_as_pptx,
                         stop("format not supported. See ?ftwrite"))
     
-      ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
+    ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
     
     fun.write(ft,path=fn)
     if(!quiet&&!is.null(fn)) message("Written to ",fn)

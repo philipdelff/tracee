@@ -47,7 +47,7 @@
 ##'   Default is \code{"special"}. See \code{\link[grDevices]{pdf}} for options.
 ##' @param use.names Logical. If \code{length(plot) > 1}, should \code{names(plot)}
 ##'   be used in the output file names? Default is \code{FALSE}, which uses numeric
-##'   indices (1, 2, 3, ...). Only used if \code{save = TRUE} and the plot is a list.
+##'   indices (1, 2, 3, ...). Only used if \code{save = TRUE} and \code{plot} is a list.
 ##' @param quiet Logical. If \code{TRUE}, suppresses messages about files being written.
 ##'   Default is \code{FALSE}.
 ##' @param subdir Character string specifying a subdirectory within the path structure.

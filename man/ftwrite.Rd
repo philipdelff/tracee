@@ -17,7 +17,8 @@ ftwrite(
   model,
   format.stamp,
   fun.path,
-  subdir = NULL
+  subdir = NULL,
+  use.names = TRUE
 )
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
@@ -71,6 +72,11 @@ and return a file path. See \code{\link{pathStruct}} for details.}
 
 \item{subdir}{Character string specifying a subdirectory within the path structure.
 Used in conjunction with \code{fun.path}.}
+
+\item{use.names}{Logical. If \code{length(ft) > 1}, should \code{names(ft)}
+be used in the output file names? Default is \code{TRUE}. If \code{FALSE},
+numeric indices (1, 2, 3, ...) are used instead. Only used if \code{save = TRUE}
+and \code{ft} is a list.}
 
 \item{...}{Additional arguments passed to \code{\link{ftstamp}} for stamp customization.}
 }

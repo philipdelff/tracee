@@ -86,7 +86,7 @@ test_that("without script arg",{
 })
 
 
-test_that("",{
+test_that("extra footer and time",{
   ## skip_on_os(c("windows", "mac"))
   ## skip_if_not_installed("ragg")
 

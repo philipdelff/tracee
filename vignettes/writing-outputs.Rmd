@@ -157,9 +157,16 @@ ftwrite(ft1, file = "chickweight_table_2.docx",
 ### A list of tables
 
 ```{r ftwrite-list}
-ft2 <- flextable(summary(ChickWeight)[, 1:2])
+ft2 <- flextable(
+as.data.frame(summary(ChickWeight))
+[, 1:2])
 
-tables <- list(raw = ft1, summary = ft2)
+ft2 <- flextable(
+as.data.frame(ChickWeight[1:2,1:2]))
+
+ftables <- list(raw = ft1, summary = ft2)
+
+lapply(ftables,class)
 
 ## Creates chickweight_tables_raw.docx, chickweight_tables_summary.docx
 ftwrite(tables, file = "chickweight_tables_3.docx", save = writeOutput)
@@ -187,7 +194,7 @@ outputs <- list(
 ## Each element is written using the function appropriate for its class,
 ## with file names derived from the list names, stamped consistently with
 ## script, time, and model.
-lwrite(outputs, file = "chickweight_report",
+lwrite(outputs, 
        script = script, time = time, model = model,
        save = writeOutput)
 ```
@@ -209,7 +216,12 @@ custom path function.
 ggwrite(p1, file = "chickweight_lines_06.png",
         script = script, time = time, model = model,
         subdir = "exploratory",
-        fun.path = "model-file", save = writeOutput)
+        fun.path = "%model-%file", save = writeOutput)
+
+lwrite(outputs, file = "chickweight_report",
+       script = script, time = time, model = model,
+       fun.path = "%mode/%model-%file",
+       save = writeOutput)
 ```
 
 ## Summary
