@@ -68,7 +68,7 @@ Passed to \code{\link{ftstamp}} to control stamp formatting.}
 \item{fun.path}{Function or character string defining the directory structure for
 output files. If a character string, must be one of the predefined structures.
 If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments
-and return a file path. See \code{\link{pathStruct}} for details.}
+and return a file path. See \code{\link{pathFormat}} for details.}
 
 \item{subdir}{Character string specifying a subdirectory within the path structure.
 Used in conjunction with \code{fun.path}.}
@@ -153,7 +153,7 @@ ftwrite(ft_list, file = "tables", formats = "docx")
 # Creates: tables_summary.docx, tables_head.docx, tables_tail.docx
 
 # Use with path structure for model organization
-path.fun <- pathStruct("model/file_model")
+path.fun <- pathFormat("\%model/\%name_\%model")
 ftwrite(ft1, file = "summary",
         model = "run001",
         fun.path = path.fun)
@@ -164,7 +164,7 @@ ftwrite(ft1, file = "summary",
 \code{\link{ftwriteOne}} for writing a single flextable,
 \code{\link{ftstamp}} for adding stamps to flextables,
 \code{\link{writer}} for a unified interface to write various object types,
-\code{\link{pathStruct}} for organizing output directories,
+\code{\link{pathFormat}} for organizing output directories,
 \code{\link[flextable]{save_as_image}},
 \code{\link[flextable]{save_as_docx}},
 \code{\link[flextable]{save_as_pptx}},

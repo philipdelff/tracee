@@ -40,7 +40,7 @@ ftwriteOne(
 
 \item{format.stamp}{Format specification for stamp. Passed to \code{\link{ftstamp}}.}
 
-\item{fun.path}{Function for constructing file paths. See \code{\link{pathStruct}}.}
+\item{fun.path}{Function for constructing file paths. See \code{\link{pathFormat}}.}
 
 \item{subdir}{Character string, subdirectory for outputs.}
 }

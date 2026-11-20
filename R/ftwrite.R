@@ -39,7 +39,7 @@
 ##' @param fun.path Function or character string defining the directory structure for
 ##'   output files. If a character string, must be one of the predefined structures.
 ##'   If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments
-##'   and return a file path. See \code{\link{pathStruct}} for details.
+##'   and return a file path. See \code{\link{pathFormat}} for details.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   Used in conjunction with \code{fun.path}.
 ##' @param use.names Logical. If \code{length(ft) > 1}, should \code{names(ft)}
@@ -83,7 +83,7 @@
 ##' \code{\link{ftwriteOne}} for writing a single flextable,
 ##' \code{\link{ftstamp}} for adding stamps to flextables,
 ##' \code{\link{writer}} for a unified interface to write various object types,
-##' \code{\link{pathStruct}} for organizing output directories,
+##' \code{\link{pathFormat}} for organizing output directories,
 ##' \code{\link[flextable]{save_as_image}},
 ##' \code{\link[flextable]{save_as_docx}},
 ##' \code{\link[flextable]{save_as_pptx}},
@@ -121,7 +121,7 @@
 ##' # Creates: tables_summary.docx, tables_head.docx, tables_tail.docx
 ##'
 ##' # Use with path structure for model organization
-##' path.fun <- pathStruct("model/file_model")
+##' path.fun <- pathFormat("%model/%name_%model")
 ##' ftwrite(ft1, file = "summary",
 ##'         model = "run001",
 ##'         fun.path = path.fun)
@@ -207,7 +207,7 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
 ##' @param time Character string or POSIXct, timestamp for stamping.
 ##' @param model Character string or model object, model identifier for stamping.
 ##' @param format.stamp Format specification for stamp. Passed to \code{\link{ftstamp}}.
-##' @param fun.path Function for constructing file paths. See \code{\link{pathStruct}}.
+##' @param fun.path Function for constructing file paths. See \code{\link{pathFormat}}.
 ##' @param subdir Character string, subdirectory for outputs.
 ##'
 ##' @return If \code{show = TRUE}, returns the flextable object (possibly stamped).

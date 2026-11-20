@@ -9,6 +9,11 @@
   was apparently provided. Now that default is actually being used.
 
 ## Other changes
+* `pathStruct()` has been renamed to `pathFormat()`. `pathStruct()` is
+  deprecated and calls `pathFormat()` with a message.
+* The `structure` argument of `pathFormat()` and `lwrite()` has been
+  renamed to `path.format`. `structure` is deprecated but still works
+  (with a message).
 * `ggwrite` gives a message instead of a warning when empty spaces are
   being removed from file names. 
 

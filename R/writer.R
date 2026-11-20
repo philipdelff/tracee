@@ -24,7 +24,7 @@
 ##'   If a character string, must be one of the predefined structures (e.g.,
 ##'   "model/file_model", "model/model-file", "model-file", "file_model").
 ##'   If a function, it should accept arguments \code{name}, \code{model}, and
-##'   \code{subdir} and return a file path. See \code{\link{pathStruct}} for
+##'   \code{subdir} and return a file path. See \code{\link{pathFormat}} for
 ##'   details on available structures and creating custom path functions.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   This is passed to the \code{fun.path} function if provided.
@@ -81,7 +81,7 @@
 ##' \code{\link{ftwrite}} for writing flextable objects,
 ##' \code{\link{datwrite}} for writing data frames,
 ##' \code{\link{lwrite}} for writing lists with subdirectory organization,
-##' \code{\link{pathStruct}} for path structure options,
+##' \code{\link{pathFormat}} for path format options,
 ##' \code{\link{traceit}} for adding traceit attributes to objects
 ##'
 ##' @importFrom NMdata NMwriteData
@@ -105,7 +105,7 @@
 ##' writer(mtcars, file = "mydata", formats.data = "csv")
 ##'
 ##' # Use with model organization
-##' path.fun <- pathStruct("model/file_model")
+##' path.fun <- pathFormat("%model/%name_%model")
 ##' writer(p1, file = "gof", model = "run001", fun.path = path.fun)
 ##' # Writes to: run001/gof_run001.png
 ##'

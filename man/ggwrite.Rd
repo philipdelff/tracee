@@ -97,9 +97,9 @@ Default is \code{FALSE}.}
 \item{fun.path}{Function or character string defining the directory structure for
 output files. If a character string, must be one of the predefined structures,
 or a template using \code{\%model}, \code{\%script}, and \code{\%name} placeholders
-(see \code{\link{pathStruct}}). If a function, should accept \code{name}, \code{model},
+(see \code{\link{pathFormat}}). If a function, should accept \code{name}, \code{model},
 \code{subdir}, and (if the structure uses \code{\%script}) \code{script} arguments.
-See \code{\link{pathStruct}} for details.}
+See \code{\link{pathFormat}} for details.}
 
 \item{method.png}{Character string, one of \code{"png"} or \code{"ragg"}, controlling
 which graphics device is used for PNG output. \code{"png"} uses the base
@@ -221,7 +221,7 @@ ggwrite(p1, file = "chickweight_lines.png",
 \code{\link{ggstamp}} for adding stamps to plots,
 \code{\link{canvasSize}} for canvas size options,
 \code{\link{writer}} for a unified interface to write various object types,
-\code{\link{pathStruct}} for organizing output directories,
+\code{\link{pathFormat}} for organizing output directories,
 \code{\link{traceit}} for adding traceit attributes,
 \code{\link[grDevices]{png}}, \code{\link[grDevices]{pdf}} for graphics devices
 

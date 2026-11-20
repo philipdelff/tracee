@@ -14,10 +14,11 @@
 ##'   is provided, the \code{$label} element is extracted.
 ##' @param dir Character string specifying the base output directory. Default is
 ##'   \code{"."} (current directory).
-##' @param structure Character string or function defining the directory structure.
-##'   Passed to \code{\link{pathStruct}} to create a path-generating function.
-##'   Common structures: "model/file_model", "model/model-file", "model-file".
-##'   See \code{\link{pathStruct}} for details.
+##' @param path.format Character string or function defining the output path format.
+##'   Passed to \code{\link{pathFormat}} to create a path-generating function.
+##'   Examples: \code{"\%model/\%name_\%model"} (default), \code{"\%name_\%model"},
+##'   \code{"\%script/\%name_\%model"}. See \code{\link{pathFormat}} for details.
+##' @param structure Deprecated. Use \code{path.format}.
 ##' @param lists.as.subdirs Logical. If \code{TRUE}, nested lists create subdirectories
 ##'   rather than being incorporated into file names. Default is \code{FALSE}.
 ##'   \itemize{
@@ -64,7 +65,7 @@
 ##' Output file names are constructed from:
 ##' \itemize{
 ##'   \item The name at each level of the list hierarchy
-##'   \item The \code{model} identifier (if provided and if \code{structure} uses it)
+##'   \item The \code{model} identifier (if provided and if \code{path.format} uses it)
 ##'   \item Automatic numbering for unnamed elements
 ##' }
 ##'
@@ -95,7 +96,7 @@
 ##' \code{\link{ggwrite}} for plot-specific options,
 ##' \code{\link{ftwrite}} for table-specific options,
 ##' \code{\link{datwrite}} for data frame writing,
-##' \code{\link{pathStruct}} for directory structure options,
+##' \code{\link{pathFormat}} for path format options,
 ##' \code{\link{is.listnotplot}} for list detection logic,
 ##' \code{\link{unwrapOutputs}} for an alternative list flattening approach
 ##'
@@ -162,20 +163,27 @@
 
 #### send name.main.pdf as name.pdf.onefile?
 
-lwrite <- function(list,model,dir=".",structure,lists.as.subdirs=FALSE,name.all.pdf="main_all.pdf",...){
+lwrite <- function(list,model,dir=".",path.format,lists.as.subdirs=FALSE,name.all.pdf="main_all.pdf",structure,...){
+
+  ## structure is deprecated in favor of path.format
+  if(!missing(structure)){
+    if(!missing(path.format)) stop("Use only one of path.format and structure. structure is deprecated.")
+    message("The structure argument is deprecated. Use path.format.")
+    path.format <- structure
+  }
 
   filePathSimple <- NMdata:::filePathSimple
   
   name.main <- "name.root.elements.random.qqq"
 
-  ## subdir is disabled because it doesn't make much sense with the new flexible structure syntax
+  ## subdir is disabled because it doesn't make much sense with the new flexible path.format syntax
   subdir <- NULL
 
-  ## lwrite() intentionally uses a single fun.path/structure for all elements
+  ## lwrite() intentionally uses a single fun.path/path.format for all elements
   ## (plots, tables, data frames) of the list - some of these element-level
   ## writer calls may not need %model/%script even though the user-level
-  ## structure was designed with other element types in mind. Repeating the
-  ## "structure does not contain %model/%script; ... ignored" message once per
+  ## path.format was designed with other element types in mind. Repeating the
+  ## "path.format does not contain %model/%script; ... ignored" message once per
   ## file is just noise here, so always resolve paths quietly at this level,
   ## regardless of the "quiet" argument (which still controls "file written"
   ## style messages from the underlying ggwrite()/ftwrite()/datwrite() calls).
@@ -195,27 +203,25 @@ lwrite <- function(list,model,dir=".",structure,lists.as.subdirs=FALSE,name.all.
   dots.outer <- list(...)
   script.outer <- dots.outer$script
   
-  ### how about if fun.path is a string, like "model/model-file"?
-  ### Shouldn't we run pathStruct on it?
-  if(missing(structure)) structure <- NULL
+  if(missing(path.format)) path.format <- NULL
 
-  if(is.function(structure)){
-    ## If the function accepts dir (as pathStruct()-generated functions do),
+  if(is.function(path.format)){
+    ## If the function accepts dir (as pathFormat()-generated functions do),
     ## a dir supplied to lwrite() is passed on and overrides its default.
     ## Otherwise dir is prepended to the returned path.
-    fun.struct <- structure
+    fun.struct <- path.format
     if(!missing(dir) && !is.null(dir)){
       dir.lwrite <- dir
-      if("dir"%in%names(formals(structure))){
-        fun.struct <- function(name, ...) structure(name=name, dir=dir.lwrite, ...)
+      if("dir"%in%names(formals(path.format))){
+        fun.struct <- function(name, ...) path.format(name=name, dir=dir.lwrite, ...)
       } else {
         fun.struct <- function(name, ...){
-          filePathSimple(dir.lwrite, structure(name=name, ...))
+          filePathSimple(dir.lwrite, path.format(name=name, ...))
         }
       }
     }
   } else {
-    fun.struct <- pathStruct(structure=structure,dir=dir)
+    fun.struct <- pathFormat(path.format=path.format,dir=dir)
   }
 
   fun.path <- quietFunPath(fun.struct)

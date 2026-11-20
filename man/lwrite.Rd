@@ -8,9 +8,10 @@ lwrite(
   list,
   model,
   dir = ".",
-  structure,
+  path.format,
   lists.as.subdirs = FALSE,
   name.all.pdf = "main_all.pdf",
+  structure,
   ...
 )
 }
@@ -27,10 +28,10 @@ is provided, the \code{$label} element is extracted.}
 \item{dir}{Character string specifying the base output directory. Default is
 \code{"."} (current directory).}
 
-\item{structure}{Character string or function defining the directory structure.
-Passed to \code{\link{pathStruct}} to create a path-generating function.
-Common structures: "model/file_model", "model/model-file", "model-file".
-See \code{\link{pathStruct}} for details.}
+\item{path.format}{Character string or function defining the output path format.
+Passed to \code{\link{pathFormat}} to create a path-generating function.
+Examples: \code{"\%model/\%name_\%model"} (default), \code{"\%name_\%model"},
+\code{"\%script/\%name_\%model"}. See \code{\link{pathFormat}} for details.}
 
 \item{lists.as.subdirs}{Logical. If \code{TRUE}, nested lists create subdirectories
 rather than being incorporated into file names. Default is \code{FALSE}.
@@ -44,6 +45,8 @@ rather than being incorporated into file names. Default is \code{FALSE}.
 \item{name.all.pdf}{Character string specifying the filename to use when writing
 all plots to a single PDF file. Only used when the file name is empty and
 plots are being combined into one PDF. Default is \code{"main_all.pdf"}.}
+
+\item{structure}{Deprecated. Use \code{path.format}.}
 
 \item{...}{Additional arguments passed to \code{\link{writer}} and subsequently
 to the specific writer functions (\code{\link{ggwrite}}, \code{\link{ftwrite}},
@@ -93,7 +96,7 @@ The function intelligently flattens nested lists while preserving meaningful nam
 Output file names are constructed from:
 \itemize{
 \item The name at each level of the list hierarchy
-\item The \code{model} identifier (if provided and if \code{structure} uses it)
+\item The \code{model} identifier (if provided and if \code{path.format} uses it)
 \item Automatic numbering for unnamed elements
 }
 
@@ -179,7 +182,7 @@ lwrite(outputs,
 \code{\link{ggwrite}} for plot-specific options,
 \code{\link{ftwrite}} for table-specific options,
 \code{\link{datwrite}} for data frame writing,
-\code{\link{pathStruct}} for directory structure options,
+\code{\link{pathFormat}} for path format options,
 \code{\link{is.listnotplot}} for list detection logic,
 \code{\link{unwrapOutputs}} for an alternative list flattening approach
 }

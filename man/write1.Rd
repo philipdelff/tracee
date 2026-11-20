@@ -56,7 +56,7 @@ more consistent across platforms.}
 
 \item{fun.path}{Function or character string defining output directory
 structure, applied to \code{fn} before the file is written. See
-\code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+\code{\link{pathFormat}}. If the path format uses \code{\%script}, \code{script}
 is forwarded to it automatically (if the function accepts a \code{script}
 argument).}
 

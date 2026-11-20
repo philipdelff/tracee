@@ -162,7 +162,7 @@ test_that("general ft, data, and two gg",{
   
   ##### TODO plots get saved without using their own names, only ""
   dir.out3 <- "testOutput/model1_pdf"
-  lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model",method.png="ragg")
+  lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",path.format="file_model",method.png="ragg")
 
 
   files3 <- list.files(dir.out3)
@@ -230,7 +230,7 @@ test_that("sublist no subdir - pdf",{
   unlink(dir.out,recursive = T)
   dir.create(dir.out,showWarnings = FALSE)
 
-  ## lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model")
+  ## lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",path.format="file_model")
   #### pdf and flat structure - no alist subdir
   lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="pdf")
 
@@ -420,7 +420,7 @@ test_that("lwrite with structure",{
   
   dir.out <- withr::local_tempdir()
 
-  lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",structure="%name_%model")
+  lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",path.format="%name_%model")
   
   res <- list.files(dir.out,recursive=TRUE) |> sort()
 
@@ -431,7 +431,7 @@ test_that("lwrite with structure",{
 test_that("lwrite with structure including script",{
 dir.out <- withr::local_tempdir()
 
-  lwrite(outputs, model = "run001", dir = dir.out,script="path/myscript.R",structure="%name_%script")
+  lwrite(outputs, model = "run001", dir = dir.out,script="path/myscript.R",path.format="%name_%script")
 
   res <- list.files(dir.out,recursive=TRUE) |> sort()
   res
@@ -446,10 +446,10 @@ test_that("lwrite with custom structure",{
 
   dir.out <- withr::local_tempdir()
 
-  struct1 <- pathStruct(structure="%script/%name_%model",
+  struct1 <- pathFormat(path.format="%script/%name_%model",
                         funs.path = list(script = function(x) substr(basename(x), 1, 4)))
 
-  lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",structure=struct1)
+  lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",path.format=struct1)
   
 res <- list.files(dir.out,recursive=TRUE)  |> sort()
   res
@@ -463,8 +463,8 @@ test_that("lwrite with custom structure 2",{
 
   dir.out <- withr::local_tempdir()
 
-  struct1 <- pathStruct(structure="%script/%name_%model",model="mod1",dir="dir1",script="scr1")
-  lwrite(outputs, dir = dir.out,script="myscript.R",structure=struct1)
+  struct1 <- pathFormat(path.format="%script/%name_%model",model="mod1",dir="dir1",script="scr1")
+  lwrite(outputs, dir = dir.out,script="myscript.R",path.format=struct1)
 
   
 res <- list.files(dir.out,recursive=TRUE)  |> sort()
@@ -478,8 +478,8 @@ test_that("lwrite with custom structure 3",{
 
   dir.out <- withr::local_tempdir()
 
-  struct1 <- pathStruct(structure="%script/%name_%model",model="mod1",dir=dir.out,script="scr1")
-  lwrite(outputs, model = "run001",structure=struct1)
+  struct1 <- pathFormat(path.format="%script/%name_%model",model="mod1",dir=dir.out,script="scr1")
+  lwrite(outputs, model = "run001",path.format=struct1)
   
 res <- list.files(dir.out,recursive=TRUE)  |> sort()
   res
@@ -497,7 +497,7 @@ test_that("nested lists - lists.as.subdirs",{
   dir.out <- withr::local_tempdir()
 
   outs2 <- list(list1=outputs,list2=outputs) 
-  lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",structure="%script/%name_%model",lists.as.subdirs=TRUE)
+  lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",path.format="%script/%name_%model",lists.as.subdirs=TRUE)
   
   
   res <- list.files(dir.out,recursive=TRUE) |> sort()
@@ -513,7 +513,7 @@ test_that("nested lists - lists.as.subdirs=FALSE",{
   dir.out <- withr::local_tempdir()
 
   outs2 <- list(list1=outputs,list2=outputs)
-  lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",structure="%script/%name_%model",lists.as.subdirs=FALSE)
+  lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",path.format="%script/%name_%model",lists.as.subdirs=FALSE)
 
   res <- list.files(dir.out,recursive=TRUE)  |> sort()
   res

@@ -59,9 +59,9 @@
 ##' @param fun.path Function or character string defining the directory structure for
 ##'   output files. If a character string, must be one of the predefined structures,
 ##'   or a template using \code{\%model}, \code{\%script}, and \code{\%name} placeholders
-##'   (see \code{\link{pathStruct}}). If a function, should accept \code{name}, \code{model},
+##'   (see \code{\link{pathFormat}}). If a function, should accept \code{name}, \code{model},
 ##'   \code{subdir}, and (if the structure uses \code{\%script}) \code{script} arguments.
-##'   See \code{\link{pathStruct}} for details.
+##'   See \code{\link{pathFormat}} for details.
 ##' @param method.png Character string, one of \code{"png"} or \code{"ragg"}, controlling
 ##'   which graphics device is used for PNG output. \code{"png"} uses the base
 ##'   \code{\link[grDevices]{png}} device; \code{"ragg"} uses \code{\link[ragg]{agg_png}},
@@ -124,7 +124,7 @@
 ##' \code{\link{ggstamp}} for adding stamps to plots,
 ##' \code{\link{canvasSize}} for canvas size options,
 ##' \code{\link{writer}} for a unified interface to write various object types,
-##' \code{\link{pathStruct}} for organizing output directories,
+##' \code{\link{pathFormat}} for organizing output directories,
 ##' \code{\link{traceit}} for adding traceit attributes,
 ##' \code{\link[grDevices]{png}}, \code{\link[grDevices]{pdf}} for graphics devices
 ##'
@@ -196,7 +196,7 @@ if(FALSE) {
   ### Section end: Dummy variables, only not to get NOTE's in pacakge checks
   
   if(missing(fun.path)) fun.path <- NULL
-  if(!is.null(fun.path)) fun.path <- pathStruct(fun.path)
+  if(!is.null(fun.path)) fun.path <- pathFormat(fun.path)
   method.png <- match.arg(method.png)
 
   ## Which arguments were actually supplied by the caller
@@ -354,7 +354,7 @@ print1 <- function(plot){
 ##' @param canvas Canvas size specification. See \code{\link{canvasSize}}.
 ##' @param quiet Logical. If \code{TRUE}, suppresses messages about files written.
 ##' @param fun.path Function or character string defining output directory structure.
-##'   See \code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+##'   See \code{\link{pathFormat}}. If the path format uses \code{\%script}, \code{script}
 ##'   is forwarded to it automatically.
 ##' @param subdir Character string, subdirectory passed on to \code{fun.path}.
 ##' @param name.all.pdf Character string, file name to use for a combined multi-page
@@ -633,7 +633,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ##'   more consistent across platforms.
 ##' @param fun.path Function or character string defining output directory
 ##'   structure, applied to \code{fn} before the file is written. See
-##'   \code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+##'   \code{\link{pathFormat}}. If the path format uses \code{\%script}, \code{script}
 ##'   is forwarded to it automatically (if the function accepts a \code{script}
 ##'   argument).
 ##' @param ... Additional arguments. \code{res} is passed on to the \code{png}/

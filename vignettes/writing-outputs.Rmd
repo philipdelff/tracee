@@ -206,22 +206,22 @@ each object.
 
 ## 4. Controlling output location
 
-All three functions accept `fun.path`/`subdir` arguments, which let you
-organize outputs into a structured directory tree (e.g. grouped by model or
-analysis subdirectory) rather than a single flat folder. See
-`?pathStruct` for the available predefined structures and how to supply a
-custom path function.
+`ggwrite()` and `ftwrite()` accept `fun.path`/`subdir` arguments, and
+`lwrite()` accepts `path.format`. These let you organize outputs into a
+structured directory tree (e.g. grouped by model or script) rather than a
+single flat folder. A path format is a template using the placeholders
+`%model`, `%script` and `%name`, where `/` separates directory levels. See
+`?pathFormat` for details and for how to supply a custom path function.
 
 ```{r fun-path, eval = FALSE}
 ggwrite(p1, file = "chickweight_lines_06.png",
         script = script, time = time, model = model,
         subdir = "exploratory",
-        fun.path = "%model-%file", save = writeOutput)
+        fun.path = "%model-%name", save = writeOutput)
 
-lwrite(outputs, file = "chickweight_report",
+lwrite(outputs, dir = "outputs",
        script = script, time = time, model = model,
-       fun.path = "%mode/%model-%file",
-       save = writeOutput)
+       path.format = "%model/%model-%name")
 ```
 
 ## Summary
