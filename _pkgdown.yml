@@ -1,0 +1,45 @@
+url: https://philipdelff.github.io/tracee/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+- title: Write outputs
+  desc: Write plots, tables and data to file with traceability stamps.
+  contents:
+  - ggwrite
+  - ftwrite
+  - datwrite
+  - writer
+  - lwrite
+- title: Stamping and tracing
+  contents:
+  - ggstamp
+  - ftstamp
+  - traceit
+- title: File paths and dimensions
+  contents:
+  - pathFormat
+  - canvasSize
+- title: Utilities
+  contents:
+  - ggwater
+  - is.gg
+  - is.listnotplot
+  - padZeros
+  - unwrapOutputs
+- title: Deprecated
+  contents:
+  - pathStruct
+  - writeFlextab
+  - stampFlextab
+
+articles:
+- title: Articles
+  contents:
+  - writing-outputs
