@@ -7,6 +7,8 @@ Authors@R: c(person("Philip", "Delff", email = "philip@delff.dk",role = c("aut",
 Maintainer: Philip Delff <philip@delff.dk>
 Description: Write output (plots and tables) ensuring traceability back to code. Includes a graphics saver with simple automation of stamping with source, destination and creation time. A list of plots can be saved at once. A user-friendly selection of output dimensions for presentations, on-screen inspections, and more available.
 License: MIT + file LICENSE
+URL: https://philipdelff.github.io/tracee/, https://github.com/philipdelff/tracee
+BugReports: https://github.com/philipdelff/tracee/issues
 Roxygen: list(markdown = TRUE,roclets=c("collate", "namespace", "rd", "vignette"))
 RoxygenNote: 7.3.3
 Depends: R (>= 4.0.0)

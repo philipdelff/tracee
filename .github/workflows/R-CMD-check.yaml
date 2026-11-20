@@ -3,7 +3,7 @@
 ## Philip: branches can be comma separated. 
 on:
   push:
-    branches: [lwrite]
+    branches: [main]
   pull_request:
 
 name: R-CMD-check.yaml

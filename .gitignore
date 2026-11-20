@@ -38,3 +38,4 @@
 ## testOutput
 tests/testthat/testOutput/*
 .aider*
+docs
