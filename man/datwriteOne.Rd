@@ -30,7 +30,7 @@ datwriteOne(
 
 \item{model}{Optional model object or path for organizing output files}
 
-\item{fun.path}{Optional function to construct file paths based on name, model, and subdir}
+\item{fun.path}{Path function as returned by \code{\link{pathFormat}}, or \code{NULL}.}
 
 \item{subdir}{Optional subdirectory for organizing output files}
 

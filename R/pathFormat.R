@@ -17,7 +17,7 @@
 ##'   \code{-}, \code{_}) are kept as literal separators. Examples:
 ##'   \describe{
 ##'     \item{\code{"\%model/\%name_\%model"}}{Creates paths like \code{model_name/file_model_name.ext}.
-##'           Example: \code{"run001/gof_run001.png"}. This is the default.}
+##'           Example: \code{"run001/gof_run001.png"}.}
 ##'     \item{\code{"\%name_\%model"}}{Creates paths like \code{file_model_name.ext} with no
 ##'           model subdirectory. Example: \code{"gof_run001.png"}}
 ##'     \item{\code{"\%model/\%model-\%name"}}{Creates paths like \code{model_name/model_name-file.ext}.
@@ -29,7 +29,7 @@
 ##'   }
 ##'   Any other combination of \code{\%model}, \code{\%script}, \code{\%name}, literal text,
 ##'   and \code{/} is supported - e.g. \code{"archive/\%model/plots/\%name"}.
-##'   Default is \code{"\%model/\%name_\%model"}.
+##'   Default is \code{"\%name"}, i.e. \code{name} is used as is (relative to \code{dir}).
 ##' @param dir Character string specifying the base directory for all outputs. This is
 ##'   prepended to all generated paths. Default is \code{NULL} (current directory).
 ##' @param model Default value for the \code{model} argument of the generated function.
@@ -140,7 +140,7 @@
 ##' }
 ##' path_fun4 <- pathFormat(path.format = my_fun)
 ##' identical(path_fun4, my_fun)  # TRUE
-pathFormat <- function(path.format="%model/%name_%model",dir,model=NULL,script=NULL,funs.path=NULL,structure){
+pathFormat <- function(path.format="%name",dir,model=NULL,script=NULL,funs.path=NULL,structure){
 
   ## structure is deprecated in favor of path.format
   if(!missing(structure)){
@@ -150,7 +150,7 @@ pathFormat <- function(path.format="%model/%name_%model",dir,model=NULL,script=N
   }
 
   if(missing(path.format)) path.format <- NULL
-  if(is.null(path.format)) path.format <- "%model/%name_%model"
+  if(is.null(path.format)) path.format <- "%name"
   if(is.function(path.format)) return(path.format)
   ## internal name kept for the template string below
   fmt <- path.format
@@ -304,6 +304,26 @@ pathFormat <- function(path.format="%model/%name_%model",dir,model=NULL,script=N
 pathStruct <- function(...){
   message("pathStruct() is deprecated. Use pathFormat().")
   pathFormat(...)
+}
+
+##' Resolve path.format (and deprecated fun.path) to a path function
+##'
+##' Internal helper used by \code{\link{ggwrite}}, \code{\link{ftwrite}},
+##' \code{\link{datwrite}}, and \code{\link{writer}}.
+##'
+##' @param path.format Character string, function or \code{NULL}.
+##' @param fun.path Deprecated alias for \code{path.format}.
+##' @return A path function as returned by \code{\link{pathFormat}}, or
+##'   \code{NULL} if neither argument is given.
+##' @keywords internal
+argPathFormat <- function(path.format=NULL, fun.path=NULL){
+  if(!is.null(fun.path)){
+    if(!is.null(path.format)) stop("Use only one of path.format and fun.path. fun.path is deprecated.")
+    message("The fun.path argument is deprecated. Use path.format.")
+    path.format <- fun.path
+  }
+  if(is.null(path.format)) return(NULL)
+  pathFormat(path.format=path.format)
 }
 
 ##' Call a path function safely, forwarding script only if supported

@@ -271,7 +271,7 @@ lwrite <- function(list,model,dir=".",path.format,lists.as.subdirs=FALSE,name.al
       res1 <- writer(x=plots,
                      file=file.plots,
                      model=model,
-                     fun.path=fun.path,
+                     path.format=fun.path,
                  subdir=subdir,
                    name.all.pdf=  name.all.pdf,
                      ...)
@@ -307,7 +307,7 @@ lwrite <- function(list,model,dir=".",path.format,lists.as.subdirs=FALSE,name.al
                      ## name=names(notplots),
                      MoreArgs=list(
                        model=model,
-                       fun.path=fun.path,
+                       path.format=fun.path,
                        subdir=subdir,
                        ...))
       res <- append(res,res1)

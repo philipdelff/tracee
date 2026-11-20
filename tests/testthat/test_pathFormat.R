@@ -7,7 +7,12 @@ test_that("basic",{
   fun.path <- pathFormat()
   expect_error(fun.path())
 
-  expect_equal(fun.path(model="run001",name="scatter_wt.png"),
+  expect_equal(fun.path(name="scatter_wt.png"),
+               "scatter_wt.png")
+
+  fun.path2 <- pathFormat("%model/%name_%model")
+  expect_error(fun.path2(name="scatter_wt.png"))
+  expect_equal(fun.path2(model="run001",name="scatter_wt.png"),
                "run001/scatter_wt_run001.png")
 
 
@@ -71,7 +76,7 @@ test_that("deprecated structure argument and pathStruct()",{
 })
 
 test_that("specify default values",{
-  fun.path <- pathFormat(model="model1",dir="outputs")
+  fun.path <- pathFormat("%model/%name_%model",model="model1",dir="outputs")
   
   expect_equal(
     fun.path(name="scatter_wt.png")

@@ -10,15 +10,19 @@
 ##' @param time Optional time stamp to include in output
 ##' @param model Optional model object or path for organizing output files
 ##' @param formats Character vector of output formats (passed to NMwriteData)
-##' @param fun.path Optional function to construct file paths based on name, model, and subdir
+##' @param path.format Character string or function defining the output path.
+##'   Passed to \code{\link{pathFormat}}. Default (\code{NULL}) uses \code{file} as is.
 ##' @param subdir Optional subdirectory for organizing output files
 ##' @param quiet Logical. If \code{TRUE}, suppresses messages about ignored
-##'   \code{model}/\code{script} arguments from \code{fun.path}.
+##'   \code{model}/\code{script} arguments from \code{path.format}.
+##' @param fun.path Deprecated. Use \code{path.format}.
 ##' @param ... Additional arguments passed to NMwriteData
 ##'
 ##' @return A list of results from NMwriteData calls
 ##' @export
-datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,quiet=FALSE,...){
+datwrite <- function(x,file,script,time,model,formats,path.format=NULL,subdir=NULL,quiet=FALSE,fun.path=NULL,...){
+
+  fun.path <- argPathFormat(path.format=path.format, fun.path=fun.path)
 
   if(!is.listnotplot(x)) x <- list(x)
 
@@ -55,7 +59,7 @@ datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,quiet
 ##' @param script Optional character string specifying the script name for stamping
 ##' @param time Optional time stamp to include in output
 ##' @param model Optional model object or path for organizing output files
-##' @param fun.path Optional function to construct file paths based on name, model, and subdir
+##' @param fun.path Path function as returned by \code{\link{pathFormat}}, or \code{NULL}.
 ##' @param subdir Optional subdirectory for organizing output files
 ##' @param quiet Logical. If \code{TRUE}, suppresses messages about ignored
 ##'   \code{model}/\code{script} arguments from \code{fun.path}.

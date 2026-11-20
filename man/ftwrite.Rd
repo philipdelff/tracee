@@ -16,9 +16,10 @@ ftwrite(
   time,
   model,
   format.stamp,
-  fun.path,
+  path.format = NULL,
   subdir = NULL,
-  use.names = TRUE
+  use.names = TRUE,
+  fun.path = NULL
 )
 
 writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
@@ -60,23 +61,25 @@ include a timestamp if \code{script} is provided. You can pass any string as
 entirely.}
 
 \item{model}{Character string or model object specifying the model name/identifier.
-Used for stamping and for organizing output directories via \code{fun.path}.}
+Used for stamping and for organizing output directories via \code{path.format}.}
 
 \item{format.stamp}{Character string or format specification for the stamp.
 Passed to \code{\link{ftstamp}} to control stamp formatting.}
 
-\item{fun.path}{Function or character string defining the directory structure for
-output files. If a character string, must be one of the predefined structures.
-If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments
-and return a file path. See \code{\link{pathFormat}} for details.}
+\item{path.format}{Character string or function defining the output path.
+A template using \code{\%model}, \code{\%script}, and \code{\%name}
+placeholders, or a function as returned by \code{\link{pathFormat}}. Passed to
+\code{\link{pathFormat}}. Default (\code{NULL}) uses \code{file} as is.}
 
 \item{subdir}{Character string specifying a subdirectory within the path structure.
-Used in conjunction with \code{fun.path}.}
+Used in conjunction with \code{path.format}.}
 
 \item{use.names}{Logical. If \code{length(ft) > 1}, should \code{names(ft)}
 be used in the output file names? Default is \code{TRUE}. If \code{FALSE},
 numeric indices (1, 2, 3, ...) are used instead. Only used if \code{save = TRUE}
 and \code{ft} is a list.}
+
+\item{fun.path}{Deprecated. Use \code{path.format}.}
 
 \item{...}{Additional arguments passed to \code{\link{ftstamp}} for stamp customization.}
 }
@@ -153,10 +156,9 @@ ftwrite(ft_list, file = "tables", formats = "docx")
 # Creates: tables_summary.docx, tables_head.docx, tables_tail.docx
 
 # Use with path structure for model organization
-path.fun <- pathFormat("\%model/\%name_\%model")
 ftwrite(ft1, file = "summary",
         model = "run001",
-        fun.path = path.fun)
+        path.format = "\%model/\%name_\%model")
 # Writes to: run001/summary_run001.png
 }
 }

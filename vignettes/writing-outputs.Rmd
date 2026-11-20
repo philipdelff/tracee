@@ -217,7 +217,7 @@ single flat folder. A path format is a template using the placeholders
 ggwrite(p1, file = "chickweight_lines_06.png",
         script = script, time = time, model = model,
         subdir = "exploratory",
-        fun.path = "%model-%name", save = writeOutput)
+        path.format = "%model-%name", save = writeOutput)
 
 lwrite(outputs, dir = "outputs",
        script = script, time = time, model = model,

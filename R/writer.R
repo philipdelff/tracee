@@ -20,14 +20,13 @@
 ##'   Default is \code{"rds"}. This is passed to \code{\link[NMdata]{NMwriteData}}
 ##'   as the \code{format.write} argument. Common formats include: "rds", "csv",
 ##'   "fst".
-##' @param fun.path Function or character string defining the directory structure.
-##'   If a character string, must be one of the predefined structures (e.g.,
-##'   "model/file_model", "model/model-file", "model-file", "file_model").
-##'   If a function, it should accept arguments \code{name}, \code{model}, and
-##'   \code{subdir} and return a file path. See \code{\link{pathFormat}} for
-##'   details on available structures and creating custom path functions.
+##' @param path.format Character string or function defining the output path.
+##'   A template using \code{\%model}, \code{\%script}, and \code{\%name}
+##'   placeholders, or a function as returned by \code{\link{pathFormat}}. Passed to
+##'   \code{\link{pathFormat}}. Default (\code{NULL}) uses \code{file} as is.
+##' @param fun.path Deprecated. Use \code{path.format}.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
-##'   This is passed to the \code{fun.path} function if provided.
+##'   This is passed to the path function generated from \code{path.format}.
 ##' @param ... Additional arguments passed to the specific writer functions
 ##'   (\code{\link{ggwrite}}, \code{\link{ftwrite}}, or \code{\link[NMdata]{NMwriteData}}).
 ##'   Common arguments include:
@@ -54,7 +53,7 @@
 ##' The function intelligently handles nested lists by flattening them and constructing
 ##' meaningful file names from the list structure.
 ##'
-##' File paths are constructed using the \code{fun.path} structure, which can organize
+##' File paths are constructed using \code{path.format}, which can organize
 ##' outputs by model, file name, or custom patterns. This is particularly useful in
 ##' modeling workflows where outputs need to be organized by model number or name.
 ##'
@@ -105,8 +104,7 @@
 ##' writer(mtcars, file = "mydata", formats.data = "csv")
 ##'
 ##' # Use with model organization
-##' path.fun <- pathFormat("%model/%name_%model")
-##' writer(p1, file = "gof", model = "run001", fun.path = path.fun)
+##' writer(p1, file = "gof", model = "run001", path.format = "%model/%name_%model")
 ##' # Writes to: run001/gof_run001.png
 ##'
 ##' # Write with stamping
@@ -116,10 +114,11 @@
 ##'        model = "run001")
 ##' }
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
-                   fun.path,subdir=NULL,
+                   path.format=NULL,subdir=NULL,fun.path=NULL,
                    ...){
-  
-  if(missing(fun.path))  fun.path <- NULL
+
+  ## resolve once here, then pass on to ftwrite()/datwrite()/ggwrite() as path.format
+  path.format <- argPathFormat(path.format=path.format, fun.path=fun.path)
   
   if(missing(formats.ft)||is.null(formats.ft)){
     formats.ft <- "png"
@@ -143,7 +142,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
     args <- c(list(ft=x,
                    file = file,
                    formats=formats.ft,
-                   fun.path=fun.path,
+                   path.format=path.format,
                    subdir=subdir
                    ),
               dots)
@@ -162,7 +161,8 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
     args <- c(list(x=x,
                    file = file,
                    formats=formats.data,
-                   fun.path=fun.path
+                   path.format=path.format,
+                   subdir=subdir
                    ),
               dots)
     res <- do.call(datwrite,args)
@@ -189,7 +189,7 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
            file=file,
            use.names=TRUE,
            formats=formats.gg,
-           fun.path=fun.path,
+           path.format=path.format,
            subdir=subdir),
       args.gg
     )

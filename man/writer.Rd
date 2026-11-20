@@ -10,8 +10,9 @@ writer(
   formats.ft,
   formats.gg,
   formats.data,
-  fun.path,
+  path.format = NULL,
   subdir = NULL,
+  fun.path = NULL,
   ...
 )
 }
@@ -36,15 +37,15 @@ Default is \code{"rds"}. This is passed to \code{\link[NMdata]{NMwriteData}}
 as the \code{format.write} argument. Common formats include: "rds", "csv",
 "fst".}
 
-\item{fun.path}{Function or character string defining the directory structure.
-If a character string, must be one of the predefined structures (e.g.,
-"model/file_model", "model/model-file", "model-file", "file_model").
-If a function, it should accept arguments \code{name}, \code{model}, and
-\code{subdir} and return a file path. See \code{\link{pathFormat}} for
-details on available structures and creating custom path functions.}
+\item{path.format}{Character string or function defining the output path.
+A template using \code{\%model}, \code{\%script}, and \code{\%name}
+placeholders, or a function as returned by \code{\link{pathFormat}}. Passed to
+\code{\link{pathFormat}}. Default (\code{NULL}) uses \code{file} as is.}
 
 \item{subdir}{Character string specifying a subdirectory within the path structure.
-This is passed to the \code{fun.path} function if provided.}
+This is passed to the path function generated from \code{path.format}.}
+
+\item{fun.path}{Deprecated. Use \code{path.format}.}
 
 \item{...}{Additional arguments passed to the specific writer functions
 (\code{\link{ggwrite}}, \code{\link{ftwrite}}, or \code{\link[NMdata]{NMwriteData}}).
@@ -82,7 +83,7 @@ For lists of objects, each element is written separately with appropriate naming
 The function intelligently handles nested lists by flattening them and constructing
 meaningful file names from the list structure.
 
-File paths are constructed using the \code{fun.path} structure, which can organize
+File paths are constructed using \code{path.format}, which can organize
 outputs by model, file name, or custom patterns. This is particularly useful in
 modeling workflows where outputs need to be organized by model number or name.
 }
@@ -122,8 +123,7 @@ writer(ft1, file = "mytable", formats.ft = c("png", "docx"))
 writer(mtcars, file = "mydata", formats.data = "csv")
 
 # Use with model organization
-path.fun <- pathFormat("\%model/\%name_\%model")
-writer(p1, file = "gof", model = "run001", fun.path = path.fun)
+writer(p1, file = "gof", model = "run001", path.format = "\%model/\%name_\%model")
 # Writes to: run001/gof_run001.png
 
 # Write with stamping

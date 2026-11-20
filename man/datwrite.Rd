@@ -11,9 +11,10 @@ datwrite(
   time,
   model,
   formats,
-  fun.path,
+  path.format = NULL,
   subdir = NULL,
   quiet = FALSE,
+  fun.path = NULL,
   ...
 )
 }
@@ -30,12 +31,15 @@ datwrite(
 
 \item{formats}{Character vector of output formats (passed to NMwriteData)}
 
-\item{fun.path}{Optional function to construct file paths based on name, model, and subdir}
+\item{path.format}{Character string or function defining the output path.
+Passed to \code{\link{pathFormat}}. Default (\code{NULL}) uses \code{file} as is.}
 
 \item{subdir}{Optional subdirectory for organizing output files}
 
 \item{quiet}{Logical. If \code{TRUE}, suppresses messages about ignored
-\code{model}/\code{script} arguments from \code{fun.path}.}
+\code{model}/\code{script} arguments from \code{path.format}.}
+
+\item{fun.path}{Deprecated. Use \code{path.format}.}
 
 \item{...}{Additional arguments passed to NMwriteData}
 }

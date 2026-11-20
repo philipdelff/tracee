@@ -30,9 +30,11 @@
 
 # nested lists - lists.as.subdirs
 
-    c("myscript/data_run001.csv", "myscript/data_run001.rds", "myscript/data_run001_meta.txt", 
-    "myscript/list1/ft_run001.png", "myscript/list1/plot_hp_run001.png", 
-    "myscript/list1/plot_wt_run001.png", "myscript/list2/ft_run001.png", 
+    c("myscript/list1/data_run001.csv", "myscript/list1/data_run001.rds", 
+    "myscript/list1/data_run001_meta.txt", "myscript/list1/ft_run001.png", 
+    "myscript/list1/plot_hp_run001.png", "myscript/list1/plot_wt_run001.png", 
+    "myscript/list2/data_run001.csv", "myscript/list2/data_run001.rds", 
+    "myscript/list2/data_run001_meta.txt", "myscript/list2/ft_run001.png", 
     "myscript/list2/plot_hp_run001.png", "myscript/list2/plot_wt_run001.png"
     )
 

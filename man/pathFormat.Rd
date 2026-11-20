@@ -5,7 +5,7 @@
 \title{Create a function to derive output file paths from a path format}
 \usage{
 pathFormat(
-  path.format = "\%model/\%name_\%model",
+  path.format = "\%name",
   dir,
   model = NULL,
   script = NULL,
@@ -27,7 +27,7 @@ extension stripped, re-attached at the end). Any other characters (e.g.
 \code{-}, \code{_}) are kept as literal separators. Examples:
 \describe{
 \item{\code{"\%model/\%name_\%model"}}{Creates paths like \code{model_name/file_model_name.ext}.
-Example: \code{"run001/gof_run001.png"}. This is the default.}
+Example: \code{"run001/gof_run001.png"}.}
 \item{\code{"\%name_\%model"}}{Creates paths like \code{file_model_name.ext} with no
 model subdirectory. Example: \code{"gof_run001.png"}}
 \item{\code{"\%model/\%model-\%name"}}{Creates paths like \code{model_name/model_name-file.ext}.
@@ -39,7 +39,7 @@ Example: \code{"myscript/gof_run001.png"}}
 }
 Any other combination of \code{\%model}, \code{\%script}, \code{\%name}, literal text,
 and \code{/} is supported - e.g. \code{"archive/\%model/plots/\%name"}.
-Default is \code{"\%model/\%name_\%model"}.}
+Default is \code{"\%name"}, i.e. \code{name} is used as is (relative to \code{dir}).}
 
 \item{dir}{Character string specifying the base directory for all outputs. This is
 prepended to all generated paths. Default is \code{NULL} (current directory).}
