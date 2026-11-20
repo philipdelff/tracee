@@ -12,11 +12,13 @@
 ##' @param formats Character vector of output formats (passed to NMwriteData)
 ##' @param fun.path Optional function to construct file paths based on name, model, and subdir
 ##' @param subdir Optional subdirectory for organizing output files
+##' @param quiet Logical. If \code{TRUE}, suppresses messages about ignored
+##'   \code{model}/\code{script} arguments from \code{fun.path}.
 ##' @param ... Additional arguments passed to NMwriteData
 ##'
 ##' @return A list of results from NMwriteData calls
 ##' @export
-datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,...){
+datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,quiet=FALSE,...){
 
   if(!is.listnotplot(x)) x <- list(x)
 
@@ -26,12 +28,13 @@ datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,...){
                 formats=formats,
                 ## save=save,
                 ## show=show,
-                ## quiet=quiet,
+                quiet=quiet,
                 script=script,
                 time=time,
                 model=model,
                 ## format.stamp=format.stamp,
                 fun.path=fun.path,
+                subdir=subdir,
                 ...
                 )
 
@@ -54,11 +57,13 @@ datwrite <- function(x,file,script,time,model,formats,fun.path,subdir=NULL,...){
 ##' @param model Optional model object or path for organizing output files
 ##' @param fun.path Optional function to construct file paths based on name, model, and subdir
 ##' @param subdir Optional subdirectory for organizing output files
+##' @param quiet Logical. If \code{TRUE}, suppresses messages about ignored
+##'   \code{model}/\code{script} arguments from \code{fun.path}.
 ##' @param ... Additional arguments passed to NMwriteData
 ##'
 ##' @return Result from NMwriteData call
 ##' @keywords internal
-datwriteOne <- function(x,file,formats,script,time,model,fun.path,subdir=NULL,...){
+datwriteOne <- function(x,file,formats,script,time,model,fun.path,subdir=NULL,quiet=FALSE,...){
   
 
   ## if(missing(format.stamp)) format.stamp <- NULL
@@ -87,7 +92,7 @@ datwriteOne <- function(x,file,formats,script,time,model,fun.path,subdir=NULL,..
   dots <- list(...)
   dots <- dots[names(dots)%in%names(formals(NMwriteData))]
   
-  if(!is.null(fun.path)) file <- fun.path(name=file,model=model,subdir=subdir)
+  if(!is.null(fun.path)) file <- applyFunPath(fun.path,name=file,model=model,script=script,subdir=subdir,quiet=quiet)
   
   args <- c(list(data=x,
                  ## file = do.call(fun.path,args.fun.path), 

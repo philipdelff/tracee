@@ -13,6 +13,7 @@ datwriteOne(
   model,
   fun.path,
   subdir = NULL,
+  quiet = FALSE,
   ...
 )
 }
@@ -32,6 +33,9 @@ datwriteOne(
 \item{fun.path}{Optional function to construct file paths based on name, model, and subdir}
 
 \item{subdir}{Optional subdirectory for organizing output files}
+
+\item{quiet}{Logical. If \code{TRUE}, suppresses messages about ignored
+\code{model}/\code{script} arguments from \code{fun.path}.}
 
 \item{...}{Additional arguments passed to NMwriteData}
 }

@@ -253,7 +253,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
   ## }
 
 
-  if(!is.null(fun.path)) file <- fun.path(name=file,model=model,subdir=subdir)
+  if(!is.null(fun.path)) file <- applyFunPath(fun.path,name=file,model=model,script=script,subdir=subdir,quiet=quiet)
   dir.out <- dirname(file)
   OutputDirCreate(dir.out)
   
@@ -270,7 +270,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
     ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
     
     fun.write(ft,path=fn)
-    if(!quiet&&!is.null(fn)) message("Written to ",fn)
+    if(!quiet&&!is.null(fn)) message(fn)
     fn
   })
   

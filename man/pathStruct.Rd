@@ -4,38 +4,66 @@
 \alias{pathStruct}
 \title{Create a function to derive structured output file paths}
 \usage{
-pathStruct(structure = "\%model/\%file_\%model", dir)
+pathStruct(
+  structure = "\%model/\%name_\%model",
+  dir,
+  model = NULL,
+  script = NULL,
+  funs.path = NULL
+)
 }
 \arguments{
 \item{structure}{A character string specifying a path structure template, or a
 custom function. If a function is provided, it is returned without modification.
 
-Templates are specified using \code{\%model} and \code{\%file} placeholders,
-separated by \code{/} to indicate directory levels. The last \code{/}-separated
-component is treated as the file name pattern; any earlier components are
-directory names. \code{\%model} is replaced by the model name (with any file
-extension stripped), and \code{\%file} by \code{name} (also with its extension
-stripped, re-attached at the end). Any other characters (e.g. \code{-}, \code{_})
-are kept as literal separators. Examples:
+Templates are specified using \code{\%model}, \code{\%script}, and \code{\%name}
+placeholders, separated by \code{/} to indicate directory levels. The last
+\code{/}-separated component is treated as the file name pattern; any earlier
+components are directory names. \code{\%model} is replaced by the model name
+(with any file extension stripped), \code{\%script} by the script name (with
+any file extension stripped), and \code{\%name} by \code{name} (also with its
+extension stripped, re-attached at the end). Any other characters (e.g.
+\code{-}, \code{_}) are kept as literal separators. Examples:
 \describe{
-\item{\code{"\%model/\%file_\%model"}}{Creates paths like \code{model_name/file_model_name.ext}.
+\item{\code{"\%model/\%name_\%model"}}{Creates paths like \code{model_name/file_model_name.ext}.
 Example: \code{"run001/gof_run001.png"}. This is the default.}
-\item{\code{"\%file_\%model"}}{Creates paths like \code{file_model_name.ext} with no
+\item{\code{"\%name_\%model"}}{Creates paths like \code{file_model_name.ext} with no
 model subdirectory. Example: \code{"gof_run001.png"}}
-\item{\code{"\%model/\%model-\%file"}}{Creates paths like \code{model_name/model_name-file.ext}.
+\item{\code{"\%model/\%model-\%name"}}{Creates paths like \code{model_name/model_name-file.ext}.
 Example: \code{"run001/run001-gof.png"}}
-\item{\code{"\%model-\%file"}}{Creates paths like \code{model_name-file.ext} with no
+\item{\code{"\%model-\%name"}}{Creates paths like \code{model_name-file.ext} with no
 model subdirectory. Example: \code{"run001-gof.png"}}
+\item{\code{"\%script/\%name_\%model"}}{Creates paths like \code{script_name/file_model_name.ext}.
+Example: \code{"myscript/gof_run001.png"}}
 }
-Any other combination of \code{\%model}, \code{\%file}, literal text, and \code{/}
-is supported - e.g. \code{"archive/\%model/plots/\%file"}.
-Default is \code{"\%model/\%file_\%model"}.}
+Any other combination of \code{\%model}, \code{\%script}, \code{\%name}, literal text,
+and \code{/} is supported - e.g. \code{"archive/\%model/plots/\%name"}.
+Default is \code{"\%model/\%name_\%model"}.}
 
 \item{dir}{Character string specifying the base directory for all outputs. This is
 prepended to all generated paths. Default is \code{NULL} (current directory).}
+
+\item{model}{Default value for the \code{model} argument of the generated function.
+Used whenever the generated function is called without explicitly supplying
+\code{model}. Default is \code{NULL}.}
+
+\item{script}{Default value for the \code{script} argument of the generated function.
+Used whenever the generated function is called without explicitly supplying
+\code{script}. Default is \code{NULL}.}
+
+\item{funs.path}{Optional named list of functions used to preprocess
+\code{model} and/or \code{script} before they are substituted into
+\code{structure}. Supported names are \code{model} and \code{script}. Each
+function takes the value as its single argument and returns a character
+string. Elements not supplied keep the default, which is
+\code{function(x) fnExtension(basename(x), "")} (strip directory and file
+extension). Note that a supplied function replaces the default entirely, so
+e.g. extension stripping must be included if still wanted. Example:
+\code{funs.path = list(script = function(x) substr(basename(x), 1, 4))}.
+Default is \code{NULL}.}
 }
 \value{
-A function with signature \code{function(name, model, subdir)} that
+A function with signature \code{function(name, model, script, subdir)} that
 generates file paths according to the specified structure. If \code{structure}
 is already a function, it is returned unchanged.
 }
@@ -45,26 +73,30 @@ structure pattern. This is particularly useful in modeling workflows where outpu
 need to be organized by model name, with consistent naming conventions across files.
 }
 \details{
-The returned function accepts three arguments:
+The returned function accepts four arguments:
 \describe{
 \item{\code{name}}{The base file name (typically without extension)}
 \item{\code{model}}{A model identifier (character string or model object). If a
 model object (list) is provided, the \code{$mod} element is extracted and
 used as the model name. The file extension is automatically removed from
 the model name (e.g., "model.lst" becomes "model").}
+\item{\code{script}}{A script identifier (character string, typically a script file
+name). The file extension is automatically removed (e.g., "myscript.R"
+becomes "myscript").}
 \item{\code{subdir}}{Optional subdirectory (overrides the \code{subdir} argument
 passed to \code{pathStruct}). Inserted between the directory components of
 \code{structure} and the file name component.}
 }
 
-The generated function handles \code{NULL} model arguments gracefully - if
-\code{model = NULL}, the \code{\%model} placeholder (and any literal text
-immediately bound to it, including an entire directory level consisting of
-\code{\%model} alone) is dropped from the path.
+The generated function handles missing \code{model}/\code{script} arguments
+gracefully - if \code{structure} does not contain \code{\%model} (or
+\code{\%script}), the corresponding argument is optional and ignored (with a
+message if supplied anyway). If \code{structure} does contain \code{\%model}
+(or \code{\%script}), the corresponding argument is required.
 }
 \examples{
 # Create a path structure function (default template)
-path_fun <- pathStruct(structure = "\%model/\%file_\%model")
+path_fun <- pathStruct(structure = "\%model/\%name_\%model")
 
 # Use it to generate paths
 path_fun(name = "gof1.png", model = "run001")
@@ -73,25 +105,41 @@ path_fun(name = "gof1.png", model = "run001")
 path_fun(name = "gof1.png", model = "run001", subdir = "diagnostics")
 # Returns: "run001/diagnostics/gof1_run001.png"
 
-# Handle NULL model (error because structure contains model)
-\dontrun{
-path_fun(name = "gof1.png", model = NULL)
-}
-
 # With base directory
-path_fun2 <- pathStruct(structure = "\%model/\%model-\%file", dir = "outputs")
+path_fun2 <- pathStruct(structure = "\%model/\%model-\%name", dir = "outputs")
 path_fun2(name = "gof1.png", model = "run001")
 # Returns: "outputs/run001/run001-gof1.png"
 
 # Different structure
-path_fun3 <- pathStruct(structure = "\%model-\%file")
+path_fun3 <- pathStruct(structure = "\%model-\%name")
 path_fun3(name = "gof1.png", model = "run001")
 # Returns: "run001-gof1.png"
 
 # Fully custom structure
-path_fun3b <- pathStruct(structure = "archive/\%model/plots/\%file")
+path_fun3b <- pathStruct(structure = "archive/\%model/plots/\%name")
 path_fun3b(name = "gof1.png", model = "run001")
 # Returns: "archive/run001/plots/gof1.png"
+
+# Structure based on script name
+path_fun3c <- pathStruct(structure = "\%script/\%name_\%model")
+path_fun3c(name = "gof1.png", model = "run001", script = "myscript")
+# Returns: "myscript/gof1_run001.png"
+
+# Supplying default model/script to pathStruct() itself
+path_fun3d <- pathStruct(structure = "\%script/\%name_\%model",
+                         model = "run001", script = "myscript")
+path_fun3d(name = "gof1.png")
+# Returns: "myscript/gof1_run001.png"
+
+# Explicit arguments to the generated function override the defaults
+path_fun3d(name = "gof1.png", model = "run002")
+# Returns: "myscript/gof1_run002.png"
+
+# Custom preprocessing of script (and/or model) via funs.path
+path_fun3e <- pathStruct(structure = "\%script/\%name_\%model",
+                         funs.path = list(script = function(x) substr(basename(x), 1, 4)))
+path_fun3e(name = "gof1.png", model = "run001", script = "myscript.R")
+# Returns: "mysc/gof1_run001.png"
 
 # Custom function (passed through unchanged)
 my_fun <- function(name, model, subdir) {

@@ -95,8 +95,10 @@ all plots to a single PDF file (when \code{onefile = TRUE}). Only used when
 Default is \code{FALSE}.}
 
 \item{fun.path}{Function or character string defining the directory structure for
-output files. If a character string, must be one of the predefined structures.
-If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments.
+output files. If a character string, must be one of the predefined structures,
+or a template using \code{\%model}, \code{\%script}, and \code{\%name} placeholders
+(see \code{\link{pathStruct}}). If a function, should accept \code{name}, \code{model},
+\code{subdir}, and (if the structure uses \code{\%script}) \code{script} arguments.
 See \code{\link{pathStruct}} for details.}
 
 \item{method.png}{Character string, one of \code{"png"} or \code{"ragg"}, controlling
@@ -208,6 +210,12 @@ ggwrite(plots, file = "chickweight.png",
 ggwrite(plots, file = "chickweight.pdf",
         onefile = TRUE, save = writeOutput)
 # Creates: chickweight.pdf (2 pages)
+
+# Organize output using a \%script-based directory structure
+ggwrite(p1, file = "chickweight_lines.png",
+        script = script, fun.path = "\%script/\%name",
+        save = writeOutput)
+# Creates: analysis/chickweight_lines.png
 }
 \seealso{
 \code{\link{ggstamp}} for adding stamps to plots,

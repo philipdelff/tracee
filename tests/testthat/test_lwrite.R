@@ -98,7 +98,7 @@ test_that("pass arg - custom canvas",{
   ## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
   lwrite(lsave,dir=dir.out,model="model1_args",script=script,time=time1,canvas=list(mycanvas=list(height=9,width=21),
                                                                                     wide=canvasSize("wide")),
-        method.png="ragg")
+         method.png="ragg")
 
   # Check that output directory exists
   model_dir <- file.path(dir.out, "model1_args")
@@ -230,7 +230,7 @@ test_that("sublist no subdir - pdf",{
   unlink(dir.out,recursive = T)
   dir.create(dir.out,showWarnings = FALSE)
 
-    ## lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model")
+  ## lwrite(lsave,dir=dir.out3,model="model1",script=script,time=time1,onefile=TRUE,formats.gg="pdf",structure="file_model")
   #### pdf and flat structure - no alist subdir
   lwrite(lsave,dir=dir.out,model="model1",script=script,time=time1,formats.gg="pdf")
 
@@ -368,5 +368,157 @@ test_that("lwrite with traceit to multiple canvases",{
   # Should have at least 3 files: 1 flextable + 2 canvas sizes for plot
   expect_true(length(files) >= 3,
               info = paste("Expected >=3 files, found", length(files), ":", paste(files, collapse=", ")))
+})
+
+if(FALSE) {
+  p1 <- ggplot(data.frame(x=1,y=1),aes(x,y))+
+    geom_point()
+
+  p2 <- p1
+  p2 <- traceit(p2,canvas="wide")
+
+  mtc1 <- mtcars
+
+  ft1 <- flextable(mtc1) |>
+    autofit()
+
+
+  p1 <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+  p2 <- ggplot(mtcars, aes(hp, mpg)) + geom_point()
+  ft1 <- flextable(head(mtcars))
+  df1 <- mtcars
+
+
+  outputs <- list(
+    plot_wt = p1,
+    plot_hp = p2,
+    ft = ft1,
+    data = df1
+  )
+
+  lapply(outputs,class)
+
+}
+
+
+dir.out <- "testOutput/lwrite"
+
+p1 <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+p2 <- ggplot(mtcars, aes(hp, mpg)) + geom_point()
+ft1 <- flextable(head(mtcars))
+df1 <- mtcars
+
+outputs <- list(
+  plot_wt = p1,
+  plot_hp = p2,
+  ft = ft1,
+  data = df1
+)
+
+
+test_that("lwrite with structure",{
+  
+  dir.out <- withr::local_tempdir()
+
+  lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",structure="%name_%model")
+  
+  res <- list.files(dir.out,recursive=TRUE) |> sort()
+
+  expect_snapshot_value(res,style="deparse")
+  
+})
+
+test_that("lwrite with structure including script",{
+dir.out <- withr::local_tempdir()
+
+  lwrite(outputs, model = "run001", dir = dir.out,script="path/myscript.R",structure="%name_%script")
+
+  res <- list.files(dir.out,recursive=TRUE) |> sort()
+  res
+
+  expect_snapshot_value(res,style="deparse")
+  
+})
+
+
+
+test_that("lwrite with custom structure",{
+
+  dir.out <- withr::local_tempdir()
+
+  struct1 <- pathStruct(structure="%script/%name_%model",
+                        funs.path = list(script = function(x) substr(basename(x), 1, 4)))
+
+  lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",structure=struct1)
+  
+res <- list.files(dir.out,recursive=TRUE)  |> sort()
+  res
+
+  expect_snapshot_value(res,style="deparse")
+  
+})
+
+
+test_that("lwrite with custom structure 2",{
+
+  dir.out <- withr::local_tempdir()
+
+  struct1 <- pathStruct(structure="%script/%name_%model",model="mod1",dir="dir1",script="scr1")
+  lwrite(outputs, dir = dir.out,script="myscript.R",structure=struct1)
+
+  
+res <- list.files(dir.out,recursive=TRUE)  |> sort()
+  res
+
+  expect_snapshot_value(res,style="deparse")
+  
+})
+
+test_that("lwrite with custom structure 3",{
+
+  dir.out <- withr::local_tempdir()
+
+  struct1 <- pathStruct(structure="%script/%name_%model",model="mod1",dir=dir.out,script="scr1")
+  lwrite(outputs, model = "run001",structure=struct1)
+  
+res <- list.files(dir.out,recursive=TRUE)  |> sort()
+  res
+
+  expect_snapshot_value(res,style="deparse")
+  
+})
+
+
+
+
+
+test_that("nested lists - lists.as.subdirs",{
+
+  dir.out <- withr::local_tempdir()
+
+  outs2 <- list(list1=outputs,list2=outputs) 
+  lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",structure="%script/%name_%model",lists.as.subdirs=TRUE)
+  
+  
+  res <- list.files(dir.out,recursive=TRUE) |> sort()
+  res
+
+  expect_snapshot_value(res,style="deparse")
+  
+})
+
+
+test_that("nested lists - lists.as.subdirs=FALSE",{
+
+  dir.out <- withr::local_tempdir()
+
+  outs2 <- list(list1=outputs,list2=outputs)
+  lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",structure="%script/%name_%model",lists.as.subdirs=FALSE)
+
+  res <- list.files(dir.out,recursive=TRUE)  |> sort()
+  res
+
+  expect_snapshot_value(res,style="deparse")
+  
 })
 

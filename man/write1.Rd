@@ -56,7 +56,9 @@ more consistent across platforms.}
 
 \item{fun.path}{Function or character string defining output directory
 structure, applied to \code{fn} before the file is written. See
-\code{\link{pathStruct}}.}
+\code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+is forwarded to it automatically (if the function accepts a \code{script}
+argument).}
 
 \item{...}{Additional arguments. \code{res} is passed on to the \code{png}/
 \code{ragg} device, \code{onefile} to the \code{pdf} device. A \code{dir}

@@ -172,8 +172,11 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
   if(class_x=="list" || class_x=="gg"){
     
     ## message("Calling ggwrite()")
+    ## onefile only makes sense for pdf. Defaulting to TRUE for non-pdf formats
+    ## makes ggwrite() emit "onefile can only be used with pdf device" on every
+    ## call (e.g. from lwrite()). A user-supplied onefile in ... still overrides.
     args.gg.def <- list(
-      onefile=TRUE
+      onefile="pdf"%in%formats.gg
     )
     
     dots <- dots[names(dots)%in%names(formals(ggwrite))]    

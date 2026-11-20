@@ -57,8 +57,10 @@
 ##'   all plots to a single PDF file (when \code{onefile = TRUE}). Only used when
 ##'   \code{file = ""}. Default is \code{"all.pdf"}.
 ##' @param fun.path Function or character string defining the directory structure for
-##'   output files. If a character string, must be one of the predefined structures.
-##'   If a function, should accept \code{name}, \code{model}, and \code{subdir} arguments.
+##'   output files. If a character string, must be one of the predefined structures,
+##'   or a template using \code{\%model}, \code{\%script}, and \code{\%name} placeholders
+##'   (see \code{\link{pathStruct}}). If a function, should accept \code{name}, \code{model},
+##'   \code{subdir}, and (if the structure uses \code{\%script}) \code{script} arguments.
 ##'   See \code{\link{pathStruct}} for details.
 ##' @param method.png Character string, one of \code{"png"} or \code{"ragg"}, controlling
 ##'   which graphics device is used for PNG output. \code{"png"} uses the base
@@ -170,6 +172,12 @@
 ##' ggwrite(plots, file = "chickweight.pdf",
 ##'         onefile = TRUE, save = writeOutput)
 ##' # Creates: chickweight.pdf (2 pages)
+##'
+##' # Organize output using a %script-based directory structure
+##' ggwrite(p1, file = "chickweight_lines.png",
+##'         script = script, fun.path = "%script/%name",
+##'         save = writeOutput)
+##' # Creates: analysis/chickweight_lines.png
 
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
@@ -346,7 +354,8 @@ print1 <- function(plot){
 ##' @param canvas Canvas size specification. See \code{\link{canvasSize}}.
 ##' @param quiet Logical. If \code{TRUE}, suppresses messages about files written.
 ##' @param fun.path Function or character string defining output directory structure.
-##'   See \code{\link{pathStruct}}.
+##'   See \code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+##'   is forwarded to it automatically.
 ##' @param subdir Character string, subdirectory passed on to \code{fun.path}.
 ##' @param name.all.pdf Character string, file name to use for a combined multi-page
 ##'   PDF when \code{file = ""} and \code{onefile = TRUE}. Default \code{"all.pdf"}.
@@ -465,12 +474,11 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
                  ...)
         },
         by=row]
-        
-        allcombs <- allcombs[format!="pdf"]
+          allcombs <- allcombs[format!="pdf"]
         
       }
       if(nrow(allcombs)) {
-        message("onefile can only be used with pdf device. Will not be used.")
+        if(!quiet) message("onefile can only be used with pdf device. Will not be used.")
         onefile <- FALSE
       }
       ## silent <- lapplydt(allcombs,by="name.file.canvas",fun=function(x)write1(plot[x$row],
@@ -625,7 +633,9 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ##'   more consistent across platforms.
 ##' @param fun.path Function or character string defining output directory
 ##'   structure, applied to \code{fn} before the file is written. See
-##'   \code{\link{pathStruct}}.
+##'   \code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+##'   is forwarded to it automatically (if the function accepts a \code{script}
+##'   argument).
 ##' @param ... Additional arguments. \code{res} is passed on to the \code{png}/
 ##'   \code{ragg} device, \code{onefile} to the \code{pdf} device. A \code{dir}
 ##'   element (if present) is extracted but currently only used as a default
@@ -672,16 +682,13 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
   }
   if(is.null(dir)) dir <- "."
 
-  
-  ## if("fun.path"%in%names(dots) && !is.null(dots$fun.path)) {
+    ## if("fun.path"%in%names(dots) && !is.null(dots$fun.path)) {
   ##   fun.path <- dots$fun.path
   ##   dots$fun.path <- NULL
   ## }
   if(missing(fun.path)) fun.path <- NULL
-  
-  
   if(!is.null(type) && type!="x11" && !is.null(fun.path)){
-    fn <- fun.path(fn,model=model,subdir=subdir)
+    fn <- applyFunPath(fun.path,name=fn,model=model,script=script,subdir=subdir,quiet=quiet)
   }
 
   if(!is.null(fn)&&type!="x11"){
@@ -717,14 +724,12 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
              dots <- dots[intersect(names(dots),"onefile")]
              args <- c(list(file = fn, width = size$width, 
                             height = size$height),dots)
-             do.call(pdf,args)
-
-             ## pdf(file = fn, width = size$width, 
+             do.call(pdf,args)             ## pdf(file = fn, width = size$width, 
              ##     height = size$height,onefile=onefile,...)
            })
     print1(plot)
     dev.off()
-    if (!quiet) message("Written to ", fn)
+    if (!quiet) message(fn)
   } else {
     print1(plot)
   }

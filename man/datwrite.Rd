@@ -4,7 +4,18 @@
 \alias{datwrite}
 \title{Write data to file(s) using NMwriteData}
 \usage{
-datwrite(x, file, script, time, model, formats, fun.path, subdir = NULL, ...)
+datwrite(
+  x,
+  file,
+  script,
+  time,
+  model,
+  formats,
+  fun.path,
+  subdir = NULL,
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{A data frame or list of data frames to write}
@@ -22,6 +33,9 @@ datwrite(x, file, script, time, model, formats, fun.path, subdir = NULL, ...)
 \item{fun.path}{Optional function to construct file paths based on name, model, and subdir}
 
 \item{subdir}{Optional subdirectory for organizing output files}
+
+\item{quiet}{Logical. If \code{TRUE}, suppresses messages about ignored
+\code{model}/\code{script} arguments from \code{fun.path}.}
 
 \item{...}{Additional arguments passed to NMwriteData}
 }

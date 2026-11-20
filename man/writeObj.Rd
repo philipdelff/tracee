@@ -49,7 +49,8 @@ be used in output file names rather than numeric indices?}
 \item{quiet}{Logical. If \code{TRUE}, suppresses messages about files written.}
 
 \item{fun.path}{Function or character string defining output directory structure.
-See \code{\link{pathStruct}}.}
+See \code{\link{pathStruct}}. If the structure uses \code{\%script}, \code{script}
+is forwarded to it automatically.}
 
 \item{subdir}{Character string, subdirectory passed on to \code{fun.path}.}
 
