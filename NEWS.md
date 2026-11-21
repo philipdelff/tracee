@@ -1,11 +1,53 @@
-# 0.0.5
+# 0.1.0
+
+This version comes with several improvements, new functions and bugfixes. While previous versions provided functions to save to tables and figures with stamps, version 0.1.0 improves the consistency of those functions, adds a consistent framework to define file path and naming based on output name, model name and script name. This means one can freely define if outputs should be saved in folders and with file names based on a model name and or a script name. If saving a plot object, $p$, this could look like
+
+``` r
+ggwrite(p,file="myplot.png",model="models/mymodel.lst",script="myscript.R",path.format="outputs/%script/%model_%name")
+```
+
+this would generate a file in 
+"outputs/myscript/mymodel_myplot.png" 
+which will include a "stamp" in the bottom with script, model, and output name information.
+
+You can also use the `lwrite()` ("list write") function to achieve this for a
+set of outputs which can be a mix of figures, tables, and data.frames. Those
+would then be dispatched to relevant writers.
+
+Suppose `p` is a plot, and `ft` is a flextable object.
+``` r
+lwrite(list(myplot=p,mytab=ft),
+path.format="outputs/%script/%model_%name",
+,model="models/mymodel.lst",script="myscript.R")
+```
+would create the two files
+"outputs/myscript/myplot_mymodel.png" and 
+"outputs/myscript/mytab_mymodel.png"
+
 
 ## New Features
-* `ftwrite` gains the `show` argument. Similarly to `ggwrite()`, this
+This list of improvements is far from exhaustive. 
+
+* A `model` argument is generally added to writer functions to allow for model
+  information in tags.
+
+* Tags are now generated based on what is provided out of `script`, `model`, and
+  `time`.
+
+* `ftwrite()` gains the `show` argument. Similarly to `ggwrite()`, this
   allows to control printing to file and screen independently.
+  
+* `ggwrite()` (and wrappers) gains support for the ragg device which is now
+  default. This improves reproducibility across systems.
+
+* `traceit()` can be used to modify saving options for individual outputs that
+  are saved in lists and written at once with `lwrite()`. The options chosen
+  with `traceit()` will then overwrite defaults for the specific plots.
+
+stamps in ggplot
 
 ## Bugfixes
-* `ftwrite` would need the `bg` argument even though a default value
+* `ftwrite()` would need the `bg` argument even though a default value
   was apparently provided. Now that default is actually being used.
 
 ## Other changes
@@ -19,7 +61,7 @@
 
 # 0.0.4
 ## Bugfixes
-* ggwrite in some cases wouldn't write a list of plots to multiple
+* `ggwrite()` in some cases wouldn't write a list of plots to multiple
   pngs. Fixed.
 
 ## Other changes
