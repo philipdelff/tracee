@@ -33,10 +33,17 @@ This list of improvements is far from exhaustive.
 
 * Stamping mechanism has been re-written and greatly improved. Stamps format
   (what to write) is controlled by `stamp.format` (very similar to `path.format`
-  for file paths) and styling (font etc.) is controlled by `stamp.style`. The
-  default is `stamp.format="%script\n%time %model"` but skipping components that
-  are not provided in respective argument. `stamp.style` is a list of arguments
+  for file paths) and styling (font etc.) is controlled by `stamp.gg.style`
+  (plots) and `stamp.ft.style` (flextables). The default is
+  `stamp.format="%file\n%script\n%model\n%time"` with labels added by the
+  default `stamp.funs` ("Output:", "Script:", "Model:", "Time:"). Components
+  that are not provided are skipped. `stamp.gg.style` is a list of arguments
   passed to `element_text`.
+
+* Plot stamps are now left-justified by default and placed in the bottom
+  right corner. Placement and justification are controlled independently
+  by `stamp.gg.style$position` (`"left"`, `"center"`, `"right"` or a number
+  between 0 and 1) and `stamp.gg.style$hjust`.
 
 * Generation of stamps have been streamlined between `ggwrite()` and
   `ftwrite()`, and they are now using the same underlying mechanism for

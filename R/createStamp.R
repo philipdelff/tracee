@@ -14,15 +14,15 @@
 ##'     and \code{\%file}. Use \code{"\\n"} for line breaks. Placeholders
 ##'     without a value are removed, together with the resulting
 ##'     repeated spaces and empty lines. Default is
-##'     \code{"\%script\\n\%time \%model \%file"}.
+##'     \code{"\%file\\n\%script\\n\%model\\n\%time"}.
 ##' @param stamp.funs Named list of functions used to preprocess
 ##'     \code{script}, \code{time}, \code{model}, and/or \code{file}
 ##'     before they are substituted into \code{stamp.format}. Each
 ##'     function takes the value as its single argument and returns a
-##'     character string. By default, \code{script}, \code{model}, and
-##'     \code{file} are used unchanged (\code{identity}), and \code{time}
-##'     is formatted as \code{"\%d-\%b-\%Y \%H:\%M"} if it is a
-##'     \code{POSIXct}. Elements not supplied keep their defaults, so
+##'     character string. By default, values are prefixed with
+##'     \code{"Output:"}, \code{"Script:"}, \code{"Model:"} and
+##'     \code{"Time:"}, and \code{time} is formatted as
+##'     \code{"\%d-\%b-\%Y \%H:\%M"} if it is a \code{POSIXct}. Elements not supplied keep their defaults, so
 ##'     e.g. \code{stamp.funs = list(file = basename)} only changes
 ##'     \code{file}. Model and script objects (lists) are reduced to their
 ##'     \code{label} element before preprocessing.
@@ -32,17 +32,17 @@
 ## do not export.
 
 createStamp <- function(file,script,time,model,addto,stamp.format,
-                        stamp.funs=list(script=identity,
-                                        time=function(x) if(inherits(x,"POSIXt")) format(x,"%d-%b-%Y %H:%M") else x,
-                                        model=identity,
-                                        file=identity)){
+                        stamp.funs=list(script=function(x) paste("Script:",x),
+                                        time=function(x) paste("Time:",if(inherits(x,"POSIXt")) format(x,"%d-%b-%Y %H:%M") else x),
+                                        model=function(x) paste("Model:",x),
+                                        file=function(x) paste("Output:",x))){
 
   if(missing(script)) script <- NULL
   if(missing(time)) time <- NULL
   if(missing(model)) model <- NULL
   if(missing(file)) file <- NULL
   if(missing(addto)) addto <- NULL
-  if(missing(stamp.format) || is.null(stamp.format)) stamp.format <- "%script\n%time %model %file"
+  if(missing(stamp.format) || is.null(stamp.format)) stamp.format <- "%file\n%script\n%model\n%time"
 
   if(is.null(script) && is.null(model)) return(NULL)
 
@@ -87,7 +87,7 @@ createStamp <- function(file,script,time,model,addto,stamp.format,
   stamp <- stamp.format
   for(nm in names(values)){
     x <- values[[nm]]
-    val <- if(is.null(x)) "" else as.character(funs.default[[nm]](x))
+    val <- if(is.null(x) || (is.character(x) && all(!nzchar(x)))) "" else as.character(funs.default[[nm]](x))
     if(is.null(val) || length(val)==0 || is.na(val[1])) val <- ""
     stamp <- gsub(paste0("%",nm), paste(val,collapse=" "), stamp, fixed=TRUE)
   }

@@ -1,4 +1,4 @@
 # basic
 
-    "ex.R\na test out.R"
+    "Output: out.R\nScript: ex.R\nTime: a test"
 

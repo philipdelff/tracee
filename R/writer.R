@@ -28,11 +28,18 @@
 ##' @param stamp.format A template for the stamp text using the
 ##'     placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 ##'     \code{\%file}, with \code{"\\n"} for line breaks. Default is
-##'     \code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.
+##'     \code{"\%file\\n\%script\\n\%model\\n\%time"}. See \code{\link{createStamp}}.
 ##' @param stamp.funs Optional named list of functions (elements \code{script},
 ##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
 ##'     before they are inserted into \code{stamp.format}. See
 ##'     \code{\link{createStamp}}.
+##' @param stamp.gg.style A list of formatting options for the stamp text,
+##'     passed to \code{\link{ggstamp}}. For ggplot objects, elements accepted
+##'     by \code{ggplot2::element_text()} (e.g. \code{size}, \code{colour},
+##'     \code{hjust}).
+##' @param stamp.ft.style A list of formatting options for the stamp,
+##'     passed to \code{\link{ftstamp}}. Valid elements: \code{size},
+##'     \code{align}, \code{space}, \code{bg}, \code{color}.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   This is passed to the path function generated from \code{path.format}.
 ##' @param ... Additional arguments passed to the specific writer functions
@@ -122,7 +129,7 @@
 ##'        model = "run001")
 ##' }
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
-                   path.format=NULL,subdir=NULL,stamp.format=NULL,stamp.funs=NULL,fun.path=NULL,
+                   path.format=NULL,subdir=NULL,stamp.format=NULL,stamp.funs=NULL,stamp.gg.style=NULL,stamp.ft.style=NULL,fun.path=NULL,
                    ...){
 
   ## resolve once here, then pass on to ftwrite()/datwrite()/ggwrite() as path.format
@@ -153,7 +160,8 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
                    path.format=path.format,
                    subdir=subdir,
                    stamp.format=stamp.format,
-                   stamp.funs=stamp.funs
+                   stamp.funs=stamp.funs,
+                   stamp.ft.style=stamp.ft.style
                    ),
               dots)
     res <- do.call(ftwrite,args)
@@ -202,7 +210,8 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
            path.format=path.format,
            subdir=subdir,
            stamp.format=stamp.format,
-           stamp.funs=stamp.funs),
+           stamp.funs=stamp.funs,
+           stamp.gg.style=stamp.gg.style),
       args.gg
     )
     

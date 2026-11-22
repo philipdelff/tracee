@@ -14,7 +14,7 @@ ftwriteOne(
   script,
   time,
   model,
-  stamp.style,
+  stamp.ft.style,
   fun.path,
   subdir,
   stamp.format = NULL,
@@ -40,7 +40,7 @@ ftwriteOne(
 
 \item{model}{Character string or model object, model identifier for stamping.}
 
-\item{stamp.style}{Format specification for stamp. Passed to \code{\link{ftstamp}}.}
+\item{stamp.ft.style}{Format specification for stamp. Passed to \code{\link{ftstamp}}.}
 
 \item{fun.path}{Function for constructing file paths. See \code{\link{pathFormat}}.}
 

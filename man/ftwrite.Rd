@@ -15,7 +15,7 @@ ftwrite(
   script,
   time,
   model,
-  stamp.style,
+  stamp.ft.style,
   path.format = NULL,
   subdir = NULL,
   use.names = TRUE,
@@ -65,8 +65,9 @@ entirely.}
 \item{model}{Character string or model object specifying the model name/identifier.
 Used for stamping and for organizing output directories via \code{path.format}.}
 
-\item{stamp.style}{Character string or format specification for the stamp.
-Passed to \code{\link{ftstamp}} to control stamp formatting.}
+\item{stamp.ft.style}{A list of formatting options for the stamp,
+passed to \code{\link{ftstamp}}. Valid elements: \code{size},
+\code{align}, \code{space}, \code{bg}, \code{color}.}
 
 \item{path.format}{Character string or function defining the output path.
 A template using \code{\%model}, \code{\%script}, and \code{\%name}
@@ -84,7 +85,7 @@ and \code{ft} is a list.}
 \item{stamp.format}{A template for the stamp text using the
 placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 \code{\%file}, with \code{"\\n"} for line breaks. Default is
-\code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.}
+\code{"\%file\\n\%script\\n\%model\\n\%time"}. See \code{\link{createStamp}}.}
 
 \item{stamp.funs}{Optional named list of functions (elements \code{script},
 \code{time}, \code{model}, \code{file}) used to preprocess the values

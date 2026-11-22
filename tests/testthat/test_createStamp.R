@@ -16,22 +16,22 @@ test_that("stamp.format",{
   t1 <- "2026-01-01 10:00"
   expect_equal(
     createStamp(script="ex.R",file="out.png",time=t1,model="run001"),
-    "ex.R\n2026-01-01 10:00 run001 out.png")
+    "Output: out.png\nScript: ex.R\nModel: run001\nTime: 2026-01-01 10:00")
 
   ## empty placeholders are removed
   expect_equal(
     createStamp(script="ex.R",file="out.png",time=""),
-    "ex.R\nout.png")
+    "Output: out.png\nScript: ex.R")
 
   expect_equal(
     createStamp(script="ex.R",file="out.png",time=t1,model="run001",
                 stamp.format="%model | %script (%time)"),
-    "run001 | ex.R (2026-01-01 10:00)")
+    "Model: run001 | Script: ex.R (Time: 2026-01-01 10:00)")
 
   ## addto is kept above the stamp
   expect_equal(
     createStamp(script="ex.R",time="",addto="My caption",stamp.format="%script"),
-    "My caption\nex.R")
+    "My caption\nScript: ex.R")
 
   expect_error(createStamp(script="ex.R",stamp.format="%scrpt"))
 })
@@ -40,13 +40,16 @@ test_that("stamp.funs",{
   expect_equal(
     createStamp(script="path/to/ex.R",file="out.png",time="",
                 stamp.funs=list(script=basename)),
-    "ex.R\nout.png")
+    "Output: out.png\nex.R")
 
   expect_equal(
     createStamp(script="ex.R",time=as.POSIXct("2026-01-01 10:00:00"),
                 stamp.format="%script %time",
                 stamp.funs=list(time=function(x) format(x,"%Y-%m-%d"))),
-    "ex.R 2026-01-01")
+    "Script: ex.R 2026-01-01")
+
+  ## components without a value are left out, also with prefixes
+  expect_equal(createStamp(script="ex.R",time=""),"Script: ex.R")
 
   expect_error(createStamp(script="ex.R",stamp.funs=list(foo=identity)))
   expect_error(createStamp(script="ex.R",stamp.funs=list(script="a")))
@@ -61,10 +64,19 @@ test_that("stamp.format passed from ggwrite and ftwrite",{
   } else {
     ps$labels$caption
   }
-  expect_equal(caption,"Made by ex.R")
+  expect_equal(caption,"Made by Script: ex.R")
 
   ft <- flextable::flextable(data.frame(a=1))
   fts <- ftstamp(ft,script="ex.R",time="",stamp.format="Made by %script")
-  expect_true(any(grepl("Made by ex.R",
+  expect_true(any(grepl("Made by Script: ex.R",
                         unlist(fts$footer$dataset))))
+})
+
+test_that("stampPosition",{
+  expect_equal(stampPosition(NULL),1)
+  expect_equal(stampPosition("left"),0)
+  expect_equal(stampPosition("center"),0.5)
+  expect_equal(stampPosition(0.3),0.3)
+  expect_error(stampPosition(2))
+  expect_error(stampPosition("top"))
 })

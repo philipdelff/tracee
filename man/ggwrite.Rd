@@ -25,6 +25,7 @@ ggwrite(
   method.png = c("ragg", "png"),
   stamp.format = NULL,
   stamp.funs = NULL,
+  stamp.gg.style = NULL,
   useNames,
   fun.path = NULL
 )
@@ -111,12 +112,17 @@ for reproducible/snapshot-tested figures). Default is \code{"png"}.}
 \item{stamp.format}{A template for the stamp text using the
 placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 \code{\%file}, with \code{"\\n"} for line breaks. Default is
-\code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.}
+\code{"\%file\\n\%script\\n\%model\\n\%time"}. See \code{\link{createStamp}}.}
 
 \item{stamp.funs}{Optional named list of functions (elements \code{script},
 \code{time}, \code{model}, \code{file}) used to preprocess the values
 before they are inserted into \code{stamp.format}. See
 \code{\link{createStamp}}.}
+
+\item{stamp.gg.style}{A list of formatting options for the stamp text,
+passed to \code{\link{ggstamp}}. For ggplot objects, elements accepted
+by \code{ggplot2::element_text()} (e.g. \code{size}, \code{colour},
+\code{hjust}).}
 
 \item{useNames}{Deprecated. Use \code{use.names} instead.}
 

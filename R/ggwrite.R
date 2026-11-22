@@ -69,11 +69,15 @@
 ##' @param stamp.format A template for the stamp text using the
 ##'     placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 ##'     \code{\%file}, with \code{"\\n"} for line breaks. Default is
-##'     \code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.
+##'     \code{"\%file\\n\%script\\n\%model\\n\%time"}. See \code{\link{createStamp}}.
 ##' @param stamp.funs Optional named list of functions (elements \code{script},
 ##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
 ##'     before they are inserted into \code{stamp.format}. See
 ##'     \code{\link{createStamp}}.
+##' @param stamp.gg.style A list of formatting options for the stamp text,
+##'     passed to \code{\link{ggstamp}}. For ggplot objects, elements accepted
+##'     by \code{ggplot2::element_text()} (e.g. \code{size}, \code{colour},
+##'     \code{hjust}).
 ##' @param useNames Deprecated. Use \code{use.names} instead.
 ##'
 ##' @details
@@ -189,7 +193,7 @@
 ggwrite <- function(plot, file, canvas=NULL, formats,
                     onefile=FALSE, res=200, paper="special",
                     save=TRUE, show=!save, use.names=FALSE, subdir=NULL,
-                    script, time, model,name.all.pdf,quiet=FALSE, path.format=NULL,method.png=c("ragg","png"),stamp.format=NULL,stamp.funs=NULL,useNames,fun.path=NULL){
+                    script, time, model,name.all.pdf,quiet=FALSE, path.format=NULL,method.png=c("ragg","png"),stamp.format=NULL,stamp.funs=NULL,stamp.gg.style=NULL,useNames,fun.path=NULL){
 
   #### Section start: Dummy variables, only not to get NOTE's in pacakge checks ####
 
@@ -292,7 +296,8 @@ if(FALSE) {
       subdir=subdir,
       method.png= method.png,
       stamp.format=stamp.format,
-      stamp.funs=stamp.funs
+      stamp.funs=stamp.funs,
+      stamp.gg.style=stamp.gg.style
     )
 
     
@@ -300,7 +305,7 @@ if(FALSE) {
   }
 
   if(show){
-    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path=NULL,subdir=subdir,onefile=onefile,stamp.format=stamp.format,stamp.funs=stamp.funs)
+    writeObj(plot, file=NULL,  script=script, time=time,model=model, res=res, paper=paper,formats=NULL,canvas=NULL,fun.path=NULL,subdir=subdir,onefile=onefile,stamp.format=stamp.format,stamp.funs=stamp.funs,stamp.gg.style=stamp.gg.style)
   }
   invisible(NULL)
 }
@@ -645,7 +650,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ##'   \code{\link{pathFormat}}. If the path format uses \code{\%script}, \code{script}
 ##'   is forwarded to it automatically (if the function accepts a \code{script}
 ##'   argument).
-##' @param stamp.format,stamp.funs Passed to \code{\link{ggstamp}}.
+##' @param stamp.format,stamp.funs,stamp.gg.style Passed to \code{\link{ggstamp}}.
 ##' @param ... Additional arguments. \code{res} is passed on to the \code{png}/
 ##'   \code{ragg} device, \code{onefile} to the \code{pdf} device. A \code{dir}
 ##'   element (if present) is extracted but currently only used as a default
@@ -661,7 +666,7 @@ writeObj <- function(plot,file,script,time,model=model,onefile,use.names=FALSE,f
 ##' @keywords internal
 ## Don't export
 write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,quiet=FALSE,subdir=NULL,method.png=c("ragg","png"),
-                   fun.path=NULL,stamp.format=NULL,stamp.funs=NULL,...){  
+                   fun.path=NULL,stamp.format=NULL,stamp.funs=NULL,stamp.gg.style=NULL,...){  
   
   ## print(str(size))
   if(is.null(plot)) {
@@ -681,7 +686,8 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
   method.png <- match.arg(method.png)
   
   plot <- ggstamp(plot,script=script,file=fn,time=time,model=model,size=size,
-                  stamp.format=stamp.format,stamp.funs=stamp.funs)
+                  stamp.format=stamp.format,stamp.funs=stamp.funs,
+                  stamp.gg.style=stamp.gg.style)
 
   dots <- try(list(...),silent=T)
   if("try-error"%in%class(dots)) dots <- NULL

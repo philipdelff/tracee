@@ -9,7 +9,7 @@
 ##' @param model Character string or model object specifying the model name/identifier.
 ##'     Used for stamping. If a list (model object) is provided, the \code{$label}
 ##'     element is extracted.
-##' @param stamp.style A list specifying formatting options for the stamp. Valid
+##' @param stamp.ft.style A list specifying formatting options for the stamp. Valid
 ##'     elements include: \code{size} (font size, default 4), \code{align} (text
 ##'     alignment, default "right"), \code{space} (line spacing, default 1),
 ##'     \code{bg} (background color, default "#ffffff"), and \code{color} (text
@@ -17,7 +17,7 @@
 ##' @param stamp.format A template for the stamp text using the
 ##'     placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 ##'     \code{\%file}, with \code{"\\n"} for line breaks. Default is
-##'     \code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.
+##'     \code{"\%file\\n\%script\\n\%model\\n\%time"}. See \code{\link{createStamp}}.
 ##' @param stamp.funs Optional named list of functions (elements \code{script},
 ##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
 ##'     before they are inserted into \code{stamp.format}. See
@@ -26,7 +26,7 @@
 ##' @export
 
 ## put stamps on tables plus a little tailoring of visuals
-ftstamp <- function(ft,file,script,time,model,stamp.style,stamp.format=NULL,stamp.funs=NULL){
+ftstamp <- function(ft,file,script,time,model,stamp.ft.style,stamp.format=NULL,stamp.funs=NULL){
 
     if(missing(file)) file <- NULL
 
@@ -34,19 +34,19 @@ ftstamp <- function(ft,file,script,time,model,stamp.style,stamp.format=NULL,stam
     if(missing(model)) model <- NULL
     if(missing(script)) script <- NULL
 
-    stamp.style.0 <- list(size=4,align="right",space=1,bg="#ffffff",color="#666666")
-    if(missing(stamp.style)) stamp.style <- NULL
-    ## if(is.null(stamp.style)){
-    ##     stamp.style <- stamp.style.0
+    stamp.ft.style.0 <- list(size=4,align="right",space=1,bg="#ffffff",color="#666666")
+    if(missing(stamp.ft.style)) stamp.ft.style <- NULL
+    ## if(is.null(stamp.ft.style)){
+    ##     stamp.ft.style <- stamp.ft.style.0
     ## } else {
-    ##     stamp.style <- modifyList(stamp.style.0,stamp.style)
-    ##     newnames <- setdiff(names(stamp.style),names(stamp.style.0))
+    ##     stamp.ft.style <- modifyList(stamp.ft.style.0,stamp.ft.style)
+    ##     newnames <- setdiff(names(stamp.ft.style),names(stamp.ft.style.0))
     ##     if(length(newnames)) {
-    ##         stop(paste("elements not allowed in stamp.style:",paste(newnames,collapse=", ")))
+    ##         stop(paste("elements not allowed in stamp.ft.style:",paste(newnames,collapse=", ")))
     ##     }
     ## }
   
-    stamp.style <- modifyListCheck(x=stamp.style.0,stamp.style,elems.allowed=names(stamp.style.0))
+    stamp.ft.style <- modifyListCheck(x=stamp.ft.style.0,stamp.ft.style,elems.allowed=names(stamp.ft.style.0))
     
     stamp.full <- createStamp(script=script,file=file,time=time,model=model,
                               stamp.format=stamp.format,stamp.funs=stamp.funs)
@@ -66,26 +66,26 @@ ftstamp <- function(ft,file,script,time,model,stamp.style,stamp.format=NULL,stam
 
     
 
-    ft <- color(ft,i=rows.stamp,part = "footer", color = stamp.style$color)
+    ft <- color(ft,i=rows.stamp,part = "footer", color = stamp.ft.style$color)
 
     ft <- fontsize(ft, 
                    i=rows.stamp,
-                   size = stamp.style$size, 
+                   size = stamp.ft.style$size, 
                    part = "footer")
     ft <- align(ft, 
                 i=rows.stamp,
-                align=stamp.style$align,
+                align=stamp.ft.style$align,
                 part = "footer")
     
     ## ft <- fontsize(ft, part = "footer", size=6)
     ## ft <- align(ft, part="footer", align = "right")
     ft <- line_spacing(ft, 
                        i=rows.stamp,
-                       space = stamp.style$space, 
+                       space = stamp.ft.style$space, 
                        part = "footer")
 
-    if(!is.null(stamp.style$bg)){
-        ft <- bg(ft, i=rows.stamp,part = "footer", bg = stamp.style$bg)
+    if(!is.null(stamp.ft.style$bg)){
+        ft <- bg(ft, i=rows.stamp,part = "footer", bg = stamp.ft.style$bg)
     }
     ft
 }

@@ -11,7 +11,7 @@ ggstamp(
   script,
   time,
   model,
-  stamp.style,
+  stamp.gg.style,
   stamp.format = NULL,
   stamp.funs = NULL
 )
@@ -30,16 +30,23 @@ automatically.}
 
 \item{model}{An optional model name or object to be included in the stamp.}
 
-\item{stamp.style}{A list of formatting options for the stamp text. For ggplot objects,
+\item{stamp.gg.style}{A list of formatting options for the stamp text. For ggplot objects,
 valid elements include size, colour, hjust, vjust, and other parameters accepted by
 \code{ggplot2::element_text()}. For gtable objects, valid elements include col, fill,
 alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
-fontface, lineheight, and font. Default formatting is applied if not specified.}
+fontface, lineheight, and font. Default formatting is applied if not specified.
+Additionally, the element \code{position} controls where the stamp
+is placed: \code{"left"}, \code{"center"}, \code{"right"}
+(default) or a number between 0 (left) and 1 (right). \code{hjust}
+controls justification of the lines within the stamp and defaults
+to 0 (left-justified). Example:
+\code{stamp.gg.style=list(position="right",hjust=0)} places the stamp
+on the right with left-justified lines.}
 
 \item{stamp.format}{A template for the stamp text using the
 placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 \code{\%file}, with \code{"\\n"} for line breaks. Default is
-\code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.}
+\code{"\%file\\n\%script\\n\%model\\n\%time"}. See \code{\link{createStamp}}.}
 
 \item{stamp.funs}{Optional named list of functions (elements \code{script},
 \code{time}, \code{model}, \code{file}) used to preprocess the values

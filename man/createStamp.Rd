@@ -5,7 +5,17 @@
 \title{Create a stamp with script path, output file path and time stamp
 in it.}
 \usage{
-createStamp(file, script, time, model, addto, stamp.format, stamp.funs = NULL)
+createStamp(
+  file,
+  script,
+  time,
+  model,
+  addto,
+  stamp.format,
+  stamp.funs = list(script = function(x) paste("Script:", x), time = function(x)
+    paste("Time:", if (inherits(x, "POSIXt")) format(x, "\%d-\%b-\%Y \%H:\%M") else x),
+    model = function(x) paste("Model:", x), file = function(x) paste("Output:", x))
+)
 }
 \arguments{
 \item{file}{the output file path}
@@ -27,15 +37,19 @@ placeholders \code{\%script}, \code{\%time}, \code{\%model},
 and \code{\%file}. Use \code{"\\n"} for line breaks. Placeholders
 without a value are removed, together with the resulting
 repeated spaces and empty lines. Default is
-\code{"\%script\\n\%time \%model \%file"}.}
+\code{"\%file\\n\%script\\n\%model\\n\%time"}.}
 
-\item{stamp.funs}{Optional named list of functions used to
-preprocess \code{script}, \code{time}, \code{model}, and/or
-\code{file} before they are substituted into
-\code{stamp.format}. Each function takes the value as its
-single argument and returns a character string. A supplied
-function replaces the default for that element. Example:
-\code{stamp.funs = list(script = basename)}.}
+\item{stamp.funs}{Named list of functions used to preprocess
+\code{script}, \code{time}, \code{model}, and/or \code{file}
+before they are substituted into \code{stamp.format}. Each
+function takes the value as its single argument and returns a
+character string. By default, values are prefixed with
+\code{"Output:"}, \code{"Script:"}, \code{"Model:"} and
+\code{"Time:"}, and \code{time} is formatted as
+\code{"\%d-\%b-\%Y \%H:\%M"} if it is a \code{POSIXct}. Elements not supplied keep their defaults, so
+e.g. \code{stamp.funs = list(file = basename)} only changes
+\code{file}. Model and script objects (lists) are reduced to their
+\code{label} element before preprocessing.}
 }
 \value{
 A character string, or \code{NULL} if neither

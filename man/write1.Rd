@@ -19,6 +19,7 @@ write1(
   fun.path = NULL,
   stamp.format = NULL,
   stamp.funs = NULL,
+  stamp.gg.style = NULL,
   ...
 )
 }
@@ -62,7 +63,7 @@ structure, applied to \code{fn} before the file is written. See
 is forwarded to it automatically (if the function accepts a \code{script}
 argument).}
 
-\item{stamp.format, stamp.funs}{Passed to \code{\link{ggstamp}}.}
+\item{stamp.format, stamp.funs, stamp.gg.style}{Passed to \code{\link{ggstamp}}.}
 
 \item{...}{Additional arguments. \code{res} is passed on to the \code{png}/
 \code{ragg} device, \code{onefile} to the \code{pdf} device. A \code{dir}

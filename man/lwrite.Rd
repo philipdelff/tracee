@@ -60,6 +60,7 @@ or \code{\link{datwrite}}). Common arguments include:
 \item \code{canvas}: Canvas size for plots
 \item \code{quiet}: Suppress messages
 \item \code{stamp.format}, \code{stamp.funs}: Stamp text format, see \code{\link{createStamp}}
+\item \code{stamp.gg.style}, \code{stamp.ft.style}: Stamp styling for plots and tables, see \code{\link{writer}}
 }}
 }
 \value{
