@@ -5,50 +5,98 @@
 ##' @param time The default is to insert a time stamp taken from
 ##'     result of Sys.time(). Using the time argument you can overrule
 ##'     this by setting a fixed string instead. Use "" to omit.
+##' @param model An optional model name or object to be included in
+##'     the stamp.
 ##' @param addto An existing caption to keep above the caption created
 ##'     by this function.
+##' @param stamp.format A template for the stamp text using the
+##'     placeholders \code{\%script}, \code{\%time}, \code{\%model},
+##'     and \code{\%file}. Use \code{"\\n"} for line breaks. Placeholders
+##'     without a value are removed, together with the resulting
+##'     repeated spaces and empty lines. Default is
+##'     \code{"\%script\\n\%time \%model \%file"}.
+##' @param stamp.funs Named list of functions used to preprocess
+##'     \code{script}, \code{time}, \code{model}, and/or \code{file}
+##'     before they are substituted into \code{stamp.format}. Each
+##'     function takes the value as its single argument and returns a
+##'     character string. By default, \code{script}, \code{model}, and
+##'     \code{file} are used unchanged (\code{identity}), and \code{time}
+##'     is formatted as \code{"\%d-\%b-\%Y \%H:\%M"} if it is a
+##'     \code{POSIXct}. Elements not supplied keep their defaults, so
+##'     e.g. \code{stamp.funs = list(file = basename)} only changes
+##'     \code{file}. Model and script objects (lists) are reduced to their
+##'     \code{label} element before preprocessing.
+##' @return A character string, or \code{NULL} if neither
+##'     \code{script} nor \code{model} is given.
 ##' @keywords internal
-##' 
 ## do not export.
 
-createStamp <- function(file,script,time,model,addto){
+createStamp <- function(file,script,time,model,addto,stamp.format,
+                        stamp.funs=list(script=identity,
+                                        time=function(x) if(inherits(x,"POSIXt")) format(x,"%d-%b-%Y %H:%M") else x,
+                                        model=identity,
+                                        file=identity)){
 
-    ##
-    if(missing(script)) script <- NULL
-    if(missing(time)) time <- NULL
-    if(missing(model)) model <- NULL
-    if(all(c(is.null(script),is.null(script),is.null(model)))) return(NULL)
+  if(missing(script)) script <- NULL
+  if(missing(time)) time <- NULL
+  if(missing(model)) model <- NULL
+  if(missing(file)) file <- NULL
+  if(missing(addto)) addto <- NULL
+  if(missing(stamp.format) || is.null(stamp.format)) stamp.format <- "%script\n%time %model %file"
 
-    if(missing(addto)) addto <- NULL
+  if(is.null(script) && is.null(model)) return(NULL)
 
-  if(is.list(script)) script <- script$label
-    if(is.null(script)) script <- ""
-    script <- as.character(script)
+  ## Defaults are taken from the signature. A partial stamp.funs list
+  ## (or NULL, as passed on by the writers) only replaces the elements
+  ## it contains.
+  funs.default <- eval(formals(sys.function())$stamp.funs)
+  if(missing(stamp.funs)) stamp.funs <- NULL
 
-    if(is.null(time)) time <- ""
-    if(is.logical(time)&&time) time <- Sys.time()
-    if(is.logical(time)&&!time) time <- ""
-
-    if(inherits(time,"POSIXt")){
-        time <- format(time, "%d-%b-%Y %H:%M")
+  if(!is.null(stamp.funs)){
+    if(!is.list(stamp.funs) || is.null(names(stamp.funs)) || any(names(stamp.funs)=="")){
+      stop("stamp.funs must be a named list of functions.")
     }
+    unsupported.funs <- setdiff(names(stamp.funs), names(funs.default))
+    if(length(unsupported.funs)){
+      stop("Unsupported element(s) in stamp.funs: ",
+           paste(unsupported.funs, collapse=", "),
+           ". Supported elements are script, time, model, and file.")
+    }
+    if(!all(vapply(stamp.funs, is.function, logical(1)))){
+      stop("All elements of stamp.funs must be functions.")
+    }
+    funs.default[names(stamp.funs)] <- stamp.funs
+  }
 
-    if(is.null(model)) model <- ""
-        if(is.list(model)) {
-            model <- model$label
-        }
-    model <- as.character(model)
-    
-    
-elems.cap <- c(paste(time,collapse=" "),
-        paste(model,collapse=" "),
-        file)
-    elems.cap <- elems.cap[elems.cap!=""]
-    caption.stamp <- paste(
-        elems.cap
-       ,collapse=" ")
+  ## Normalize inputs before preprocessing: model/script objects are
+  ## reduced to their label, and logical time means now/nothing.
+  if(is.list(script)) script <- script$label
+  if(is.list(model)) model <- model$label
+  if(is.logical(time)) time <- if(isTRUE(time)) Sys.time() else ""
 
-    caption <- paste(c(addto,script,caption.stamp),collapse="\n")
-    
-    caption
+  ## Check for unsupported placeholders (e.g. typos like %scrpt)
+  placeholders <- regmatches(stamp.format, gregexpr("%[[:alpha:]]+", stamp.format))[[1]]
+  unsupported <- setdiff(placeholders, c("%script","%time","%model","%file"))
+  if(length(unsupported)){
+    stop("Unsupported placeholder(s) in stamp.format: ",
+         paste(unsupported, collapse=", "),
+         ". Supported placeholders are %script, %time, %model, and %file.")
+  }
+
+  values <- list(script=script, time=time, model=model, file=file)
+  stamp <- stamp.format
+  for(nm in names(values)){
+    x <- values[[nm]]
+    val <- if(is.null(x)) "" else as.character(funs.default[[nm]](x))
+    if(is.null(val) || length(val)==0 || is.na(val[1])) val <- ""
+    stamp <- gsub(paste0("%",nm), paste(val,collapse=" "), stamp, fixed=TRUE)
+  }
+
+  ## Clean up after empty placeholders: collapse repeated spaces, trim
+  ## each line, and drop empty lines.
+  lines <- strsplit(stamp, "\n", fixed=TRUE)[[1]]
+  lines <- trimws(gsub(" {2,}", " ", lines))
+  lines <- lines[nzchar(lines)]
+
+  paste(c(addto,lines),collapse="\n")
 }

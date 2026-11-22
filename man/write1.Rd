@@ -17,6 +17,8 @@ write1(
   subdir = NULL,
   method.png = c("ragg", "png"),
   fun.path = NULL,
+  stamp.format = NULL,
+  stamp.funs = NULL,
   ...
 )
 }
@@ -59,6 +61,8 @@ structure, applied to \code{fn} before the file is written. See
 \code{\link{pathFormat}}. If the path format uses \code{\%script}, \code{script}
 is forwarded to it automatically (if the function accepts a \code{script}
 argument).}
+
+\item{stamp.format, stamp.funs}{Passed to \code{\link{ggstamp}}.}
 
 \item{...}{Additional arguments. \code{res} is passed on to the \code{png}/
 \code{ragg} device, \code{onefile} to the \code{pdf} device. A \code{dir}

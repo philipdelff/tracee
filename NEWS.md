@@ -31,8 +31,16 @@ This list of improvements is far from exhaustive.
 * A `model` argument is generally added to writer functions to allow for model
   information in tags.
 
-* Tags are now generated based on what is provided out of `script`, `model`, and
-  `time`.
+* Stamping mechanism has been re-written and greatly improved. Stamps format
+  (what to write) is controlled by `stamp.format` (very similar to `path.format`
+  for file paths) and styling (font etc.) is controlled by `stamp.style`. The
+  default is `stamp.format="%script\n%time %model"` but skipping components that
+  are not provided in respective argument. `stamp.style` is a list of arguments
+  passed to `element_text`.
+
+* Generation of stamps have been streamlined between `ggwrite()` and
+  `ftwrite()`, and they are now using the same underlying mechanism for
+  simplification.
 
 * `ftwrite()` gains the `show` argument. Similarly to `ggwrite()`, this
   allows to control printing to file and screen independently.
@@ -44,7 +52,11 @@ This list of improvements is far from exhaustive.
   are saved in lists and written at once with `lwrite()`. The options chosen
   with `traceit()` will then overwrite defaults for the specific plots.
 
-stamps in ggplot
+* arguments like `model` and `script` can be pre-prossed before used in paths
+  and stamps. Like when using `path.format="%script-%name"`, one may want to
+  truncate the script path or name before generating the file name. This can be
+  done independently for generation of paths (`paths.funs`) and stamps
+  (`stamps.funs`).
 
 ## Bugfixes
 * `ftwrite()` would need the `bg` argument even though a default value

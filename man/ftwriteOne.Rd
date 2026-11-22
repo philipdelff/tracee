@@ -14,9 +14,11 @@ ftwriteOne(
   script,
   time,
   model,
-  format.stamp,
+  stamp.style,
   fun.path,
-  subdir
+  subdir,
+  stamp.format = NULL,
+  stamp.funs = NULL
 )
 }
 \arguments{
@@ -38,11 +40,13 @@ ftwriteOne(
 
 \item{model}{Character string or model object, model identifier for stamping.}
 
-\item{format.stamp}{Format specification for stamp. Passed to \code{\link{ftstamp}}.}
+\item{stamp.style}{Format specification for stamp. Passed to \code{\link{ftstamp}}.}
 
 \item{fun.path}{Function for constructing file paths. See \code{\link{pathFormat}}.}
 
 \item{subdir}{Character string, subdirectory for outputs.}
+
+\item{stamp.format, stamp.funs}{Passed to \code{\link{ftstamp}}.}
 }
 \value{
 If \code{show = TRUE}, returns the flextable object (possibly stamped).

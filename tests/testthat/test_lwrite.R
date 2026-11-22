@@ -418,7 +418,7 @@ test_that("lwrite with custom structure",{
   dir.out <- withr::local_tempdir()
 
   struct1 <- pathFormat(path.format="%script/%name_%model",
-                        funs.path = list(script = function(x) substr(basename(x), 1, 4)))
+                        path.funs = list(script = function(x) substr(basename(x), 1, 4)))
 
   lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",path.format=struct1)
   

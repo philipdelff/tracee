@@ -10,12 +10,20 @@
 ##' @param time The timestamp to be included.
 ##' @param model An optional model name or object to be included in the stamp.
 ##' @param size The size (list) for the plot, not the caption. Used to calculate the size of the caption.
-##' @param format.stamp A list of formatting options for the stamp text. For ggplot objects,
+##' @param stamp.style A list of formatting options for the stamp text. For ggplot objects,
 ##'     valid elements include size, colour, hjust, vjust, and other parameters accepted by
 ##'     \code{ggplot2::element_text()}. For gtable objects, valid elements include col, fill,
 ##'     alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
 ##'     fontface, lineheight, and font. Default formatting is applied if not specified.
 ##'
+##' @param stamp.format A template for the stamp text using the
+##'     placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
+##'     \code{\%file}, with \code{"\\n"} for line breaks. Default is
+##'     \code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.
+##' @param stamp.funs Optional named list of functions (elements \code{script},
+##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
+##'     before they are inserted into \code{stamp.format}. See
+##'     \code{\link{createStamp}}.
 ##' @return the plot with a stamp
 ##' @details The stamp is adding using the caption label. If a caption
 ##'     is already in the plot, the stamp will be added in a new
@@ -43,7 +51,7 @@
 ##' @export
 
 
-ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
+ggstamp <- function(plot, file, size, script, time, model, stamp.style, stamp.format=NULL, stamp.funs=NULL) {
 ### Captions are only available in ggplot 2.2.1
 
 ### A list of plots is supported so we will run everything with lapply
@@ -52,14 +60,14 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
         plot.was.list <- FALSE
         plot <- list(plot)
     }
-    if(missing(file)) file <- NULL
-    if(!is.null(file)) file <- basename(file)
+  if(missing(file)) file <- NULL
 
     if(missing(time)) time <- NULL
     if(missing(model)) model <- NULL
     if(missing(script)) script <- NULL
 
-    if(missing(format.stamp)) format.stamp <- NULL
+    if(missing(stamp.style)) stamp.style <- NULL
+    if(missing(size)) size <- NULL
 
 
   stamp1 <- function(plot){
@@ -103,7 +111,8 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
         if("try-error" %in% class(caption.existing)) caption.existing  <- ""
         
         caption <- createStamp(script=script,file=file,time=time,model=model,
-                               addto=caption.existing)
+                               addto=caption.existing,
+                               stamp.format=stamp.format,stamp.funs=stamp.funs)
         if(is.null(caption)) return(plot)
         
         plot.stamped <- switch(otype,
@@ -111,7 +120,7 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
                                    if(packageVersion("ggplot2")<"2.2.1"){
                                        stop("ggplot >= 2.2.1 needed to stamp ggplot objects.")
                                    }
-                                   format.stamp <- modifyListCheck(format.stamp,
+                                   stamp.style <- modifyListCheck(stamp.style,
                                                                    x=list(size=6, 
                                                                           colour="#666666",
                                                                           hjust=1,
@@ -121,7 +130,7 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
 ###### using labs/caption. Downside: confounds with plot caption and theme.
                                    ## plot+ggplot2::labs(tag = caption) +
                                    ##     theme(
-                                   ##         plot.tag = do.call(element_text, format.stamp),
+                                   ##         plot.tag = do.call(element_text, stamp.style),
                                    ##      # 1 is the right edge of the panel, 0 is the bottom
                                    ##         plot.tag.position = c(1, 0), 
                                    ##      # Use 'plot' to align relative to the panel, not the outer margin
@@ -134,7 +143,7 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
 ####### caption on the same plot
                                    ## plot+ggplot2::labs(caption = caption) +
                                    ##     theme(
-                                   ##         plot.caption = do.call(element_text, format.stamp)
+                                   ##         plot.caption = do.call(element_text, stamp.style)
                                    ##         )
 
 
@@ -144,7 +153,7 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
                                        plot.caption <- plot_annotation(
                                            caption = caption,
                                            theme=theme(
-                                               plot.caption = do.call(element_text, format.stamp)
+                                               plot.caption = do.call(element_text, stamp.style)
                                            )
                                        )
                                        (plot) + plot.caption
@@ -155,15 +164,24 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
                                            labs(caption = caption)+
                                            theme_void()+
                                            theme(
-                                               plot.caption = do.call(element_text, format.stamp)
+                                               plot.caption = do.call(element_text, stamp.style)
                                            )
                                        (plot) / plot.caption
+                                   }
+
+                                   ## Without a plot size (e.g. ggstamp() called
+                                   ## directly rather than from ggwrite()), the
+                                   ## caption panel height cannot be computed. Use
+                                   ## a regular plot caption instead.
+                                   if(is.null(size)){
+                                       return(plot + labs(caption = caption) +
+                                              theme(plot.caption = do.call(element_text, stamp.style)))
                                    }
 
                                    ## Calculate caption height based on contents
                                    caption_lines <- length(strsplit(caption, "\n")[[1]])
                                    pts_per_inch <- 72  # Standard: 72 points = 1 inch
-                                   caption_height_inches <- ((caption_lines) * format.stamp$size) / pts_per_inch
+                                   caption_height_inches <- ((caption_lines) * stamp.style$size) / pts_per_inch
                                    ## caption_height_inches <- caption_height_inches * 1.3  # Add padding
 
                                         # Your desired total height
@@ -175,8 +193,8 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
                                        labs(caption = caption) +
                                        theme_void() +
                                      theme(plot.margin = margin(0, 0, 0, 0, "pt"))+
-                                     theme(plot.caption = do.call(element_text, c(format.stamp, list(margin = margin(0, 0, 0, 0, "pt")))))
-                                   ## theme(plot.caption = do.call(element_text, format.stamp))
+                                     theme(plot.caption = do.call(element_text, c(stamp.style, list(margin = margin(0, 0, 0, 0, "pt")))))
+                                   ## theme(plot.caption = do.call(element_text, stamp.style))
 
                                    final_plot <- wrap_elements( plot) / caption_plot + 
                                      plot_layout(heights = c(plot_height, caption_height_inches))## &
@@ -186,11 +204,11 @@ ggstamp <- function(plot, file, size, script, time, model, format.stamp) {
 
                                },
                                gtable={
-                                   format.stamp <- modifyListCheck(format.stamp,
+                                   stamp.style <- modifyListCheck(stamp.style,
                                                                    x=list(font=1, col = "grey", cex = 0.5),
                                                                    elems.allowed=cc(col,fill,alpha,lty,lwd,lex,lineend,linejoin,linemitre,fontsize,cex,fontfamily,fontface,lineheight,font)
                                                                    )
-                                   arrangeGrob(plot, bottom = textGrob(caption, gp=do.call(gpar,format.stamp)),heights=c(0.98,0.02))
+                                   arrangeGrob(plot, bottom = textGrob(caption, gp=do.call(gpar,stamp.style)),heights=c(0.98,0.02))
                                }
                                )
         return(plot.stamped)

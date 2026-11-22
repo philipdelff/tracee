@@ -15,6 +15,6 @@
 ## put stamps on tables plus a little tailoring of visuals
 stampFlextab <- function(ft,file,script,bg="#ffffff",time){
     .Deprecated(new="ftstamp")
-    ftstamp(ft,file,script,format.stamp=list(bg="#ffffff"),time)
+    ftstamp(ft,file,script,stamp.style=list(bg="#ffffff"),time)
 }
 

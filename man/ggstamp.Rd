@@ -4,7 +4,17 @@
 \alias{ggstamp}
 \title{Always stamp your plots with script name}
 \usage{
-ggstamp(plot, file, size, script, time, model, format.stamp)
+ggstamp(
+  plot,
+  file,
+  size,
+  script,
+  time,
+  model,
+  stamp.style,
+  stamp.format = NULL,
+  stamp.funs = NULL
+)
 }
 \arguments{
 \item{plot}{The plot to be stamped.}
@@ -20,11 +30,21 @@ automatically.}
 
 \item{model}{An optional model name or object to be included in the stamp.}
 
-\item{format.stamp}{A list of formatting options for the stamp text. For ggplot objects,
+\item{stamp.style}{A list of formatting options for the stamp text. For ggplot objects,
 valid elements include size, colour, hjust, vjust, and other parameters accepted by
 \code{ggplot2::element_text()}. For gtable objects, valid elements include col, fill,
 alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
 fontface, lineheight, and font. Default formatting is applied if not specified.}
+
+\item{stamp.format}{A template for the stamp text using the
+placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
+\code{\%file}, with \code{"\\n"} for line breaks. Default is
+\code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.}
+
+\item{stamp.funs}{Optional named list of functions (elements \code{script},
+\code{time}, \code{model}, \code{file}) used to preprocess the values
+before they are inserted into \code{stamp.format}. See
+\code{\link{createStamp}}.}
 }
 \value{
 the plot with a stamp

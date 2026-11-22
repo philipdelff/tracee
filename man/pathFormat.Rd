@@ -9,7 +9,7 @@ pathFormat(
   dir,
   model = NULL,
   script = NULL,
-  funs.path = NULL,
+  path.funs = NULL,
   structure
 )
 }
@@ -52,7 +52,7 @@ Used whenever the generated function is called without explicitly supplying
 Used whenever the generated function is called without explicitly supplying
 \code{script}. Default is \code{NULL}.}
 
-\item{funs.path}{Optional named list of functions used to preprocess
+\item{path.funs}{Optional named list of functions used to preprocess
 \code{model} and/or \code{script} before they are substituted into
 \code{path.format}. Supported names are \code{model} and \code{script}. Each
 function takes the value as its single argument and returns a character
@@ -60,7 +60,7 @@ string. Elements not supplied keep the default, which is
 \code{function(x) fnExtension(basename(x), "")} (strip directory and file
 extension). Note that a supplied function replaces the default entirely, so
 e.g. extension stripping must be included if still wanted. Example:
-\code{funs.path = list(script = function(x) substr(basename(x), 1, 4))}.
+\code{path.funs = list(script = function(x) substr(basename(x), 1, 4))}.
 Default is \code{NULL}.}
 
 \item{structure}{Deprecated. Use \code{path.format}.}
@@ -141,9 +141,9 @@ path_fun3d(name = "gof1.png")
 path_fun3d(name = "gof1.png", model = "run002")
 # Returns: "myscript/gof1_run002.png"
 
-# Custom preprocessing of script (and/or model) via funs.path
+# Custom preprocessing of script (and/or model) via path.funs
 path_fun3e <- pathFormat(path.format = "\%script/\%name_\%model",
-                         funs.path = list(script = function(x) substr(basename(x), 1, 4)))
+                         path.funs = list(script = function(x) substr(basename(x), 1, 4)))
 path_fun3e(name = "gof1.png", model = "run001", script = "myscript.R")
 # Returns: "mysc/gof1_run001.png"
 

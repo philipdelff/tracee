@@ -34,7 +34,7 @@
 ##'   entirely.
 ##' @param model Character string or model object specifying the model name/identifier.
 ##'   Used for stamping and for organizing output directories via \code{path.format}.
-##' @param format.stamp Character string or format specification for the stamp.
+##' @param stamp.style Character string or format specification for the stamp.
 ##'   Passed to \code{\link{ftstamp}} to control stamp formatting.
 ##' @param path.format Character string or function defining the output path.
 ##'   A template using \code{\%model}, \code{\%script}, and \code{\%name}
@@ -43,6 +43,14 @@
 ##' @param fun.path Deprecated. Use \code{path.format}.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   Used in conjunction with \code{path.format}.
+##' @param stamp.format A template for the stamp text using the
+##'     placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
+##'     \code{\%file}, with \code{"\\n"} for line breaks. Default is
+##'     \code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.
+##' @param stamp.funs Optional named list of functions (elements \code{script},
+##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
+##'     before they are inserted into \code{stamp.format}. See
+##'     \code{\link{createStamp}}.
 ##' @param use.names Logical. If \code{length(ft) > 1}, should \code{names(ft)}
 ##'   be used in the output file names? Default is \code{TRUE}. If \code{FALSE},
 ##'   numeric indices (1, 2, 3, ...) are used instead. Only used if \code{save = TRUE}
@@ -127,7 +135,7 @@
 ##'         path.format = "%model/%name_%model")
 ##' # Writes to: run001/summary_run001.png
 ##' }
-ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,path.format=NULL,subdir=NULL,use.names=TRUE,fun.path=NULL){
+ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,stamp.style,path.format=NULL,subdir=NULL,use.names=TRUE,stamp.format=NULL,stamp.funs=NULL,fun.path=NULL){
   
 
   
@@ -167,7 +175,7 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
     names.all <- fnAppend(file,names.els,collapse=NULL)
   }
 
-  if(missing(format.stamp)) format.stamp <- NULL
+  if(missing(stamp.style)) stamp.style <- NULL
 
   
 
@@ -182,9 +190,11 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
                   script=script,
                   time=time,
                   model=model,
-                  format.stamp=format.stamp,
+                  stamp.style=stamp.style,
                   fun.path=fun.path,
-                  subdir=subdir
+                  subdir=subdir,
+                  stamp.format=stamp.format,
+                  stamp.funs=stamp.funs
                 )
                 )
 
@@ -206,16 +216,17 @@ ftwrite <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time
 ##' @param script Character string, path to script for stamping.
 ##' @param time Character string or POSIXct, timestamp for stamping.
 ##' @param model Character string or model object, model identifier for stamping.
-##' @param format.stamp Format specification for stamp. Passed to \code{\link{ftstamp}}.
+##' @param stamp.style Format specification for stamp. Passed to \code{\link{ftstamp}}.
 ##' @param fun.path Function for constructing file paths. See \code{\link{pathFormat}}.
 ##' @param subdir Character string, subdirectory for outputs.
+##' @param stamp.format,stamp.funs Passed to \code{\link{ftstamp}}.
 ##'
 ##' @return If \code{show = TRUE}, returns the flextable object (possibly stamped).
 ##'   Otherwise returns invisibly a list of file paths written.
 ##'
 ##' @seealso \code{\link{ftwrite}}
 ##' @keywords internal
-ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,format.stamp,fun.path,subdir){
+ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,time,model,stamp.style,fun.path,subdir,stamp.format=NULL,stamp.funs=NULL){
   
   ## save_as_docx
   ## save_as_html
@@ -233,7 +244,7 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
       return(invisible(ft))
     }
   }
-  if(missing(format.stamp)) format.stamp <- NULL
+  if(missing(stamp.style)) stamp.style <- NULL
   if(missing(fun.path)) fun.path <- NULL
 
   if(missing(formats)||is.null(formats)) {
@@ -267,7 +278,8 @@ ftwriteOne <- function(ft,file,formats,save=TRUE,show=!save,quiet=FALSE,script,t
                        ,pptx=save_as_pptx,
                         stop("format not supported. See ?ftwrite"))
     
-    ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,format.stamp=format.stamp)
+    ft <- ftstamp(ft=ft,file=fn,script=script,time=time,model=model,stamp.style=stamp.style,
+                  stamp.format=stamp.format,stamp.funs=stamp.funs)
     
     fun.write(ft,path=fn)
     if(!quiet&&!is.null(fn)) message(fn)

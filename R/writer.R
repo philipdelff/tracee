@@ -25,6 +25,14 @@
 ##'   placeholders, or a function as returned by \code{\link{pathFormat}}. Passed to
 ##'   \code{\link{pathFormat}}. Default (\code{NULL}) uses \code{file} as is.
 ##' @param fun.path Deprecated. Use \code{path.format}.
+##' @param stamp.format A template for the stamp text using the
+##'     placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
+##'     \code{\%file}, with \code{"\\n"} for line breaks. Default is
+##'     \code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.
+##' @param stamp.funs Optional named list of functions (elements \code{script},
+##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
+##'     before they are inserted into \code{stamp.format}. See
+##'     \code{\link{createStamp}}.
 ##' @param subdir Character string specifying a subdirectory within the path structure.
 ##'   This is passed to the path function generated from \code{path.format}.
 ##' @param ... Additional arguments passed to the specific writer functions
@@ -114,7 +122,7 @@
 ##'        model = "run001")
 ##' }
 writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,model=NULL,
-                   path.format=NULL,subdir=NULL,fun.path=NULL,
+                   path.format=NULL,subdir=NULL,stamp.format=NULL,stamp.funs=NULL,fun.path=NULL,
                    ...){
 
   ## resolve once here, then pass on to ftwrite()/datwrite()/ggwrite() as path.format
@@ -143,7 +151,9 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
                    file = file,
                    formats=formats.ft,
                    path.format=path.format,
-                   subdir=subdir
+                   subdir=subdir,
+                   stamp.format=stamp.format,
+                   stamp.funs=stamp.funs
                    ),
               dots)
     res <- do.call(ftwrite,args)
@@ -190,7 +200,9 @@ writer <- function(x,file,formats.ft,formats.gg,formats.data,##script=NULL,time,
            use.names=TRUE,
            formats=formats.gg,
            path.format=path.format,
-           subdir=subdir),
+           subdir=subdir,
+           stamp.format=stamp.format,
+           stamp.funs=stamp.funs),
       args.gg
     )
     

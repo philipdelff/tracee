@@ -5,7 +5,7 @@
 \title{Create a stamp with script path, output file path and time stamp
 in it.}
 \usage{
-createStamp(file, script, time, model, addto)
+createStamp(file, script, time, model, addto, stamp.format, stamp.funs = NULL)
 }
 \arguments{
 \item{file}{the output file path}
@@ -16,8 +16,30 @@ createStamp(file, script, time, model, addto)
 result of Sys.time(). Using the time argument you can overrule
 this by setting a fixed string instead. Use "" to omit.}
 
+\item{model}{An optional model name or object to be included in
+the stamp.}
+
 \item{addto}{An existing caption to keep above the caption created
 by this function.}
+
+\item{stamp.format}{A template for the stamp text using the
+placeholders \code{\%script}, \code{\%time}, \code{\%model},
+and \code{\%file}. Use \code{"\\n"} for line breaks. Placeholders
+without a value are removed, together with the resulting
+repeated spaces and empty lines. Default is
+\code{"\%script\\n\%time \%model \%file"}.}
+
+\item{stamp.funs}{Optional named list of functions used to
+preprocess \code{script}, \code{time}, \code{model}, and/or
+\code{file} before they are substituted into
+\code{stamp.format}. Each function takes the value as its
+single argument and returns a character string. A supplied
+function replaces the default for that element. Example:
+\code{stamp.funs = list(script = basename)}.}
+}
+\value{
+A character string, or \code{NULL} if neither
+\code{script} nor \code{model} is given.
 }
 \description{
 Create a stamp with script path, output file path and time stamp

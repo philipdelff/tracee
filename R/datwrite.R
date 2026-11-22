@@ -36,7 +36,7 @@ datwrite <- function(x,file,script,time,model,formats,path.format=NULL,subdir=NU
                 script=script,
                 time=time,
                 model=model,
-                ## format.stamp=format.stamp,
+                ## stamp.style=stamp.style,
                 fun.path=fun.path,
                 subdir=subdir,
                 ...
@@ -70,7 +70,7 @@ datwrite <- function(x,file,script,time,model,formats,path.format=NULL,subdir=NU
 datwriteOne <- function(x,file,formats,script,time,model,fun.path,subdir=NULL,quiet=FALSE,...){
   
 
-  ## if(missing(format.stamp)) format.stamp <- NULL
+  ## if(missing(stamp.style)) stamp.style <- NULL
   if(missing(fun.path)) fun.path <- NULL
 
   if(missing(script)) script <- NULL

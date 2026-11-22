@@ -12,6 +12,8 @@ writer(
   formats.data,
   path.format = NULL,
   subdir = NULL,
+  stamp.format = NULL,
+  stamp.funs = NULL,
   fun.path = NULL,
   ...
 )
@@ -44,6 +46,16 @@ placeholders, or a function as returned by \code{\link{pathFormat}}. Passed to
 
 \item{subdir}{Character string specifying a subdirectory within the path structure.
 This is passed to the path function generated from \code{path.format}.}
+
+\item{stamp.format}{A template for the stamp text using the
+placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
+\code{\%file}, with \code{"\\n"} for line breaks. Default is
+\code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.}
+
+\item{stamp.funs}{Optional named list of functions (elements \code{script},
+\code{time}, \code{model}, \code{file}) used to preprocess the values
+before they are inserted into \code{stamp.format}. See
+\code{\link{createStamp}}.}
 
 \item{fun.path}{Deprecated. Use \code{path.format}.}
 

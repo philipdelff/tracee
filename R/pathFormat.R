@@ -38,7 +38,7 @@
 ##' @param script Default value for the \code{script} argument of the generated function.
 ##'   Used whenever the generated function is called without explicitly supplying
 ##'   \code{script}. Default is \code{NULL}.
-##' @param funs.path Optional named list of functions used to preprocess
+##' @param path.funs Optional named list of functions used to preprocess
 ##'   \code{model} and/or \code{script} before they are substituted into
 ##'   \code{path.format}. Supported names are \code{model} and \code{script}. Each
 ##'   function takes the value as its single argument and returns a character
@@ -46,7 +46,7 @@
 ##'   \code{function(x) fnExtension(basename(x), "")} (strip directory and file
 ##'   extension). Note that a supplied function replaces the default entirely, so
 ##'   e.g. extension stripping must be included if still wanted. Example:
-##'   \code{funs.path = list(script = function(x) substr(basename(x), 1, 4))}.
+##'   \code{path.funs = list(script = function(x) substr(basename(x), 1, 4))}.
 ##'   Default is \code{NULL}.
 ##' @param structure Deprecated. Use \code{path.format}.
 ##'
@@ -128,9 +128,9 @@
 ##' path_fun3d(name = "gof1.png", model = "run002")
 ##' # Returns: "myscript/gof1_run002.png"
 ##'
-##' # Custom preprocessing of script (and/or model) via funs.path
+##' # Custom preprocessing of script (and/or model) via path.funs
 ##' path_fun3e <- pathFormat(path.format = "%script/%name_%model",
-##'                          funs.path = list(script = function(x) substr(basename(x), 1, 4)))
+##'                          path.funs = list(script = function(x) substr(basename(x), 1, 4)))
 ##' path_fun3e(name = "gof1.png", model = "run001", script = "myscript.R")
 ##' # Returns: "mysc/gof1_run001.png"
 ##'
@@ -140,7 +140,7 @@
 ##' }
 ##' path_fun4 <- pathFormat(path.format = my_fun)
 ##' identical(path_fun4, my_fun)  # TRUE
-pathFormat <- function(path.format="%name",dir,model=NULL,script=NULL,funs.path=NULL,structure){
+pathFormat <- function(path.format="%name",dir,model=NULL,script=NULL,path.funs=NULL,structure){
 
   ## structure is deprecated in favor of path.format
   if(!missing(structure)){
@@ -161,25 +161,25 @@ pathFormat <- function(path.format="%name",dir,model=NULL,script=NULL,funs.path=
   default.dir <- dir
 
   ## Preprocessing functions applied to model/script before substitution.
-  ## User-supplied functions in funs.path replace the defaults.
+  ## User-supplied functions in path.funs replace the defaults.
   funs.default <- list(
     model  = function(x) fnExtension(basename(x),""),
     script = function(x) fnExtension(basename(x),"")
   )
-  if(!is.null(funs.path)){
-    if(!is.list(funs.path) || is.null(names(funs.path)) || any(names(funs.path)=="")){
-      stop("funs.path must be a named list of functions.")
+  if(!is.null(path.funs)){
+    if(!is.list(path.funs) || is.null(names(path.funs)) || any(names(path.funs)=="")){
+      stop("path.funs must be a named list of functions.")
     }
-    unsupported.funs <- setdiff(names(funs.path), names(funs.default))
+    unsupported.funs <- setdiff(names(path.funs), names(funs.default))
     if(length(unsupported.funs)){
-      stop("Unsupported element(s) in funs.path: ",
+      stop("Unsupported element(s) in path.funs: ",
            paste(unsupported.funs, collapse=", "),
            ". Supported elements are model and script.")
     }
-    if(!all(vapply(funs.path, is.function, logical(1)))){
-      stop("All elements of funs.path must be functions.")
+    if(!all(vapply(path.funs, is.function, logical(1)))){
+      stop("All elements of path.funs must be functions.")
     }
-    funs.default[names(funs.path)] <- funs.path
+    funs.default[names(path.funs)] <- path.funs
   }
   fun.model  <- funs.default$model
   fun.script <- funs.default$script

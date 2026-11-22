@@ -45,9 +45,9 @@ test_that("structure with file only",{
 })
 
 
-test_that("funs.path",{
+test_that("path.funs",{
   struct1 <- pathFormat(path.format="%script/%name_%model",
-                        funs.path = list(script = function(x) substr(basename(x), 1, 2)))
+                        path.funs = list(script = function(x) substr(basename(x), 1, 2)))
 
 expect_equal(
   struct1(name="file",script="path/01_myscript",model="mymodel.lst")

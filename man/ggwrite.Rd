@@ -23,6 +23,8 @@ ggwrite(
   quiet = FALSE,
   path.format = NULL,
   method.png = c("ragg", "png"),
+  stamp.format = NULL,
+  stamp.funs = NULL,
   useNames,
   fun.path = NULL
 )
@@ -105,6 +107,16 @@ which graphics device is used for PNG output. \code{"png"} uses the base
 \code{\link[grDevices]{png}} device; \code{"ragg"} uses \code{\link[ragg]{agg_png}},
 which produces output that renders more consistently across platforms (recommended
 for reproducible/snapshot-tested figures). Default is \code{"png"}.}
+
+\item{stamp.format}{A template for the stamp text using the
+placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
+\code{\%file}, with \code{"\\n"} for line breaks. Default is
+\code{"\%script\\n\%time \%model \%file"}. See \code{\link{createStamp}}.}
+
+\item{stamp.funs}{Optional named list of functions (elements \code{script},
+\code{time}, \code{model}, \code{file}) used to preprocess the values
+before they are inserted into \code{stamp.format}. See
+\code{\link{createStamp}}.}
 
 \item{useNames}{Deprecated. Use \code{use.names} instead.}
 
