@@ -43,7 +43,17 @@ script name. User must provide the script name.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggstamp</span><span class="op">(</span><span class="va">plot</span>, <span class="va">file</span>, <span class="va">size</span>, <span class="va">script</span>, <span class="va">time</span>, <span class="va">model</span>, <span class="va">format.stamp</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggstamp</span><span class="op">(</span></span>
+<span>  <span class="va">plot</span>,</span>
+<span>  <span class="va">file</span>,</span>
+<span>  <span class="va">size</span>,</span>
+<span>  <span class="va">script</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  <span class="va">model</span>,</span>
+<span>  <span class="va">stamp.style</span>,</span>
+<span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,12 +85,26 @@ automatically.</p></dd>
 <dd><p>An optional model name or object to be included in the stamp.</p></dd>
 
 
-<dt id="arg-format-stamp">format.stamp<a class="anchor" aria-label="anchor" href="#arg-format-stamp"></a></dt>
+<dt id="arg-stamp-style">stamp.style<a class="anchor" aria-label="anchor" href="#arg-stamp-style"></a></dt>
 <dd><p>A list of formatting options for the stamp text. For ggplot objects,
 valid elements include size, colour, hjust, vjust, and other parameters accepted by
 <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">ggplot2::element_text()</a></code>. For gtable objects, valid elements include col, fill,
 alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
 fontface, lineheight, and font. Default formatting is applied if not specified.</p></dd>
+
+
+<dt id="arg-stamp-format">stamp.format<a class="anchor" aria-label="anchor" href="#arg-stamp-format"></a></dt>
+<dd><p>A template for the stamp text using the
+placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
+<code>%file</code>, with <code>"\n"</code> for line breaks. Default is
+<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+
+
+<dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>
+<dd><p>Optional named list of functions (elements <code>script</code>,
+<code>time</code>, <code>model</code>, <code>file</code>) used to preprocess the values
+before they are inserted into <code>stamp.format</code>. See
+<code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -19,6 +19,8 @@ writer(
   formats.data,
   path.format = NULL,
   subdir = NULL,
+  stamp.format = NULL,
+  stamp.funs = NULL,
   fun.path = NULL,
   ...
 )
@@ -73,6 +75,20 @@ writer(
 
   Character string specifying a subdirectory within the path structure.
   This is passed to the path function generated from `path.format`.
+
+- stamp.format:
+
+  A template for the stamp text using the placeholders `%script`,
+  `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
+  is `"%script\n%time %model %file"`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+- stamp.funs:
+
+  Optional named list of functions (elements `script`, `time`, `model`,
+  `file`) used to preprocess the values before they are inserted into
+  `stamp.format`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 - fun.path:
 

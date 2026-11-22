@@ -13,7 +13,7 @@ pathFormat(
   dir,
   model = NULL,
   script = NULL,
-  funs.path = NULL,
+  path.funs = NULL,
   structure
 )
 ```
@@ -82,7 +82,7 @@ pathFormat(
   Used whenever the generated function is called without explicitly
   supplying `script`. Default is `NULL`.
 
-- funs.path:
+- path.funs:
 
   Optional named list of functions used to preprocess `model` and/or
   `script` before they are substituted into `path.format`. Supported
@@ -92,7 +92,7 @@ pathFormat(
   (strip directory and file extension). Note that a supplied function
   replaces the default entirely, so e.g. extension stripping must be
   included if still wanted. Example:
-  `funs.path = list(script = function(x) substr(basename(x), 1, 4))`.
+  `path.funs = list(script = function(x) substr(basename(x), 1, 4))`.
   Default is `NULL`.
 
 - structure:
@@ -207,9 +207,9 @@ path_fun3d(name = "gof1.png", model = "run002")
 #> [1] "myscript/gof1_run002.png"
 # Returns: "myscript/gof1_run002.png"
 
-# Custom preprocessing of script (and/or model) via funs.path
+# Custom preprocessing of script (and/or model) via path.funs
 path_fun3e <- pathFormat(path.format = "%script/%name_%model",
-                         funs.path = list(script = function(x) substr(basename(x), 1, 4)))
+                         path.funs = list(script = function(x) substr(basename(x), 1, 4)))
 path_fun3e(name = "gof1.png", model = "run001", script = "myscript.R")
 #> [1] "mysc/gof1_run001.png"
 # Returns: "mysc/gof1_run001.png"

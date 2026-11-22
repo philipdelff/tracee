@@ -27,6 +27,8 @@ ggwrite(
   quiet = FALSE,
   path.format = NULL,
   method.png = c("ragg", "png"),
+  stamp.format = NULL,
+  stamp.funs = NULL,
   useNames,
   fun.path = NULL
 )
@@ -158,6 +160,20 @@ ggwrite(
   produces output that renders more consistently across platforms
   (recommended for reproducible/snapshot-tested figures). Default is
   `"png"`.
+
+- stamp.format:
+
+  A template for the stamp text using the placeholders `%script`,
+  `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
+  is `"%script\n%time %model %file"`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+- stamp.funs:
+
+  Optional named list of functions (elements `script`, `time`, `model`,
+  `file`) used to preprocess the values before they are inserted into
+  `stamp.format`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 - useNames:
 

@@ -51,7 +51,7 @@ need to be organized by model name, with consistent naming conventions across fi
 <span>  <span class="va">dir</span>,</span>
 <span>  model <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  script <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  funs.path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  path.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">structure</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -113,7 +113,7 @@ Used whenever the generated function is called without explicitly supplying
 <code>script</code>. Default is <code>NULL</code>.</p></dd>
 
 
-<dt id="arg-funs-path">funs.path<a class="anchor" aria-label="anchor" href="#arg-funs-path"></a></dt>
+<dt id="arg-path-funs">path.funs<a class="anchor" aria-label="anchor" href="#arg-path-funs"></a></dt>
 <dd><p>Optional named list of functions used to preprocess
 <code>model</code> and/or <code>script</code> before they are substituted into
 <code>path.format</code>. Supported names are <code>model</code> and <code>script</code>. Each
@@ -122,7 +122,7 @@ string. Elements not supplied keep the default, which is
 <code>function(x) fnExtension(basename(x), "")</code> (strip directory and file
 extension). Note that a supplied function replaces the default entirely, so
 e.g. extension stripping must be included if still wanted. Example:
-<code>funs.path = list(script = function(x) substr(basename(x), 1, 4))</code>.
+<code>path.funs = list(script = function(x) substr(basename(x), 1, 4))</code>.
 Default is <code>NULL</code>.</p></dd>
 
 
@@ -228,9 +228,9 @@ that accept <code>fun.path</code> arguments</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "myscript/gof1_run002.png"</span>
 <span class="r-in"><span><span class="co"># Returns: "myscript/gof1_run002.png"</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Custom preprocessing of script (and/or model) via funs.path</span></span></span>
+<span class="r-in"><span><span class="co"># Custom preprocessing of script (and/or model) via path.funs</span></span></span>
 <span class="r-in"><span><span class="va">path_fun3e</span> <span class="op">&lt;-</span> <span class="fu">pathFormat</span><span class="op">(</span>path.format <span class="op">=</span> <span class="st">"%script/%name_%model"</span>,</span></span>
-<span class="r-in"><span>                         funs.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>script <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                         path.funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>script <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">path_fun3e</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"gof1.png"</span>, model <span class="op">=</span> <span class="st">"run001"</span>, script <span class="op">=</span> <span class="st">"myscript.R"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "mysc/gof1_run001.png"</span>
 <span class="r-in"><span><span class="co"># Returns: "mysc/gof1_run001.png"</span></span></span>

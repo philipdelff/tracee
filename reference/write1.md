@@ -25,6 +25,8 @@ write1(
   subdir = NULL,
   method.png = c("ragg", "png"),
   fun.path = NULL,
+  stamp.format = NULL,
+  stamp.funs = NULL,
   ...
 )
 ```
@@ -93,6 +95,11 @@ write1(
   [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
   If the path format uses `%script`, `script` is forwarded to it
   automatically (if the function accepts a `script` argument).
+
+- stamp.format, stamp.funs:
+
+  Passed to
+  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
 
 - ...:
 

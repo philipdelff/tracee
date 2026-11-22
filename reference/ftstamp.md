@@ -5,7 +5,16 @@ Stamp and write flextab objects to one or multiple formats
 ## Usage
 
 ``` r
-ftstamp(ft, file, script, time, model, format.stamp)
+ftstamp(
+  ft,
+  file,
+  script,
+  time,
+  model,
+  stamp.style,
+  stamp.format = NULL,
+  stamp.funs = NULL
+)
 ```
 
 ## Arguments
@@ -35,10 +44,24 @@ ftstamp(ft, file, script, time, model, format.stamp)
   Used for stamping. If a list (model object) is provided, the `$label`
   element is extracted.
 
-- format.stamp:
+- stamp.style:
 
   A list specifying formatting options for the stamp. Valid elements
   include: `size` (font size, default 4), `align` (text alignment,
   default "right"), `space` (line spacing, default 1), `bg` (background
   color, default "#ffffff"), and `color` (text color, default
   "#666666"). Any unspecified elements use the defaults.
+
+- stamp.format:
+
+  A template for the stamp text using the placeholders `%script`,
+  `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
+  is `"%script\n%time %model %file"`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+- stamp.funs:
+
+  Optional named list of functions (elements `script`, `time`, `model`,
+  `file`) used to preprocess the values before they are inserted into
+  `stamp.format`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).

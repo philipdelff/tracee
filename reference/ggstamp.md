@@ -6,7 +6,17 @@ script name. User must provide the script name.
 ## Usage
 
 ``` r
-ggstamp(plot, file, size, script, time, model, format.stamp)
+ggstamp(
+  plot,
+  file,
+  size,
+  script,
+  time,
+  model,
+  stamp.style,
+  stamp.format = NULL,
+  stamp.funs = NULL
+)
 ```
 
 ## Arguments
@@ -36,7 +46,7 @@ ggstamp(plot, file, size, script, time, model, format.stamp)
 
   An optional model name or object to be included in the stamp.
 
-- format.stamp:
+- stamp.style:
 
   A list of formatting options for the stamp text. For ggplot objects,
   valid elements include size, colour, hjust, vjust, and other
@@ -46,6 +56,20 @@ ggstamp(plot, file, size, script, time, model, format.stamp)
   lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
   fontface, lineheight, and font. Default formatting is applied if not
   specified.
+
+- stamp.format:
+
+  A template for the stamp text using the placeholders `%script`,
+  `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
+  is `"%script\n%time %model %file"`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+- stamp.funs:
+
+  Optional named list of functions (elements `script`, `time`, `model`,
+  `file`) used to preprocess the values before they are inserted into
+  `stamp.format`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 ## Value
 

@@ -59,10 +59,12 @@ structure organization.</p>
 <span>  <span class="va">script</span>,</span>
 <span>  <span class="va">time</span>,</span>
 <span>  <span class="va">model</span>,</span>
-<span>  <span class="va">format.stamp</span>,</span>
+<span>  <span class="va">stamp.style</span>,</span>
 <span>  path.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  subdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  use.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fun.path <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -129,7 +131,7 @@ entirely.</p></dd>
 Used for stamping and for organizing output directories via <code>path.format</code>.</p></dd>
 
 
-<dt id="arg-format-stamp">format.stamp<a class="anchor" aria-label="anchor" href="#arg-format-stamp"></a></dt>
+<dt id="arg-stamp-style">stamp.style<a class="anchor" aria-label="anchor" href="#arg-stamp-style"></a></dt>
 <dd><p>Character string or format specification for the stamp.
 Passed to <code><a href="ftstamp.html">ftstamp</a></code> to control stamp formatting.</p></dd>
 
@@ -151,6 +153,20 @@ Used in conjunction with <code>path.format</code>.</p></dd>
 be used in the output file names? Default is <code>TRUE</code>. If <code>FALSE</code>,
 numeric indices (1, 2, 3, ...) are used instead. Only used if <code>save = TRUE</code>
 and <code>ft</code> is a list.</p></dd>
+
+
+<dt id="arg-stamp-format">stamp.format<a class="anchor" aria-label="anchor" href="#arg-stamp-format"></a></dt>
+<dd><p>A template for the stamp text using the
+placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
+<code>%file</code>, with <code>"\n"</code> for line breaks. Default is
+<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+
+
+<dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>
+<dd><p>Optional named list of functions (elements <code>script</code>,
+<code>time</code>, <code>model</code>, <code>file</code>) used to preprocess the values
+before they are inserted into <code>stamp.format</code>. See
+<code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-fun-path">fun.path<a class="anchor" aria-label="anchor" href="#arg-fun-path"></a></dt>

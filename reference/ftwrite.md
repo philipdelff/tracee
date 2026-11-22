@@ -18,10 +18,12 @@ ftwrite(
   script,
   time,
   model,
-  format.stamp,
+  stamp.style,
   path.format = NULL,
   subdir = NULL,
   use.names = TRUE,
+  stamp.format = NULL,
+  stamp.funs = NULL,
   fun.path = NULL
 )
 
@@ -87,7 +89,7 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
   Used for stamping and for organizing output directories via
   `path.format`.
 
-- format.stamp:
+- stamp.style:
 
   Character string or format specification for the stamp. Passed to
   [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md)
@@ -113,6 +115,20 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
   Logical. If `length(ft) > 1`, should `names(ft)` be used in the output
   file names? Default is `TRUE`. If `FALSE`, numeric indices (1, 2, 3,
   ...) are used instead. Only used if `save = TRUE` and `ft` is a list.
+
+- stamp.format:
+
+  A template for the stamp text using the placeholders `%script`,
+  `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
+  is `"%script\n%time %model %file"`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+- stamp.funs:
+
+  Optional named list of functions (elements `script`, `time`, `model`,
+  `file`) used to preprocess the values before they are inserted into
+  `stamp.format`. See
+  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 - fun.path:
 

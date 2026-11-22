@@ -53,9 +53,11 @@ flextable objects. Generally not called directly by users.</p>
 <span>  <span class="va">script</span>,</span>
 <span>  <span class="va">time</span>,</span>
 <span>  <span class="va">model</span>,</span>
-<span>  <span class="va">format.stamp</span>,</span>
+<span>  <span class="va">stamp.style</span>,</span>
 <span>  <span class="va">fun.path</span>,</span>
-<span>  <span class="va">subdir</span></span>
+<span>  <span class="va">subdir</span>,</span>
+<span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,7 +101,7 @@ flextable objects. Generally not called directly by users.</p>
 <dd><p>Character string or model object, model identifier for stamping.</p></dd>
 
 
-<dt id="arg-format-stamp">format.stamp<a class="anchor" aria-label="anchor" href="#arg-format-stamp"></a></dt>
+<dt id="arg-stamp-style">stamp.style<a class="anchor" aria-label="anchor" href="#arg-stamp-style"></a></dt>
 <dd><p>Format specification for stamp. Passed to <code><a href="ftstamp.html">ftstamp</a></code>.</p></dd>
 
 
@@ -109,6 +111,10 @@ flextable objects. Generally not called directly by users.</p>
 
 <dt id="arg-subdir">subdir<a class="anchor" aria-label="anchor" href="#arg-subdir"></a></dt>
 <dd><p>Character string, subdirectory for outputs.</p></dd>
+
+
+<dt id="arg-stamp-format-stamp-funs">stamp.format, stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-format-stamp-funs"></a></dt>
+<dd><p>Passed to <code><a href="ftstamp.html">ftstamp</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

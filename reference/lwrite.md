@@ -96,6 +96,9 @@ lwrite(
 
   - `quiet`: Suppress messages
 
+  - `stamp.format`, `stamp.funs`: Stamp text format, see
+    [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md)
+
 ## Value
 
 Invisibly returns a list of results from the

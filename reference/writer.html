@@ -57,6 +57,8 @@ stamping conventions.</p>
 <span>  <span class="va">formats.data</span>,</span>
 <span>  path.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  subdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fun.path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -106,6 +108,20 @@ placeholders, or a function as returned by <code><a href="pathFormat.html">pathF
 <dt id="arg-subdir">subdir<a class="anchor" aria-label="anchor" href="#arg-subdir"></a></dt>
 <dd><p>Character string specifying a subdirectory within the path structure.
 This is passed to the path function generated from <code>path.format</code>.</p></dd>
+
+
+<dt id="arg-stamp-format">stamp.format<a class="anchor" aria-label="anchor" href="#arg-stamp-format"></a></dt>
+<dd><p>A template for the stamp text using the
+placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
+<code>%file</code>, with <code>"\n"</code> for line breaks. Default is
+<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+
+
+<dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>
+<dd><p>Optional named list of functions (elements <code>script</code>,
+<code>time</code>, <code>model</code>, <code>file</code>) used to preprocess the values
+before they are inserted into <code>stamp.format</code>. See
+<code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-fun-path">fun.path<a class="anchor" aria-label="anchor" href="#arg-fun-path"></a></dt>

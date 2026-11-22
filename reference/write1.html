@@ -71,6 +71,8 @@ file device.</p>
 <span>  subdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method.png <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ragg"</span>, <span class="st">"png"</span><span class="op">)</span>,</span>
 <span>  fun.path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -140,6 +142,10 @@ structure, applied to <code>fn</code> before the file is written. See
 <code><a href="pathFormat.html">pathFormat</a></code>. If the path format uses <code>%script</code>, <code>script</code>
 is forwarded to it automatically (if the function accepts a <code>script</code>
 argument).</p></dd>
+
+
+<dt id="arg-stamp-format-stamp-funs">stamp.format, stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-format-stamp-funs"></a></dt>
+<dd><p>Passed to <code><a href="ggstamp.html">ggstamp</a></code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

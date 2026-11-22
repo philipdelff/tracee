@@ -68,6 +68,8 @@ multi-file output for lists of plots.</p>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  path.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  method.png <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ragg"</span>, <span class="st">"png"</span><span class="op">)</span>,</span>
+<span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">useNames</span>,</span>
 <span>  fun.path <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -189,6 +191,20 @@ which graphics device is used for PNG output. <code>"png"</code> uses the base
 <code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></code> device; <code>"ragg"</code> uses <code><a href="https://ragg.r-lib.org/reference/agg_png.html" class="external-link">agg_png</a></code>,
 which produces output that renders more consistently across platforms (recommended
 for reproducible/snapshot-tested figures). Default is <code>"png"</code>.</p></dd>
+
+
+<dt id="arg-stamp-format">stamp.format<a class="anchor" aria-label="anchor" href="#arg-stamp-format"></a></dt>
+<dd><p>A template for the stamp text using the
+placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
+<code>%file</code>, with <code>"\n"</code> for line breaks. Default is
+<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+
+
+<dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>
+<dd><p>Optional named list of functions (elements <code>script</code>,
+<code>time</code>, <code>model</code>, <code>file</code>) used to preprocess the values
+before they are inserted into <code>stamp.format</code>. See
+<code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-usenames">useNames<a class="anchor" aria-label="anchor" href="#arg-usenames"></a></dt>
