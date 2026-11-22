@@ -9,7 +9,7 @@ script name. User must provide the script name."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tracee</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.952</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.961</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ script name. User must provide the script name.</p>
 <span>  <span class="va">script</span>,</span>
 <span>  <span class="va">time</span>,</span>
 <span>  <span class="va">model</span>,</span>
-<span>  <span class="va">stamp.style</span>,</span>
+<span>  <span class="va">stamp.gg.style</span>,</span>
 <span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -85,19 +85,26 @@ automatically.</p></dd>
 <dd><p>An optional model name or object to be included in the stamp.</p></dd>
 
 
-<dt id="arg-stamp-style">stamp.style<a class="anchor" aria-label="anchor" href="#arg-stamp-style"></a></dt>
+<dt id="arg-stamp-gg-style">stamp.gg.style<a class="anchor" aria-label="anchor" href="#arg-stamp-gg-style"></a></dt>
 <dd><p>A list of formatting options for the stamp text. For ggplot objects,
 valid elements include size, colour, hjust, vjust, and other parameters accepted by
 <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">ggplot2::element_text()</a></code>. For gtable objects, valid elements include col, fill,
 alpha, lty, lwd, lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
-fontface, lineheight, and font. Default formatting is applied if not specified.</p></dd>
+fontface, lineheight, and font. Default formatting is applied if not specified.
+Additionally, the element <code>position</code> controls where the stamp
+is placed: <code>"left"</code>, <code>"center"</code>, <code>"right"</code>
+(default) or a number between 0 (left) and 1 (right). <code>hjust</code>
+controls justification of the lines within the stamp and defaults
+to 0 (left-justified). Example:
+<code>stamp.gg.style=list(position="right",hjust=0)</code> places the stamp
+on the right with left-justified lines.</p></dd>
 
 
 <dt id="arg-stamp-format">stamp.format<a class="anchor" aria-label="anchor" href="#arg-stamp-format"></a></dt>
 <dd><p>A template for the stamp text using the
 placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
 <code>%file</code>, with <code>"\n"</code> for line breaks. Default is
-<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+<code>"%file\n%script\n%model\n%time"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>

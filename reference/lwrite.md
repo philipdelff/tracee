@@ -99,6 +99,10 @@ lwrite(
   - `stamp.format`, `stamp.funs`: Stamp text format, see
     [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md)
 
+  - `stamp.gg.style`, `stamp.ft.style`: Stamp styling for plots and
+    tables, see
+    [`writer`](https://philipdelff.github.io/tracee/reference/writer.md)
+
 ## Value
 
 Invisibly returns a list of results from the

@@ -11,7 +11,7 @@ ftstamp(
   script,
   time,
   model,
-  stamp.style,
+  stamp.ft.style,
   stamp.format = NULL,
   stamp.funs = NULL
 )
@@ -44,7 +44,7 @@ ftstamp(
   Used for stamping. If a list (model object) is provided, the `$label`
   element is extracted.
 
-- stamp.style:
+- stamp.ft.style:
 
   A list specifying formatting options for the stamp. Valid elements
   include: `size` (font size, default 4), `align` (text alignment,
@@ -56,7 +56,7 @@ ftstamp(
 
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
-  is `"%script\n%time %model %file"`. See
+  is `"%file\n%script\n%model\n%time"`. See
   [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:

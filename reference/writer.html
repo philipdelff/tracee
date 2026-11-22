@@ -13,7 +13,7 @@ stamping conventions."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tracee</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.952</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.961</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +59,8 @@ stamping conventions.</p>
 <span>  subdir <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.gg.style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.ft.style <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fun.path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -114,7 +116,7 @@ This is passed to the path function generated from <code>path.format</code>.</p>
 <dd><p>A template for the stamp text using the
 placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
 <code>%file</code>, with <code>"\n"</code> for line breaks. Default is
-<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+<code>"%file\n%script\n%model\n%time"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>
@@ -122,6 +124,19 @@ placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
 <code>time</code>, <code>model</code>, <code>file</code>) used to preprocess the values
 before they are inserted into <code>stamp.format</code>. See
 <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+
+
+<dt id="arg-stamp-gg-style">stamp.gg.style<a class="anchor" aria-label="anchor" href="#arg-stamp-gg-style"></a></dt>
+<dd><p>A list of formatting options for the stamp text,
+passed to <code><a href="ggstamp.html">ggstamp</a></code>. For ggplot objects, elements accepted
+by <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">ggplot2::element_text()</a></code> (e.g. <code>size</code>, <code>colour</code>,
+<code>hjust</code>).</p></dd>
+
+
+<dt id="arg-stamp-ft-style">stamp.ft.style<a class="anchor" aria-label="anchor" href="#arg-stamp-ft-style"></a></dt>
+<dd><p>A list of formatting options for the stamp,
+passed to <code><a href="ftstamp.html">ftstamp</a></code>. Valid elements: <code>size</code>,
+<code>align</code>, <code>space</code>, <code>bg</code>, <code>color</code>.</p></dd>
 
 
 <dt id="arg-fun-path">fun.path<a class="anchor" aria-label="anchor" href="#arg-fun-path"></a></dt>

@@ -13,7 +13,7 @@ multi-file output for lists of plots."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tracee</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.952</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.961</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,6 +70,7 @@ multi-file output for lists of plots.</p>
 <span>  method.png <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ragg"</span>, <span class="st">"png"</span><span class="op">)</span>,</span>
 <span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stamp.gg.style <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">useNames</span>,</span>
 <span>  fun.path <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -197,7 +198,7 @@ for reproducible/snapshot-tested figures). Default is <code>"png"</code>.</p></d
 <dd><p>A template for the stamp text using the
 placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
 <code>%file</code>, with <code>"\n"</code> for line breaks. Default is
-<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+<code>"%file\n%script\n%model\n%time"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>
@@ -205,6 +206,13 @@ placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
 <code>time</code>, <code>model</code>, <code>file</code>) used to preprocess the values
 before they are inserted into <code>stamp.format</code>. See
 <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+
+
+<dt id="arg-stamp-gg-style">stamp.gg.style<a class="anchor" aria-label="anchor" href="#arg-stamp-gg-style"></a></dt>
+<dd><p>A list of formatting options for the stamp text,
+passed to <code><a href="ggstamp.html">ggstamp</a></code>. For ggplot objects, elements accepted
+by <code><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">ggplot2::element_text()</a></code> (e.g. <code>size</code>, <code>colour</code>,
+<code>hjust</code>).</p></dd>
 
 
 <dt id="arg-usenames">useNames<a class="anchor" aria-label="anchor" href="#arg-usenames"></a></dt>

@@ -13,7 +13,7 @@ ggstamp(
   script,
   time,
   model,
-  stamp.style,
+  stamp.gg.style,
   stamp.format = NULL,
   stamp.funs = NULL
 )
@@ -46,7 +46,7 @@ ggstamp(
 
   An optional model name or object to be included in the stamp.
 
-- stamp.style:
+- stamp.gg.style:
 
   A list of formatting options for the stamp text. For ggplot objects,
   valid elements include size, colour, hjust, vjust, and other
@@ -55,13 +55,18 @@ ggstamp(
   For gtable objects, valid elements include col, fill, alpha, lty, lwd,
   lex, lineend, linejoin, linemitre, fontsize, cex, fontfamily,
   fontface, lineheight, and font. Default formatting is applied if not
-  specified.
+  specified. Additionally, the element `position` controls where the
+  stamp is placed: `"left"`, `"center"`, `"right"` (default) or a number
+  between 0 (left) and 1 (right). `hjust` controls justification of the
+  lines within the stamp and defaults to 0 (left-justified). Example:
+  `stamp.gg.style=list(position="right",hjust=0)` places the stamp on
+  the right with left-justified lines.
 
 - stamp.format:
 
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
-  is `"%script\n%time %model %file"`. See
+  is `"%file\n%script\n%model\n%time"`. See
   [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:

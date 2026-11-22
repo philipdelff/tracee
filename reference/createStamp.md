@@ -5,7 +5,17 @@ Create a stamp with script path, output file path and time stamp in it.
 ## Usage
 
 ``` r
-createStamp(file, script, time, model, addto, stamp.format, stamp.funs = NULL)
+createStamp(
+  file,
+  script,
+  time,
+  model,
+  addto,
+  stamp.format,
+  stamp.funs = list(script = function(x) paste("Script:", x), time = function(x)
+    paste("Time:", if (inherits(x, "POSIXt")) format(x, "%d-%b-%Y %H:%M") else x),
+    model = function(x) paste("Model:", x), file = function(x) paste("Output:", x))
+)
 ```
 
 ## Arguments
@@ -39,16 +49,19 @@ createStamp(file, script, time, model, addto, stamp.format, stamp.funs = NULL)
   `%time`, `%model`, and `%file`. Use `"\n"` for line breaks.
   Placeholders without a value are removed, together with the resulting
   repeated spaces and empty lines. Default is
-  `"%script\n%time %model %file"`.
+  `"%file\n%script\n%model\n%time"`.
 
 - stamp.funs:
 
-  Optional named list of functions used to preprocess `script`, `time`,
-  `model`, and/or `file` before they are substituted into
-  `stamp.format`. Each function takes the value as its single argument
-  and returns a character string. A supplied function replaces the
-  default for that element. Example:
-  `stamp.funs = list(script = basename)`.
+  Named list of functions used to preprocess `script`, `time`, `model`,
+  and/or `file` before they are substituted into `stamp.format`. Each
+  function takes the value as its single argument and returns a
+  character string. By default, values are prefixed with `"Output:"`,
+  `"Script:"`, `"Model:"` and `"Time:"`, and `time` is formatted as
+  `"%d-%b-%Y %H:%M"` if it is a `POSIXct`. Elements not supplied keep
+  their defaults, so e.g. `stamp.funs = list(file = basename)` only
+  changes `file`. Model and script objects (lists) are reduced to their
+  `label` element before preprocessing.
 
 ## Value
 

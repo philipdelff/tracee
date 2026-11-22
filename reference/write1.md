@@ -27,6 +27,7 @@ write1(
   fun.path = NULL,
   stamp.format = NULL,
   stamp.funs = NULL,
+  stamp.gg.style = NULL,
   ...
 )
 ```
@@ -96,7 +97,7 @@ write1(
   If the path format uses `%script`, `script` is forwarded to it
   automatically (if the function accepts a `script` argument).
 
-- stamp.format, stamp.funs:
+- stamp.format, stamp.funs, stamp.gg.style:
 
   Passed to
   [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).

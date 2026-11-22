@@ -18,7 +18,7 @@ ftwriteOne(
   script,
   time,
   model,
-  stamp.style,
+  stamp.ft.style,
   fun.path,
   subdir,
   stamp.format = NULL,
@@ -65,7 +65,7 @@ ftwriteOne(
 
   Character string or model object, model identifier for stamping.
 
-- stamp.style:
+- stamp.ft.style:
 
   Format specification for stamp. Passed to
   [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md).

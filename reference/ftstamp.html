@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tracee</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.952</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.961</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
 <span>  <span class="va">script</span>,</span>
 <span>  <span class="va">time</span>,</span>
 <span>  <span class="va">model</span>,</span>
-<span>  <span class="va">stamp.style</span>,</span>
+<span>  <span class="va">stamp.ft.style</span>,</span>
 <span>  stamp.format <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stamp.funs <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -81,7 +81,7 @@ Used for stamping. If a list (model object) is provided, the <code>$label</code>
 element is extracted.</p></dd>
 
 
-<dt id="arg-stamp-style">stamp.style<a class="anchor" aria-label="anchor" href="#arg-stamp-style"></a></dt>
+<dt id="arg-stamp-ft-style">stamp.ft.style<a class="anchor" aria-label="anchor" href="#arg-stamp-ft-style"></a></dt>
 <dd><p>A list specifying formatting options for the stamp. Valid
 elements include: <code>size</code> (font size, default 4), <code>align</code> (text
 alignment, default "right"), <code>space</code> (line spacing, default 1),
@@ -93,7 +93,7 @@ color, default "#666666"). Any unspecified elements use the defaults.</p></dd>
 <dd><p>A template for the stamp text using the
 placeholders <code>%script</code>, <code>%time</code>, <code>%model</code>, and
 <code>%file</code>, with <code>"\n"</code> for line breaks. Default is
-<code>"%script\n%time %model %file"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
+<code>"%file\n%script\n%model\n%time"</code>. See <code><a href="createStamp.html">createStamp</a></code>.</p></dd>
 
 
 <dt id="arg-stamp-funs">stamp.funs<a class="anchor" aria-label="anchor" href="#arg-stamp-funs"></a></dt>

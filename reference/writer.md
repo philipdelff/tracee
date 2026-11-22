@@ -21,6 +21,8 @@ writer(
   subdir = NULL,
   stamp.format = NULL,
   stamp.funs = NULL,
+  stamp.gg.style = NULL,
+  stamp.ft.style = NULL,
   fun.path = NULL,
   ...
 )
@@ -80,7 +82,7 @@ writer(
 
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
-  is `"%script\n%time %model %file"`. See
+  is `"%file\n%script\n%model\n%time"`. See
   [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:
@@ -89,6 +91,20 @@ writer(
   `file`) used to preprocess the values before they are inserted into
   `stamp.format`. See
   [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+- stamp.gg.style:
+
+  A list of formatting options for the stamp text, passed to
+  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+  For ggplot objects, elements accepted by
+  [`ggplot2::element_text()`](https://ggplot2.tidyverse.org/reference/element.html)
+  (e.g. `size`, `colour`, `hjust`).
+
+- stamp.ft.style:
+
+  A list of formatting options for the stamp, passed to
+  [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md).
+  Valid elements: `size`, `align`, `space`, `bg`, `color`.
 
 - fun.path:
 
