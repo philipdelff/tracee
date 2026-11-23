@@ -31,7 +31,6 @@
 ##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
 ##'     before they are inserted into \code{stamp.format}. See
 ##'     \code{\link{createStamp}}.
-##' @return the plot with a stamp
 ##' @details The stamp is adding using the caption label. If a caption
 ##'     is already in the plot, the stamp will be added in a new
 ##'     line.

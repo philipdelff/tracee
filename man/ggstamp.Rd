@@ -54,8 +54,6 @@ before they are inserted into \code{stamp.format}. See
 \code{\link{createStamp}}.}
 }
 \value{
-the plot with a stamp
-
 A plot object with the stamp added as caption
 }
 \description{

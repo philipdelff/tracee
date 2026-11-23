@@ -1,4 +1,4 @@
-# 0.1.0
+# tracee 0.1.0
 
 This version comes with several improvements, new functions and bugfixes. While previous versions provided functions to save to tables and figures with stamps, version 0.1.0 improves the consistency of those functions, adds a consistent framework to define file path and naming based on output name, model name and script name. This means one can freely define if outputs should be saved in folders and with file names based on a model name and or a script name. If saving a plot object, $p$, this could look like
 
@@ -78,7 +78,7 @@ This list of improvements is far from exhaustive.
 * `ggwrite` gives a message instead of a warning when empty spaces are
   being removed from file names. 
 
-# 0.0.4
+# tracee 0.0.4
 ## Bugfixes
 * `ggwrite()` in some cases wouldn't write a list of plots to multiple
   pngs. Fixed.
@@ -88,7 +88,7 @@ This list of improvements is far from exhaustive.
   already by passing it downstream but now it is explicit like for
   `ggwrite`.
 
-# 0.0.3
+# tracee 0.0.3
 ## Changes
 * Flextab function names aligned with functions for
   plots. writeFlextab is deprecated and now called
@@ -107,7 +107,7 @@ This list of improvements is far from exhaustive.
   
 * ftwrite support the 'save' argument like ggwrite. 
 
-# 0.0.2
+# tracee 0.0.2
 ## New functions
 * writeFlextab is a wrapper that flextable objects to files including
   a caption (stamp) referencing script path and output filename. The

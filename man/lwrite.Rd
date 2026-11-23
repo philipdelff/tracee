@@ -185,6 +185,5 @@ lwrite(outputs,
 \code{\link{ftwrite}} for table-specific options,
 \code{\link{datwrite}} for data frame writing,
 \code{\link{pathFormat}} for path format options,
-\code{\link{is.listnotplot}} for list detection logic,
-\code{\link{unwrapOutputs}} for an alternative list flattening approach
+\code{\link{is.listnotplot}} for list detection logic
 }

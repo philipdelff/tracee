@@ -20,6 +20,9 @@ file is written by this function)}
 Sys.time(). Using the time argument you can overrule this by
 setting a fixed string instead. Use "" to omit.}
 }
+\value{
+A flextable object with the stamp added as a footer line.
+}
 \description{
 Deprecated - use \code{ftstamp()} instead.
 }

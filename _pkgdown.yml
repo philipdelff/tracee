@@ -32,7 +32,6 @@ reference:
   - is.gg
   - is.listnotplot
   - padZeros
-  - unwrapOutputs
 - title: Deprecated
   contents:
   - pathStruct

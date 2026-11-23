@@ -22,6 +22,7 @@
 ##'     \code{time}, \code{model}, \code{file}) used to preprocess the values
 ##'     before they are inserted into \code{stamp.format}. See
 ##'     \code{\link{createStamp}}.
+##' @return A flextable object with the stamp added as a footer line.
 ##' @import flextable
 ##' @export
 

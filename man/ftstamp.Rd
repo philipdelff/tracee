@@ -47,6 +47,9 @@ placeholders \code{\%script}, \code{\%time}, \code{\%model}, and
 before they are inserted into \code{stamp.format}. See
 \code{\link{createStamp}}.}
 }
+\value{
+A flextable object with the stamp added as a footer line.
+}
 \description{
 Stamp and write flextab objects to one or multiple formats
 }
