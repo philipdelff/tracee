@@ -41,10 +41,9 @@ padZeros(c(1, 10, 100), 4)
 # Useful for creating sequential file names
 paste0("file_", padZeros(1:5, 3), ".txt")
 #> [1] "file_001.txt" "file_002.txt" "file_003.txt" "file_004.txt" "file_005.txt"
-library(NMdata)
-#> NMdata 0.2.7. Browse NMdata documentation at
-#> https://NMautoverse.github.io/NMdata/
-NMdata::fnAppend(paste0("file.txt"),padZeros(1:5, 3),collapse=NULL)
-#> [1] "file_001.txt" "file_002.txt" "file_003.txt" "file_004.txt" "file_005.txt"
 # Returns: c("file_001.txt", "file_002.txt", ..., "file_005.txt")
+
+# Or append to an existing file name
+NMdata::fnAppend("file.txt", padZeros(1:5, 3), collapse=NULL)
+#> [1] "file_001.txt" "file_002.txt" "file_003.txt" "file_004.txt" "file_005.txt"
 ```
