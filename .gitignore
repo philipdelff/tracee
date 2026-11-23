@@ -39,3 +39,6 @@
 tests/testthat/testOutput/*
 .aider*
 docs
+tests/testthat/Rplots.pdf
+tests/testthat/outputs/
+tests/testthat/*.png

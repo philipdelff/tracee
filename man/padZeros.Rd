@@ -31,8 +31,9 @@ padZeros(c(1, 10, 100), 4)
 
 # Useful for creating sequential file names
 paste0("file_", padZeros(1:5, 3), ".txt")
-library(NMdata)
-NMdata::fnAppend(paste0("file.txt"),padZeros(1:5, 3),collapse=NULL)
 # Returns: c("file_001.txt", "file_002.txt", ..., "file_005.txt")
+
+# Or append to an existing file name
+NMdata::fnAppend("file.txt", padZeros(1:5, 3), collapse=NULL)
 
 }

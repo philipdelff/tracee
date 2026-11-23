@@ -28,8 +28,7 @@ p2 <- traceit(p2,canvas="wide")
 
 mtc1 <- mtcars
 
-ft1 <- flextable(mtc1) |>
-  autofit()
+ft1 <- autofit(flextable(mtc1))
 
 
 ## class(p1)
@@ -393,7 +392,7 @@ test_that("lwrite with structure",{
 
   lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",path.format="%name_%model")
   
-  res <- list.files(dir.out,recursive=TRUE) |> sort()
+  res <- sort(list.files(dir.out,recursive=TRUE))
 
   expect_snapshot_value(res,style="deparse")
   
@@ -404,7 +403,7 @@ dir.out <- withr::local_tempdir()
 
   lwrite(outputs, model = "run001", dir = dir.out,script="path/myscript.R",path.format="%name_%script")
 
-  res <- list.files(dir.out,recursive=TRUE) |> sort()
+  res <- sort(list.files(dir.out,recursive=TRUE))
   res
 
   expect_snapshot_value(res,style="deparse")
@@ -422,7 +421,7 @@ test_that("lwrite with custom structure",{
 
   lwrite(outputs, model = "run001", dir = dir.out,script="myscript.R",path.format=struct1)
   
-res <- list.files(dir.out,recursive=TRUE)  |> sort()
+res <- sort(list.files(dir.out,recursive=TRUE))
   res
 
   expect_snapshot_value(res,style="deparse")
@@ -438,7 +437,7 @@ test_that("lwrite with custom structure 2",{
   lwrite(outputs, dir = dir.out,script="myscript.R",path.format=struct1)
 
   
-res <- list.files(dir.out,recursive=TRUE)  |> sort()
+res <- sort(list.files(dir.out,recursive=TRUE))
   res
 
   expect_snapshot_value(res,style="deparse")
@@ -452,7 +451,7 @@ test_that("lwrite with custom structure 3",{
   struct1 <- pathFormat(path.format="%script/%name_%model",model="mod1",dir=dir.out,script="scr1")
   lwrite(outputs, model = "run001",path.format=struct1)
   
-res <- list.files(dir.out,recursive=TRUE)  |> sort()
+res <- sort(list.files(dir.out,recursive=TRUE))
   res
 
   expect_snapshot_value(res,style="deparse")
@@ -471,7 +470,7 @@ test_that("nested lists - lists.as.subdirs",{
   lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",path.format="%script/%name_%model",lists.as.subdirs=TRUE)
   
   
-  res <- list.files(dir.out,recursive=TRUE) |> sort()
+  res <- sort(list.files(dir.out,recursive=TRUE))
   res
 
   expect_snapshot_value(res,style="deparse")
@@ -486,7 +485,7 @@ test_that("nested lists - lists.as.subdirs=FALSE",{
   outs2 <- list(list1=outputs,list2=outputs)
   lwrite(outs2, model = "run001", dir = dir.out,script="myscript.R",path.format="%script/%name_%model",lists.as.subdirs=FALSE)
 
-  res <- list.files(dir.out,recursive=TRUE)  |> sort()
+  res <- sort(list.files(dir.out,recursive=TRUE))
   res
 
   expect_snapshot_value(res,style="deparse")

@@ -689,7 +689,7 @@ write1 <- function(plot,fn=NULL,type=NULL,onefile=FALSE,size,script,time,model,q
                   stamp.format=stamp.format,stamp.funs=stamp.funs,
                   stamp.gg.style=stamp.gg.style)
 
-  dots <- try(list(...),silent=T)
+  dots <- try(list(...),silent=TRUE)
   if("try-error"%in%class(dots)) dots <- NULL
 
   dir <- NULL
