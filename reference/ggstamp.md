@@ -78,8 +78,6 @@ ggstamp(
 
 ## Value
 
-the plot with a stamp
-
 A plot object with the stamp added as caption
 
 ## Details

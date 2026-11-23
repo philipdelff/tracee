@@ -65,3 +65,7 @@ ftstamp(
   `file`) used to preprocess the values before they are inserted into
   `stamp.format`. See
   [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+
+## Value
+
+A flextable object with the stamp added as a footer line.

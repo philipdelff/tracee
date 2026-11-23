@@ -34,3 +34,7 @@ stampFlextab(ft, file, script, bg = "#ffffff", time)
   The default is to insert a time stamp taken from result of Sys.time().
   Using the time argument you can overrule this by setting a fixed
   string instead. Use "" to omit.
+
+## Value
+
+A flextable object with the stamp added as a footer line.

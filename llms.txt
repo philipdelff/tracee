@@ -188,8 +188,6 @@ Write plots, tables and data to file with traceability stamps.
   flextable
 - [`padZeros()`](https://philipdelff.github.io/tracee/reference/padZeros.md)
   : Pad Numbers with Leading Zeros
-- [`unwrapOutputs()`](https://philipdelff.github.io/tracee/reference/unwrapOutputs.md)
-  : Unwrap nested lists of R objects into a flat list of outputs
 
 ## Deprecated
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tracee</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.4.961</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,11 +33,89 @@
       <small>Source: <a href="https://github.com/philipdelff/tracee/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-  </main></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.0" id="tracee-010">tracee 0.1.0<a class="anchor" aria-label="anchor" href="#tracee-010"></a></h2>
+<p>This version comes with several improvements, new functions and bugfixes. While previous versions provided functions to save to tables and figures with stamps, version 0.1.0 improves the consistency of those functions, adds a consistent framework to define file path and naming based on output name, model name and script name. This means one can freely define if outputs should be saved in folders and with file names based on a model name and or a script name. If saving a plot object, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>, this could look like</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">p</span>,file<span class="op">=</span><span class="st">"myplot.png"</span>,model<span class="op">=</span><span class="st">"models/mymodel.lst"</span>,script<span class="op">=</span><span class="st">"myscript.R"</span>,path.format<span class="op">=</span><span class="st">"outputs/%script/%model_%name"</span><span class="op">)</span></span></code></pre></div>
+<p>this would generate a file in “outputs/myscript/mymodel_myplot.png” which will include a “stamp” in the bottom with script, model, and output name information.</p>
+<p>You can also use the <code><a href="../reference/lwrite.html">lwrite()</a></code> (“list write”) function to achieve this for a set of outputs which can be a mix of figures, tables, and data.frames. Those would then be dispatched to relevant writers.</p>
+<p>Suppose <code>p</code> is a plot, and <code>ft</code> is a flextable object.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/lwrite.html">lwrite</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>myplot<span class="op">=</span><span class="va">p</span>,mytab<span class="op">=</span><span class="va">ft</span><span class="op">)</span>,</span>
+<span>path.format<span class="op">=</span><span class="st">"outputs/%script/%model_%name"</span>,</span>
+<span>,model<span class="op">=</span><span class="st">"models/mymodel.lst"</span>,script<span class="op">=</span><span class="st">"myscript.R"</span><span class="op">)</span></span></code></pre></div>
+<p>would create the two files “outputs/myscript/myplot_mymodel.png” and “outputs/myscript/mytab_mymodel.png”</p>
+<div class="section level3">
+<h3 id="new-features-0-1-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-0-1-0"></a></h3>
+<p>This list of improvements is far from exhaustive.</p>
+<ul><li><p>A <code>model</code> argument is generally added to writer functions to allow for model information in tags.</p></li>
+<li><p>Stamping mechanism has been re-written and greatly improved. Stamps format (what to write) is controlled by <code>stamp.format</code> (very similar to <code>path.format</code> for file paths) and styling (font etc.) is controlled by <code>stamp.gg.style</code> (plots) and <code>stamp.ft.style</code> (flextables). The default is <code>stamp.format="%file\n%script\n%model\n%time"</code> with labels added by the default <code>stamp.funs</code> (“Output:”, “Script:”, “Model:”, “Time:”). Components that are not provided are skipped. <code>stamp.gg.style</code> is a list of arguments passed to <code>element_text</code>.</p></li>
+<li><p>Plot stamps are now left-justified by default and placed in the bottom right corner. Placement and justification are controlled independently by <code>stamp.gg.style$position</code> (<code>"left"</code>, <code>"center"</code>, <code>"right"</code> or a number between 0 and 1) and <code>stamp.gg.style$hjust</code>.</p></li>
+<li><p>Generation of stamps have been streamlined between <code><a href="../reference/ggwrite.html">ggwrite()</a></code> and <code><a href="../reference/ftwrite.html">ftwrite()</a></code>, and they are now using the same underlying mechanism for simplification.</p></li>
+<li><p><code><a href="../reference/ftwrite.html">ftwrite()</a></code> gains the <code>show</code> argument. Similarly to <code><a href="../reference/ggwrite.html">ggwrite()</a></code>, this allows to control printing to file and screen independently.</p></li>
+<li><p><code><a href="../reference/ggwrite.html">ggwrite()</a></code> (and wrappers) gains support for the ragg device which is now default. This improves reproducibility across systems.</p></li>
+<li><p><code><a href="../reference/traceit.html">traceit()</a></code> can be used to modify saving options for individual outputs that are saved in lists and written at once with <code><a href="../reference/lwrite.html">lwrite()</a></code>. The options chosen with <code><a href="../reference/traceit.html">traceit()</a></code> will then overwrite defaults for the specific plots.</p></li>
+<li><p>arguments like <code>model</code> and <code>script</code> can be pre-prossed before used in paths and stamps. Like when using <code>path.format="%script-%name"</code>, one may want to truncate the script path or name before generating the file name. This can be done independently for generation of paths (<code>paths.funs</code>) and stamps (<code>stamps.funs</code>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bugfixes-0-1-0">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/ftwrite.html">ftwrite()</a></code> would need the <code>bg</code> argument even though a default value was apparently provided. Now that default is actually being used.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-changes-0-1-0">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-0-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/pathStruct.html">pathStruct()</a></code> has been renamed to <code><a href="../reference/pathFormat.html">pathFormat()</a></code>. <code><a href="../reference/pathStruct.html">pathStruct()</a></code> is deprecated and calls <code><a href="../reference/pathFormat.html">pathFormat()</a></code> with a message.</li>
+<li>The <code>structure</code> argument of <code><a href="../reference/pathFormat.html">pathFormat()</a></code> and <code><a href="../reference/lwrite.html">lwrite()</a></code> has been renamed to <code>path.format</code>. <code>structure</code> is deprecated but still works (with a message).</li>
+<li>
+<code>ggwrite</code> gives a message instead of a warning when empty spaces are being removed from file names.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.4" id="tracee-004">tracee 0.0.4<a class="anchor" aria-label="anchor" href="#tracee-004"></a></h2><p class="text-muted">CRAN release: 2024-01-08</p>
+<div class="section level3">
+<h3 id="bugfixes-0-0-4">Bugfixes<a class="anchor" aria-label="anchor" href="#bugfixes-0-0-4"></a></h3>
+<ul><li>
+<code><a href="../reference/ggwrite.html">ggwrite()</a></code> in some cases wouldn’t write a list of plots to multiple pngs. Fixed.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-changes-0-0-4">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-0-0-4"></a></h3>
+<ul><li>
+<code>ftwrite</code> argument takes a <code>time</code> argument like <code>ggwrite</code>. It did already by passing it downstream but now it is explicit like for <code>ggwrite</code>.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.3" id="tracee-003">tracee 0.0.3<a class="anchor" aria-label="anchor" href="#tracee-003"></a></h2><p class="text-muted">CRAN release: 2023-03-23</p>
+<div class="section level3">
+<h3 id="changes-0-0-3">Changes<a class="anchor" aria-label="anchor" href="#changes-0-0-3"></a></h3>
+<ul><li>Flextab function names aligned with functions for plots. writeFlextab is deprecated and now called ftwrite. stampFlextab is deprecated and now called ftstamp. These names match ggwrite and ggstamp, respectively.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-0-3">New features<a class="anchor" aria-label="anchor" href="#new-features-0-0-3"></a></h3>
+<ul><li><p>Missing script argument supported in ftwrite.</p></li>
+<li><p>ggwrite support multiple formats (new argument aligning with writeFlextab) and canvases. In this case, the canvas name will be appended to file names.</p></li>
+<li><p>ftwrite now throws an error in case unsupported output formats are requested.</p></li>
+<li><p>ftwrite support the ‘save’ argument like ggwrite.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.2" id="tracee-002">tracee 0.0.2<a class="anchor" aria-label="anchor" href="#tracee-002"></a></h2><p class="text-muted">CRAN release: 2022-10-15</p>
+<div class="section level3">
+<h3 id="new-functions-0-0-2">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-0-2"></a></h3>
+<ul><li>writeFlextab is a wrapper that flextable objects to files including a caption (stamp) referencing script path and output filename. The stamp is generated by the same underlying function as used when generating stamps for plots in ggstamp or ggwrite. stampFlextab is equivalent to ggstamp for plots.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="added-features-0-0-2">Added features<a class="anchor" aria-label="anchor" href="#added-features-0-0-2"></a></h3>
+<ul><li>Objets of class ggmatrix can now be stamped using ggstamp.</li>
+</ul></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Philip Delff, Sanaya Shroff.</p>
+  <p>Developed by Philip Delff.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -183,9 +183,7 @@ for data frame writing,
 [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
 for path format options,
 [`is.listnotplot`](https://philipdelff.github.io/tracee/reference/is.listnotplot.md)
-for list detection logic,
-[`unwrapOutputs`](https://philipdelff.github.io/tracee/reference/unwrapOutputs.md)
-for an alternative list flattening approach
+for list detection logic
 
 ## Examples
 
