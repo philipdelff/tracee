@@ -90,10 +90,10 @@ test_that("pass arg - custom canvas",{
   dir.create(dir.out)
   
   lsave <- lsave.flat
-  untrace(lsave)
+  untraceit(lsave)
   ## attributes(lsave)
   ## attributes(lsave$a_plot)
-  untrace(lsave$a_plot)
+  untraceit(lsave$a_plot)
 
   ## lwrite(lsave,dir="testOutput",model="model1",script=script,time=time1)
   lwrite(lsave,path.format="%model/%name_%model",dir=dir.out,model="model1_args",script=script,time=time1,canvas=list(mycanvas=list(height=9,width=21),

@@ -134,6 +134,7 @@ traceit.data.frame <- function(x,...,quite=TRUE){
 ##' @rdname traceit
 ##' @method traceit traceit
 ##' @export
+
 traceit.traceit <- function(x,...,quite=TRUE){
 
 
