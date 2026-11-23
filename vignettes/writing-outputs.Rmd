@@ -10,7 +10,8 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.alt = "Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath."
 )
 ```
 
