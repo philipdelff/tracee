@@ -125,7 +125,7 @@ displayed (useful during interactive development); if
 <span><span class="co">## View on screen (save = FALSE is the default behavior we use throughout</span></span>
 <span><span class="co">## this vignette via `writeOutput`)</span></span>
 <span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">p1</span>, file <span class="op">=</span> <span class="st">"chickweight_lines1.png"</span>, save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-single-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-single-1.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="stamping-script-time-and-model">Stamping: <code>script</code>, <code>time</code>, and
@@ -153,13 +153,13 @@ and also usable by <code>fun.path</code> to organize output directories
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">p1</span>, script <span class="op">=</span> <span class="va">script</span>, file <span class="op">=</span> <span class="st">"chickweight_lines2.png"</span>,</span>
 <span>        canvas <span class="op">=</span> <span class="st">"wide"</span>, save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-stamp-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-stamp-1.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## Including time and model in the stamp</span></span>
 <span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">p1</span>, script <span class="op">=</span> <span class="va">script</span>, time <span class="op">=</span> <span class="va">time</span>, model <span class="op">=</span> <span class="va">model</span>,</span>
 <span>        file <span class="op">=</span> <span class="st">"chickweight_lines3.png"</span>, save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-stamp-2.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-stamp-2.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="multiple-formats-and-canvas-sizes-at-once">Multiple formats and canvas sizes at once<a class="anchor" aria-label="anchor" href="#multiple-formats-and-canvas-sizes-at-once"></a>
@@ -168,14 +168,14 @@ and also usable by <code>fun.path</code> to organize output directories
 <code class="sourceCode R"><span><span class="co">## Two file formats from one call</span></span>
 <span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">p1</span>, file <span class="op">=</span> <span class="st">"chickweight_lines4.png"</span>,</span>
 <span>        formats <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"png"</span>, <span class="st">"pdf"</span><span class="op">)</span>, save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-formats-canvas-1.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-formats-canvas-1.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## Two canvas sizes from one call -&gt; chickweight_small.png, chickweight_large.png</span></span>
 <span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">p1</span>, file <span class="op">=</span> <span class="st">"chickweight_lines5.png"</span>,</span>
 <span>        canvas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>small <span class="op">=</span> <span class="st">"standard"</span>, large <span class="op">=</span> <span class="st">"wide"</span><span class="op">)</span>,</span>
 <span>        save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-formats-canvas-2.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-formats-canvas-2.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="lists-of-plots">Lists of plots<a class="anchor" aria-label="anchor" href="#lists-of-plots"></a>
@@ -190,12 +190,12 @@ per element) or combined into a single multi-page PDF.</p>
 <span></span>
 <span><span class="co">## Separate files: chickweight_lines.png, chickweight_points.png</span></span>
 <span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">plots</span>, file <span class="op">=</span> <span class="st">"chickweight.png"</span>, use.names <span class="op">=</span> <span class="cn">TRUE</span>, save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-list-1.png" class="r-plt" alt="" width="700"><img src="writing-outputs_files/figure-html/ggwrite-list-2.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-list-1.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"><img src="writing-outputs_files/figure-html/ggwrite-list-2.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co">## Single multi-page PDF: chickweight.pdf (2 pages)</span></span>
 <span><span class="fu"><a href="../reference/ggwrite.html">ggwrite</a></span><span class="op">(</span><span class="va">plots</span>, file <span class="op">=</span> <span class="st">"chickweight.pdf"</span>, onefile <span class="op">=</span> <span class="cn">TRUE</span>, save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/ggwrite-list-3.png" class="r-plt" alt="" width="700"><img src="writing-outputs_files/figure-html/ggwrite-list-4.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/ggwrite-list-3.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"><img src="writing-outputs_files/figure-html/ggwrite-list-4.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -280,7 +280,7 @@ using the list names to generate file names.</p>
 <span><span class="fu"><a href="../reference/lwrite.html">lwrite</a></span><span class="op">(</span><span class="va">outputs</span>, </span>
 <span>       script <span class="op">=</span> <span class="va">script</span>, time <span class="op">=</span> <span class="va">time</span>, model <span class="op">=</span> <span class="va">model</span>,</span>
 <span>       save <span class="op">=</span> <span class="va">writeOutput</span><span class="op">)</span></span></code></pre></div>
-<p><img src="writing-outputs_files/figure-html/lwrite-example-1.png" class="r-plt" alt="" width="700"><img src="writing-outputs_files/figure-html/lwrite-example-2.png" class="r-plt" alt="" width="700"></p>
+<p><img src="writing-outputs_files/figure-html/lwrite-example-1.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"><img src="writing-outputs_files/figure-html/lwrite-example-2.png" class="r-plt" alt="Example plot of ChickWeight data saved with tracee, with a stamp showing output file, script and time underneath." width="700"></p>
 <p>This is particularly useful at the end of an analysis script: collect
 every plot and table you want to export into a single named list, then
 call <code><a href="../reference/lwrite.html">lwrite()</a></code> once instead of calling

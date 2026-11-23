@@ -72,7 +72,9 @@ p1 <- ggplot(ChickWeight, aes(Time, weight, group = Chick, colour = factor(Diet)
 ggwrite(p1, file = "chickweight_lines1.png", save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-single-1.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-single-1.png)
 
 ### Stamping: `script`, `time`, and `model`
 
@@ -98,7 +100,9 @@ ggwrite(p1, script = script, file = "chickweight_lines2.png",
         canvas = "wide", save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-stamp-1.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-stamp-1.png)
 
 ``` r
 
@@ -108,7 +112,9 @@ ggwrite(p1, script = script, time = time, model = model,
         file = "chickweight_lines3.png", save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-stamp-2.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-stamp-2.png)
 
 ### Multiple formats and canvas sizes at once
 
@@ -119,7 +125,9 @@ ggwrite(p1, file = "chickweight_lines4.png",
         formats = c("png", "pdf"), save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-formats-canvas-1.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-formats-canvas-1.png)
 
 ``` r
 
@@ -130,7 +138,9 @@ ggwrite(p1, file = "chickweight_lines5.png",
         save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-formats-canvas-2.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-formats-canvas-2.png)
 
 ### Lists of plots
 
@@ -148,7 +158,12 @@ plots <- list(lines = p1, points = p2)
 ggwrite(plots, file = "chickweight.png", use.names = TRUE, save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-list-1.png)![](writing-outputs_files/figure-html/ggwrite-list-2.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-list-1.png)![Example
+plot of ChickWeight data saved with tracee, with a stamp showing output
+file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-list-2.png)
 
 ``` r
 
@@ -157,7 +172,12 @@ ggwrite(plots, file = "chickweight.png", use.names = TRUE, save = writeOutput)
 ggwrite(plots, file = "chickweight.pdf", onefile = TRUE, save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/ggwrite-list-3.png)![](writing-outputs_files/figure-html/ggwrite-list-4.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-list-3.png)![Example
+plot of ChickWeight data saved with tracee, with a stamp showing output
+file, script and time
+underneath.](writing-outputs_files/figure-html/ggwrite-list-4.png)
 
 ## 2. `ftwrite()`: saving flextable objects
 
@@ -253,7 +273,12 @@ lwrite(outputs,
        save = writeOutput)
 ```
 
-![](writing-outputs_files/figure-html/lwrite-example-1.png)![](writing-outputs_files/figure-html/lwrite-example-2.png)
+![Example plot of ChickWeight data saved with tracee, with a stamp
+showing output file, script and time
+underneath.](writing-outputs_files/figure-html/lwrite-example-1.png)![Example
+plot of ChickWeight data saved with tracee, with a stamp showing output
+file, script and time
+underneath.](writing-outputs_files/figure-html/lwrite-example-2.png)
 
 This is particularly useful at the end of an analysis script: collect
 every plot and table you want to export into a single named list, then
