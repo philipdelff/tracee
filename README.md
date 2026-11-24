@@ -4,8 +4,8 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/tracee)](https://CRAN.R-project.org/package=tracee)
-[![R-CMD-check](https://github.com/philipdelff/tracee/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/philipdelff/tracee/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/philipdelff/tracee/actions/workflows/pkgdown.yaml/badge.svg)](https://philipdelff.github.io/tracee/)
+[![R-CMD-check](https://github.com/NMautoverse/tracee/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NMautoverse/tracee/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/NMautoverse/tracee/actions/workflows/pkgdown.yaml/badge.svg)](https://nmautoverse.github.io/tracee/)
 <!-- badges: end -->
 
 # tracee
@@ -31,7 +31,7 @@ When you write an output with `tracee`, you get:
   code shows outputs on screen while you develop, and writes them to
   file when you set `save = TRUE`.
 
-The project website is at <https://philipdelff.github.io/tracee/>.
+The project website is at <https://nmautoverse.github.io/tracee/>.
 
 ## Installation
 
@@ -45,7 +45,7 @@ The development version can be installed from GitHub:
 
 ```r
 # install.packages("remotes")
-remotes::install_github("philipdelff/tracee")
+remotes::install_github("NMautoverse/tracee")
 ```
 
 ## Overview of functions
@@ -141,4 +141,4 @@ ggwrite(p, file = "output/chickweight.png", save = writeOutput)
 
 See the vignette *Writing outputs with tracee*
 (`vignette("writing-outputs", package = "tracee")`) and the [function
-reference](https://philipdelff.github.io/tracee/reference/index.html).
+reference](https://nmautoverse.github.io/tracee/reference/index.html).
