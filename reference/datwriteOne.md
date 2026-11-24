@@ -50,7 +50,7 @@ datwriteOne(
 - fun.path:
 
   Path function as returned by
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md),
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md),
   or `NULL`.
 
 - subdir:

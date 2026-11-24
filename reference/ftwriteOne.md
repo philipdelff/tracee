@@ -1,7 +1,7 @@
 # Write a single flextable object to file(s)
 
 Internal function called by
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 to handle writing of individual flextable objects. Generally not called
 directly by users.
 
@@ -39,7 +39,7 @@ ftwriteOne(
 - formats:
 
   Character vector of output format(s). See
-  [`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md).
+  [`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md).
 
 - save:
 
@@ -68,12 +68,12 @@ ftwriteOne(
 - stamp.ft.style:
 
   Format specification for stamp. Passed to
-  [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md).
+  [`ftstamp`](https://nmautoverse.github.io/tracee/reference/ftstamp.md).
 
 - fun.path:
 
   Function for constructing file paths. See
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
 
 - subdir:
 
@@ -82,7 +82,7 @@ ftwriteOne(
 - stamp.format, stamp.funs:
 
   Passed to
-  [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md).
+  [`ftstamp`](https://nmautoverse.github.io/tracee/reference/ftstamp.md).
 
 ## Value
 
@@ -91,4 +91,4 @@ Otherwise returns invisibly a list of file paths written.
 
 ## See also
 
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)

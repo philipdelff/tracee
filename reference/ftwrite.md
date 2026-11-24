@@ -92,7 +92,7 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 - stamp.ft.style:
 
   A list of formatting options for the stamp, passed to
-  [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md).
+  [`ftstamp`](https://nmautoverse.github.io/tracee/reference/ftstamp.md).
   Valid elements: `size`, `align`, `space`, `bg`, `color`.
 
 - path.format:
@@ -100,9 +100,9 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
   Character string or function defining the output path. A template
   using `%model`, `%script`, and `%name` placeholders, or a function as
   returned by
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Passed to
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Default (`NULL`) uses `file` as is.
 
 - subdir:
@@ -121,14 +121,14 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
   is `"%file\n%script\n%model\n%time"`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:
 
   Optional named list of functions (elements `script`, `time`, `model`,
   `file`) used to preprocess the values before they are inserted into
   `stamp.format`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - fun.path:
 
@@ -137,13 +137,13 @@ writeFlextab(ft, file, script, formats, save, quiet = FALSE, ...)
 - ...:
 
   Additional arguments passed to
-  [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md)
+  [`ftstamp`](https://nmautoverse.github.io/tracee/reference/ftstamp.md)
   for stamp customization.
 
 ## Value
 
 Invisibly returns the result from
-[`ftwriteOne`](https://philipdelff.github.io/tracee/reference/ftwriteOne.md)
+[`ftwriteOne`](https://nmautoverse.github.io/tracee/reference/ftwriteOne.md)
 (for lists, returns results for all written tables). If `show = TRUE`,
 also prints the flextable(s) to the current device.
 
@@ -192,13 +192,13 @@ functions:
 
 ## See also
 
-[`ftwriteOne`](https://philipdelff.github.io/tracee/reference/ftwriteOne.md)
+[`ftwriteOne`](https://nmautoverse.github.io/tracee/reference/ftwriteOne.md)
 for writing a single flextable,
-[`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md)
+[`ftstamp`](https://nmautoverse.github.io/tracee/reference/ftstamp.md)
 for adding stamps to flextables,
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) for
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) for
 a unified interface to write various object types,
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
 for organizing output directories,
 [`save_as_image`](https://davidgohel.github.io/flextable/reference/save_as_image.html),
 [`save_as_docx`](https://davidgohel.github.io/flextable/reference/save_as_docx.html),

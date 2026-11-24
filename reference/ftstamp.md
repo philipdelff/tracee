@@ -57,14 +57,14 @@ ftstamp(
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
   is `"%file\n%script\n%model\n%time"`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:
 
   Optional named list of functions (elements `script`, `time`, `model`,
   `file`) used to preprocess the values before they are inserted into
   `stamp.format`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 ## Value
 

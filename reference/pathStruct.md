@@ -1,7 +1,7 @@
 # Deprecated: use pathFormat()
 
 `pathStruct()` is deprecated. Use
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
 
 ## Usage
 
@@ -14,9 +14,9 @@ pathStruct(...)
 - ...:
 
   Passed to
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
 
 ## Value
 
 See
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).

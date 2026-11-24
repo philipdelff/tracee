@@ -1,12 +1,12 @@
 # Call a path function safely, forwarding script only if supported
 
 Internal helper used by
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md),
-[`datwrite`](https://philipdelff.github.io/tracee/reference/datwrite.md),
-and [`lwrite`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md),
+[`datwrite`](https://nmautoverse.github.io/tracee/reference/datwrite.md),
+and [`lwrite`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
 to call a `fun.path` function (as returned by
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md),
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md),
 or user-supplied) with `name`, `model`, `subdir`, and (if supported)
 `script`. This avoids "unused argument" errors when a custom `fun.path`
 function does not accept a `script` argument.
@@ -29,7 +29,7 @@ applyFunPath(
 - fun.path:
 
   A function as returned by
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md),
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md),
   or any custom function accepting at least `name`, `model`, and
   `subdir` arguments.
 

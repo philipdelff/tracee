@@ -20,7 +20,7 @@ When you write an output with `tracee`, you get:
   shows outputs on screen while you develop, and writes them to file
   when you set `save = TRUE`.
 
-The project website is at <https://philipdelff.github.io/tracee/>.
+The project website is at <https://nmautoverse.github.io/tracee/>.
 
 ## Installation
 
@@ -36,22 +36,22 @@ The development version can be installed from GitHub:
 ``` r
 
 # install.packages("remotes")
-remotes::install_github("philipdelff/tracee")
+remotes::install_github("NMautoverse/tracee")
 ```
 
 ## Overview of functions
 
 | Function | Purpose |
 |----|----|
-| [`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md) | Write `ggplot` objects (or lists of them) to `png`/`pdf` with stamp |
-| [`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md) | Write `flextable` objects to `png`, `docx`, `pptx`, `html`, `rds` |
-| [`datwrite()`](https://philipdelff.github.io/tracee/reference/datwrite.md) | Write data frames (via [`NMdata::NMwriteData()`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html)) with metadata |
-| [`writer()`](https://philipdelff.github.io/tracee/reference/writer.md) | Detect the object type and dispatch to the right writer |
-| [`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md) | Write a (nested) list of plots, tables and data in one call |
-| [`ggstamp()`](https://philipdelff.github.io/tracee/reference/ggstamp.md), [`ftstamp()`](https://philipdelff.github.io/tracee/reference/ftstamp.md) | Add a traceability stamp without writing to file |
-| [`pathFormat()`](https://philipdelff.github.io/tracee/reference/pathFormat.md) | Build output paths from templates using `%model`, `%script`, `%name` |
-| [`canvasSize()`](https://philipdelff.github.io/tracee/reference/canvasSize.md) | Predefined output dimensions |
-| [`traceit()`](https://philipdelff.github.io/tracee/reference/traceit.md) | Attach script/model/time information to an object for later writing |
+| [`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md) | Write `ggplot` objects (or lists of them) to `png`/`pdf` with stamp |
+| [`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md) | Write `flextable` objects to `png`, `docx`, `pptx`, `html`, `rds` |
+| [`datwrite()`](https://nmautoverse.github.io/tracee/reference/datwrite.md) | Write data frames (via [`NMdata::NMwriteData()`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html)) with metadata |
+| [`writer()`](https://nmautoverse.github.io/tracee/reference/writer.md) | Detect the object type and dispatch to the right writer |
+| [`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md) | Write a (nested) list of plots, tables and data in one call |
+| [`ggstamp()`](https://nmautoverse.github.io/tracee/reference/ggstamp.md), [`ftstamp()`](https://nmautoverse.github.io/tracee/reference/ftstamp.md) | Add a traceability stamp without writing to file |
+| [`pathFormat()`](https://nmautoverse.github.io/tracee/reference/pathFormat.md) | Build output paths from templates using `%model`, `%script`, `%name` |
+| [`canvasSize()`](https://nmautoverse.github.io/tracee/reference/canvasSize.md) | Predefined output dimensions |
+| [`traceit()`](https://nmautoverse.github.io/tracee/reference/traceit.md) | Attach script/model/time information to an object for later writing |
 
 ## Examples
 
@@ -106,7 +106,7 @@ ggwrite(p, file = "gof.png", model = "run001",
 ```
 
 The default format is `"%name"`, i.e. `file` is used as is. See
-[`?pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+[`?pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
 for details.
 
 ### Write everything at once
@@ -138,6 +138,6 @@ ggwrite(p, file = "output/chickweight.png", save = writeOutput)
 ## Learn more
 
 See the vignette *Writing outputs with tracee*
-([`vignette("writing-outputs", package = "tracee")`](https://philipdelff.github.io/tracee/articles/writing-outputs.md))
+([`vignette("writing-outputs", package = "tracee")`](https://nmautoverse.github.io/tracee/articles/writing-outputs.md))
 and the [function
-reference](https://philipdelff.github.io/tracee/reference/index.html).
+reference](https://nmautoverse.github.io/tracee/reference/index.html).

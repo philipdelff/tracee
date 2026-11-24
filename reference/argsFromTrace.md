@@ -45,7 +45,7 @@ specified attribute is not a list.
 
 This function is used internally to retrieve default arguments that were
 previously stored in a traceit object (via
-[`traceit()`](https://philipdelff.github.io/tracee/reference/traceit.md)
+[`traceit()`](https://nmautoverse.github.io/tracee/reference/traceit.md)
 functions) and apply them to subsequent function calls. It ensures that
 explicitly provided arguments take precedence over stored defaults.
 

@@ -21,7 +21,7 @@ which will include a “stamp” in the bottom with script, model, and
 output name information.
 
 You can also use the
-[`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+[`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
 (“list write”) function to achieve this for a set of outputs which can
 be a mix of figures, tables, and data.frames. Those would then be
 dispatched to relevant writers.
@@ -60,27 +60,27 @@ This list of improvements is far from exhaustive.
   number between 0 and 1) and `stamp.gg.style$hjust`.
 
 - Generation of stamps have been streamlined between
-  [`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+  [`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
   and
-  [`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md),
+  [`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md),
   and they are now using the same underlying mechanism for
   simplification.
 
-- [`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+- [`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
   gains the `show` argument. Similarly to
-  [`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
+  [`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
   this allows to control printing to file and screen independently.
 
-- [`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+- [`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
   (and wrappers) gains support for the ragg device which is now default.
   This improves reproducibility across systems.
 
-- [`traceit()`](https://philipdelff.github.io/tracee/reference/traceit.md)
+- [`traceit()`](https://nmautoverse.github.io/tracee/reference/traceit.md)
   can be used to modify saving options for individual outputs that are
   saved in lists and written at once with
-  [`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md).
+  [`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md).
   The options chosen with
-  [`traceit()`](https://philipdelff.github.io/tracee/reference/traceit.md)
+  [`traceit()`](https://nmautoverse.github.io/tracee/reference/traceit.md)
   will then overwrite defaults for the specific plots.
 
 - arguments like `model` and `script` can be pre-prossed before used in
@@ -91,23 +91,23 @@ This list of improvements is far from exhaustive.
 
 ### Bugfixes
 
-- [`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+- [`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
   would need the `bg` argument even though a default value was
   apparently provided. Now that default is actually being used.
 
 ### Other changes
 
-- [`pathStruct()`](https://philipdelff.github.io/tracee/reference/pathStruct.md)
+- [`pathStruct()`](https://nmautoverse.github.io/tracee/reference/pathStruct.md)
   has been renamed to
-  [`pathFormat()`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
-  [`pathStruct()`](https://philipdelff.github.io/tracee/reference/pathStruct.md)
+  [`pathFormat()`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
+  [`pathStruct()`](https://nmautoverse.github.io/tracee/reference/pathStruct.md)
   is deprecated and calls
-  [`pathFormat()`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+  [`pathFormat()`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
   with a message.
 - The `structure` argument of
-  [`pathFormat()`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+  [`pathFormat()`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
   and
-  [`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+  [`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
   has been renamed to `path.format`. `structure` is deprecated but still
   works (with a message).
 - `ggwrite` gives a message instead of a warning when empty spaces are
@@ -119,7 +119,7 @@ CRAN release: 2024-01-08
 
 ### Bugfixes
 
-- [`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+- [`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
   in some cases wouldn’t write a list of plots to multiple pngs. Fixed.
 
 ### Other changes

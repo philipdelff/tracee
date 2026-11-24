@@ -1,11 +1,11 @@
 # Write a plot or list of plots to one or more files
 
 Internal workhorse function called by
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md).
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md).
 Resolves the combination of output formats and canvas sizes (via
-[`ggwrite_names`](https://philipdelff.github.io/tracee/reference/ggwrite_names.md)),
+[`ggwrite_names`](https://nmautoverse.github.io/tracee/reference/ggwrite_names.md)),
 and dispatches to
-[`write1`](https://philipdelff.github.io/tracee/reference/write1.md) for
+[`write1`](https://nmautoverse.github.io/tracee/reference/write1.md) for
 each individual plot/format/canvas combination. Handles both single plot
 objects and lists of plots, including the `onefile` (multi-page PDF)
 case.
@@ -37,7 +37,7 @@ writeObj(
 - plot:
 
   A plot object or a list of plot objects. See
-  [`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md).
+  [`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md).
 
 - file:
 
@@ -47,7 +47,7 @@ writeObj(
 - script:
 
   Character string or path to the calling script, used for stamping. See
-  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+  [`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md).
 
 - time:
 
@@ -75,7 +75,7 @@ writeObj(
 - canvas:
 
   Canvas size specification. See
-  [`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md).
+  [`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md).
 
 - quiet:
 
@@ -84,7 +84,7 @@ writeObj(
 - fun.path:
 
   Function or character string defining output directory structure. See
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   If the path format uses `%script`, `script` is forwarded to it
   automatically.
 
@@ -101,12 +101,12 @@ writeObj(
 
   Character string, one of `"png"` or `"ragg"`, specifying which
   graphics device to use for PNG output. See
-  [`write1`](https://philipdelff.github.io/tracee/reference/write1.md).
+  [`write1`](https://nmautoverse.github.io/tracee/reference/write1.md).
 
 - ...:
 
   Passed on to
-  [`write1`](https://philipdelff.github.io/tracee/reference/write1.md)
+  [`write1`](https://nmautoverse.github.io/tracee/reference/write1.md)
   (and ultimately to
   [`png`](https://rdrr.io/r/grDevices/png.html)/[`pdf`](https://rdrr.io/r/grDevices/pdf.html)).
 
@@ -117,6 +117,6 @@ effect.
 
 ## See also
 
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-[`write1`](https://philipdelff.github.io/tracee/reference/write1.md),
-[`ggwrite_names`](https://philipdelff.github.io/tracee/reference/ggwrite_names.md)
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+[`write1`](https://nmautoverse.github.io/tracee/reference/write1.md),
+[`ggwrite_names`](https://nmautoverse.github.io/tracee/reference/ggwrite_names.md)

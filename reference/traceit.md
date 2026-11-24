@@ -35,9 +35,9 @@ traceit(x, ..., quite = TRUE)
 
   Named arguments that will be stored as trace attributes. For ggplot
   objects, valid arguments match those in
-  [`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md).
+  [`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md).
   For flextable objects, valid arguments match those in
-  [`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md).
+  [`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md).
   For data.frame objects, valid arguments match those in
   [`NMwriteData`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html).
 
@@ -84,19 +84,19 @@ arguments taking precedence.
 ## Extracting Trace Attributes
 
 To extract trace attributes from an object, use
-[`argsFromTrace`](https://philipdelff.github.io/tracee/reference/argsFromTrace.md).
+[`argsFromTrace`](https://nmautoverse.github.io/tracee/reference/argsFromTrace.md).
 
 ## See also
 
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 for writing ggplot objects,
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 for writing flextable objects,
 [`NMwriteData`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html)
 for writing data frames,
-[`argsFromTrace`](https://philipdelff.github.io/tracee/reference/argsFromTrace.md)
+[`argsFromTrace`](https://nmautoverse.github.io/tracee/reference/argsFromTrace.md)
 for extracting trace attributes,
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) for
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) for
 a unified writing interface
 
 ## Examples

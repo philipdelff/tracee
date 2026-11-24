@@ -5,7 +5,7 @@ Internal function that performs the actual device handling (opening a
 or [`pdf`](https://rdrr.io/r/grDevices/pdf.html) device, printing the
 plot, and closing the device) for a single plot/file/size combination.
 Also applies stamping via
-[`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md)
+[`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md)
 before printing. If `fn` or `type` indicate on-screen display ("x11"),
 the plot is printed directly without opening a file device.
 
@@ -57,12 +57,12 @@ write1(
 - size:
 
   A list with `width` and `height` elements (in inches), as produced by
-  [`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md)/[`ggwrite_names`](https://philipdelff.github.io/tracee/reference/ggwrite_names.md).
+  [`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md)/[`ggwrite_names`](https://nmautoverse.github.io/tracee/reference/ggwrite_names.md).
 
 - script:
 
   Character string or path to the calling script, used for stamping. See
-  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+  [`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md).
 
 - time:
 
@@ -93,14 +93,14 @@ write1(
 
   Function or character string defining output directory structure,
   applied to `fn` before the file is written. See
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   If the path format uses `%script`, `script` is forwarded to it
   automatically (if the function accepts a `script` argument).
 
 - stamp.format, stamp.funs, stamp.gg.style:
 
   Passed to
-  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+  [`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md).
 
 - ...:
 
@@ -116,6 +116,6 @@ displaying the plot.
 
 ## See also
 
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-[`writeObj`](https://philipdelff.github.io/tracee/reference/writeObj.md),
-[`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md)
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+[`writeObj`](https://nmautoverse.github.io/tracee/reference/writeObj.md),
+[`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md)

@@ -39,5 +39,5 @@ that both default arguments and user-provided overrides are valid.
 
 ## See also
 
-[`checkNames`](https://philipdelff.github.io/tracee/reference/checkNames.md),
+[`checkNames`](https://nmautoverse.github.io/tracee/reference/checkNames.md),
 [`modifyList`](https://rdrr.io/r/utils/modifyList.html)

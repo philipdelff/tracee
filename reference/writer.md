@@ -1,8 +1,8 @@
 # Write various R objects to files with flexible formatting
 
 A unified interface for
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md),
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md),
 and
 [`NMwriteData`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html)
 that automatically detects object type and applies the appropriate
@@ -45,14 +45,14 @@ writer(
 
   Character vector of file formats for flextable objects. Default is
   `"png"`. Supported formats include: "png", "docx", "pptx", "html". See
-  [`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+  [`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
   for details.
 
 - formats.gg:
 
   Character vector of file formats for ggplot objects. Default is
   `"png"`. Supported formats: "png", "pdf". See
-  [`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+  [`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
   for details.
 
 - formats.data:
@@ -68,9 +68,9 @@ writer(
   Character string or function defining the output path. A template
   using `%model`, `%script`, and `%name` placeholders, or a function as
   returned by
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Passed to
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Default (`NULL`) uses `file` as is.
 
 - subdir:
@@ -83,19 +83,19 @@ writer(
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
   is `"%file\n%script\n%model\n%time"`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:
 
   Optional named list of functions (elements `script`, `time`, `model`,
   `file`) used to preprocess the values before they are inserted into
   `stamp.format`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - stamp.gg.style:
 
   A list of formatting options for the stamp text, passed to
-  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+  [`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md).
   For ggplot objects, elements accepted by
   [`ggplot2::element_text()`](https://ggplot2.tidyverse.org/reference/element.html)
   (e.g. `size`, `colour`, `hjust`).
@@ -103,7 +103,7 @@ writer(
 - stamp.ft.style:
 
   A list of formatting options for the stamp, passed to
-  [`ftstamp`](https://philipdelff.github.io/tracee/reference/ftstamp.md).
+  [`ftstamp`](https://nmautoverse.github.io/tracee/reference/ftstamp.md).
   Valid elements: `size`, `align`, `space`, `bg`, `color`.
 
 - fun.path:
@@ -113,8 +113,8 @@ writer(
 - ...:
 
   Additional arguments passed to the specific writer functions
-  ([`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-  [`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md),
+  ([`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+  [`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md),
   or
   [`NMwriteData`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html)).
   Common arguments include:
@@ -130,7 +130,7 @@ writer(
   - `show`: Logical, whether to show/print the output (default `!save`)
 
   - `canvas`: Canvas size for plots (see
-    [`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md))
+    [`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md))
 
   - `quiet`: Logical, suppress messages (default `FALSE`)
 
@@ -146,15 +146,15 @@ The function dispatches to appropriate writer functions based on object
 class:
 
 - `flextable` objects →
-  [`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+  [`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 
 - `data.frame` objects →
-  [`datwrite`](https://philipdelff.github.io/tracee/reference/datwrite.md)
+  [`datwrite`](https://nmautoverse.github.io/tracee/reference/datwrite.md)
   (which wraps
   [`NMwriteData`](https://nmautoverse.github.io/NMdata/reference/NMwriteData.html))
 
 - `ggplot`/`gtable` objects or lists →
-  [`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+  [`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 
 For lists of objects, each element is written separately with
 appropriate naming. The function intelligently handles nested lists by
@@ -175,7 +175,7 @@ The function determines object type in the following order:
 2.  Check if `data.frame`
 
 3.  Check if `ggplot` or `gtable` (using
-    [`is.gg`](https://philipdelff.github.io/tracee/reference/is.gg.md))
+    [`is.gg`](https://nmautoverse.github.io/tracee/reference/is.gg.md))
 
 4.  Check if `list` (and not a plot object)
 
@@ -184,23 +184,23 @@ The function determines object type in the following order:
 ## Trace Attributes
 
 If the object `x` has traceit attributes (added via
-[`traceit`](https://philipdelff.github.io/tracee/reference/traceit.md)),
+[`traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md)),
 those attributes will be automatically extracted and used by the writer
 function, unless explicitly overridden by arguments passed to `writer`.
 
 ## See also
 
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 for writing ggplot objects,
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 for writing flextable objects,
-[`datwrite`](https://philipdelff.github.io/tracee/reference/datwrite.md)
+[`datwrite`](https://nmautoverse.github.io/tracee/reference/datwrite.md)
 for writing data frames,
-[`lwrite`](https://philipdelff.github.io/tracee/reference/lwrite.md) for
+[`lwrite`](https://nmautoverse.github.io/tracee/reference/lwrite.md) for
 writing lists with subdirectory organization,
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
 for path format options,
-[`traceit`](https://philipdelff.github.io/tracee/reference/traceit.md)
+[`traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md)
 for adding traceit attributes to objects
 
 ## Examples

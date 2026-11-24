@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   writing-outputs: writing-outputs.html
-last_built: 2026-11-23T19:46Z
+last_built: 2026-11-24T13:46Z
 urls:
-  reference: https://philipdelff.github.io/tracee/reference
-  article: https://philipdelff.github.io/tracee/articles
+  reference: https://nmautoverse.github.io/tracee/reference
+  article: https://nmautoverse.github.io/tracee/articles

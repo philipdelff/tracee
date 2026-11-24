@@ -5,15 +5,15 @@
 By the end of this vignette you will be able to:
 
 - Use
-  [`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+  [`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
   to save `ggplot` objects (single plots or lists of plots) to PNG
   and/or PDF files.
 - Use
-  [`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+  [`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
   to save `flextable` objects to PNG, HTML, DOCX, PPTX, or RDS files,
   including writing a named list of tables to multiple files at once.
 - Use
-  [`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+  [`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
   to save a *list of mixed objects* (plots, tables, etc.) in one call,
   dispatching each element to the appropriate writer function.
 - Add a **stamp** to your outputs using the `script`, `time`, and
@@ -52,7 +52,7 @@ model  <- "run001"
 
 ## 1. `ggwrite()`: saving (and viewing) plots
 
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 writes a single plot, or a list of plots, to one or more files. If
 `save = FALSE` the plot is only displayed (useful during interactive
 development); if `save = TRUE`, it is written to disk.
@@ -79,7 +79,7 @@ underneath.](writing-outputs_files/figure-html/ggwrite-single-1.png)
 ### Stamping: `script`, `time`, and `model`
 
 Passing `script` adds a caption (via
-[`ggstamp()`](https://philipdelff.github.io/tracee/reference/ggstamp.md))
+[`ggstamp()`](https://nmautoverse.github.io/tracee/reference/ggstamp.md))
 to the plot, showing the script name, a timestamp, and - if supplied -
 the model identifier. This is invaluable for traceability: anyone
 looking at a saved figure can immediately see which script, run, and
@@ -181,10 +181,10 @@ underneath.](writing-outputs_files/figure-html/ggwrite-list-4.png)
 
 ## 2. `ftwrite()`: saving flextable objects
 
-[`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 writes `flextable` tables to common document/image formats: `png`,
 `html`, `docx`, `pptx`, or `rds`. Like
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
 it accepts a single `flextable` object or a named list of them.
 
 ``` r
@@ -198,8 +198,8 @@ ftwrite(ft1, file = "chickweight_table.docx", save = writeOutput)
 ### Stamping a table with `script`, `time`, and `model`
 
 Just like
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-[`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+[`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 accepts `script`, `time`, and `model` to add a traceability stamp to the
 output.
 
@@ -249,11 +249,11 @@ prefer `html` or `docx` output, which rely only on pure-R packages.
 
 Often an analysis produces a *mixture* of outputs - some plots, some
 tables - that you want to save together.
-[`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+[`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
 takes a named list and dispatches each element to the appropriate writer
-([`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+([`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 for plots,
-[`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 for `flextable` objects, and so on), using the list names to generate
 file names.
 
@@ -283,24 +283,24 @@ underneath.](writing-outputs_files/figure-html/lwrite-example-2.png)
 This is particularly useful at the end of an analysis script: collect
 every plot and table you want to export into a single named list, then
 call
-[`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+[`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
 once instead of calling
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)/[`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)/[`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 separately for each object.
 
 ## 4. Controlling output location
 
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 and
-[`ftwrite()`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite()`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 accept `fun.path`/`subdir` arguments, and
-[`lwrite()`](https://philipdelff.github.io/tracee/reference/lwrite.md)
+[`lwrite()`](https://nmautoverse.github.io/tracee/reference/lwrite.md)
 accepts `path.format`. These let you organize outputs into a structured
 directory tree (e.g. grouped by model or script) rather than a single
 flat folder. A path format is a template using the placeholders
 `%model`, `%script` and `%name`, where `/` separates directory levels.
 See
-[`?pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+[`?pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
 for details and for how to supply a custom path function.
 
 ``` r

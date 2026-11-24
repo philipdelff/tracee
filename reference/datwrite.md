@@ -51,7 +51,7 @@ datwrite(
 - path.format:
 
   Character string or function defining the output path. Passed to
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Default (`NULL`) uses `file` as is.
 
 - subdir:

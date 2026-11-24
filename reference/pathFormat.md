@@ -149,11 +149,11 @@ the corresponding argument is required.
 
 ## See also
 
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) for
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) for
 using path formats in writing functions,
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md),
-[`lwrite`](https://philipdelff.github.io/tracee/reference/lwrite.md) for
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md),
+[`lwrite`](https://nmautoverse.github.io/tracee/reference/lwrite.md) for
 functions that accept `fun.path` arguments
 
 ## Examples

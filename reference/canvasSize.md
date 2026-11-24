@@ -46,6 +46,6 @@ A list with numerical elements width and height as used by ggwrite.
 ## See also
 
 Other Plotting:
-[`ggstamp()`](https://philipdelff.github.io/tracee/reference/ggstamp.md),
-[`ggwater()`](https://philipdelff.github.io/tracee/reference/ggwater.md),
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`ggstamp()`](https://nmautoverse.github.io/tracee/reference/ggstamp.md),
+[`ggwater()`](https://nmautoverse.github.io/tracee/reference/ggwater.md),
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)

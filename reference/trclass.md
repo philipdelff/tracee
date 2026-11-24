@@ -40,7 +40,7 @@ The function checks object class in the following priority order:
 2.  `data.frame`: checked via `is.data.frame(x)`
 
 3.  `gg`: checked via
-    [`is.gg`](https://philipdelff.github.io/tracee/reference/is.gg.md)`(x)`
+    [`is.gg`](https://nmautoverse.github.io/tracee/reference/is.gg.md)`(x)`
     (includes ggplot and gtable)
 
 4.  `list`: checked via `is.list(x) && !is.gg(x)`
@@ -48,24 +48,24 @@ The function checks object class in the following priority order:
 5.  If none match: throws an error
 
 This function is primarily used internally by
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) and
-[`traceit.traceit`](https://philipdelff.github.io/tracee/reference/traceit.md)
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) and
+[`traceit.traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md)
 to determine which specific writer function to call (ggwrite, ftwrite,
 or datwrite).
 
 The function ignores the "traceit" class that may be prepended by
-[`traceit`](https://philipdelff.github.io/tracee/reference/traceit.md),
+[`traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md),
 allowing it to classify traced objects by their underlying type.
 
 ## See also
 
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) for
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) for
 the main writer function that uses this classification,
-[`traceit.traceit`](https://philipdelff.github.io/tracee/reference/traceit.md)
+[`traceit.traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md)
 for traceit method that uses this,
-[`is.gg`](https://philipdelff.github.io/tracee/reference/is.gg.md) for
+[`is.gg`](https://nmautoverse.github.io/tracee/reference/is.gg.md) for
 plot object detection,
-[`is.listnotplot`](https://philipdelff.github.io/tracee/reference/is.listnotplot.md)
+[`is.listnotplot`](https://nmautoverse.github.io/tracee/reference/is.listnotplot.md)
 for list detection logic
 
 ## Examples

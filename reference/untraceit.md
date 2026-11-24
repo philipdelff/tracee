@@ -1,7 +1,7 @@
 # Remove traceit information from an object
 
 Removes the `args` attribute and the `"traceit"` class added by
-[`traceit`](https://philipdelff.github.io/tracee/reference/traceit.md).
+[`traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md).
 The object is modified in place.
 
 ## Usage

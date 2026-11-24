@@ -44,11 +44,11 @@ lwrite(
 
   Character string or function defining the output path format. Passed
   to
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
   to create a path-generating function. Examples:
   `"%model/%name_%model"` (default), `"%name_%model"`,
   `"%script/%name_%model"`. See
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
   for details.
 
 - lists.as.subdirs:
@@ -74,12 +74,12 @@ lwrite(
 - ...:
 
   Additional arguments passed to
-  [`writer`](https://philipdelff.github.io/tracee/reference/writer.md)
+  [`writer`](https://nmautoverse.github.io/tracee/reference/writer.md)
   and subsequently to the specific writer functions
-  ([`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md),
-  [`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md),
+  ([`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md),
+  [`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md),
   or
-  [`datwrite`](https://philipdelff.github.io/tracee/reference/datwrite.md)).
+  [`datwrite`](https://nmautoverse.github.io/tracee/reference/datwrite.md)).
   Common arguments include:
 
   - `script`: Path to script file for stamping
@@ -97,16 +97,16 @@ lwrite(
   - `quiet`: Suppress messages
 
   - `stamp.format`, `stamp.funs`: Stamp text format, see
-    [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md)
+    [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md)
 
   - `stamp.gg.style`, `stamp.ft.style`: Stamp styling for plots and
     tables, see
-    [`writer`](https://philipdelff.github.io/tracee/reference/writer.md)
+    [`writer`](https://nmautoverse.github.io/tracee/reference/writer.md)
 
 ## Value
 
 Invisibly returns a list of results from the
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md)
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md)
 calls. The structure mirrors the input list structure.
 
 ## Details
@@ -116,7 +116,7 @@ The function processes lists recursively with the following behavior:
 1.  Separates plot objects from non-plot objects
 
 2.  Combines plots into a single multi-page or multi-file output (see
-    [`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md))
+    [`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md))
 
 3.  Writes each non-plot object individually
 
@@ -130,7 +130,7 @@ meaningful names:
 - Named list elements use their names in output file names
 
 - Plots in the same list are combined (behavior depends on
-  [`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+  [`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
   settings)
 
 - Non-plot objects (tables, data frames) are written individually
@@ -166,23 +166,23 @@ With `lists.as.subdirs = TRUE`, the same structure produces:
 
 All `ggplot` objects within the same list level are collected and
 written together using
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md).
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md).
 This allows creating multi-page PDFs or sequentially numbered PNG files
 from a list of plots.
 
 ## See also
 
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) for
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) for
 the underlying writing function,
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 for plot-specific options,
-[`ftwrite`](https://philipdelff.github.io/tracee/reference/ftwrite.md)
+[`ftwrite`](https://nmautoverse.github.io/tracee/reference/ftwrite.md)
 for table-specific options,
-[`datwrite`](https://philipdelff.github.io/tracee/reference/datwrite.md)
+[`datwrite`](https://nmautoverse.github.io/tracee/reference/datwrite.md)
 for data frame writing,
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
 for path format options,
-[`is.listnotplot`](https://philipdelff.github.io/tracee/reference/is.listnotplot.md)
+[`is.listnotplot`](https://nmautoverse.github.io/tracee/reference/is.listnotplot.md)
 for list detection logic
 
 ## Examples

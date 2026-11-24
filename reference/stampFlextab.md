@@ -1,7 +1,7 @@
 # Stamp and write flextab objects (deprecated - use ftstamp)
 
 Deprecated - use
-[`ftstamp()`](https://philipdelff.github.io/tracee/reference/ftstamp.md)
+[`ftstamp()`](https://nmautoverse.github.io/tracee/reference/ftstamp.md)
 instead.
 
 ## Usage

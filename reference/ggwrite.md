@@ -58,7 +58,7 @@ ggwrite(
   Either a list with `height` and `width` elements (in inches), or a
   character string shortname of a predefined canvas size. Default is
   `"standard"`. See
-  [`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md)
+  [`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md)
   for available sizes and custom size specification. Multiple canvas
   sizes can be specified as a named list to generate outputs at
   different sizes.
@@ -147,9 +147,9 @@ ggwrite(
   Character string or function defining the output path. A template
   using `%model`, `%script`, and `%name` placeholders, or a function as
   returned by
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Passed to
-  [`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md).
+  [`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md).
   Default (`NULL`) uses `file` as is.
 
 - method.png:
@@ -167,19 +167,19 @@ ggwrite(
   A template for the stamp text using the placeholders `%script`,
   `%time`, `%model`, and `%file`, with `"\n"` for line breaks. Default
   is `"%file\n%script\n%model\n%time"`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - stamp.funs:
 
   Optional named list of functions (elements `script`, `time`, `model`,
   `file`) used to preprocess the values before they are inserted into
   `stamp.format`. See
-  [`createStamp`](https://philipdelff.github.io/tracee/reference/createStamp.md).
+  [`createStamp`](https://nmautoverse.github.io/tracee/reference/createStamp.md).
 
 - stamp.gg.style:
 
   A list of formatting options for the stamp text, passed to
-  [`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+  [`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md).
   For ggplot objects, elements accepted by
   [`ggplot2::element_text()`](https://ggplot2.tidyverse.org/reference/element.html)
   (e.g. `size`, `colour`, `hjust`).
@@ -221,7 +221,7 @@ flexible output options:
 ## Canvas Sizes
 
 Predefined canvas sizes (see
-[`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md)):
+[`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md)):
 
 - `"standard"`: 7.2 × 5.4 inches
 
@@ -241,7 +241,7 @@ and `h` are in inches.
 ## Stamping
 
 When `script` is provided, a caption is added to the plot using
-[`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md).
+[`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md).
 The stamp typically includes:
 
 - Script file name
@@ -256,29 +256,29 @@ the plot.
 ## Trace Attributes
 
 If `plot` has traceit attributes (added via
-[`traceit`](https://philipdelff.github.io/tracee/reference/traceit.md)),
+[`traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md)),
 those attributes will be automatically extracted and used, unless
 explicitly overridden by arguments passed to `ggwrite`.
 
 ## See also
 
-[`ggstamp`](https://philipdelff.github.io/tracee/reference/ggstamp.md)
+[`ggstamp`](https://nmautoverse.github.io/tracee/reference/ggstamp.md)
 for adding stamps to plots,
-[`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md)
+[`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md)
 for canvas size options,
-[`writer`](https://philipdelff.github.io/tracee/reference/writer.md) for
+[`writer`](https://nmautoverse.github.io/tracee/reference/writer.md) for
 a unified interface to write various object types,
-[`pathFormat`](https://philipdelff.github.io/tracee/reference/pathFormat.md)
+[`pathFormat`](https://nmautoverse.github.io/tracee/reference/pathFormat.md)
 for organizing output directories,
-[`traceit`](https://philipdelff.github.io/tracee/reference/traceit.md)
+[`traceit`](https://nmautoverse.github.io/tracee/reference/traceit.md)
 for adding traceit attributes,
 [`png`](https://rdrr.io/r/grDevices/png.html),
 [`pdf`](https://rdrr.io/r/grDevices/pdf.html) for graphics devices
 
 Other Plotting:
-[`canvasSize()`](https://philipdelff.github.io/tracee/reference/canvasSize.md),
-[`ggstamp()`](https://philipdelff.github.io/tracee/reference/ggstamp.md),
-[`ggwater()`](https://philipdelff.github.io/tracee/reference/ggwater.md)
+[`canvasSize()`](https://nmautoverse.github.io/tracee/reference/canvasSize.md),
+[`ggstamp()`](https://nmautoverse.github.io/tracee/reference/ggstamp.md),
+[`ggwater()`](https://nmautoverse.github.io/tracee/reference/ggwater.md)
 
 ## Examples
 

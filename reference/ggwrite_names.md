@@ -2,7 +2,7 @@
 
 Internal function that generates all combinations of file formats and
 canvas sizes for
-[`ggwrite`](https://philipdelff.github.io/tracee/reference/ggwrite.md).
+[`ggwrite`](https://nmautoverse.github.io/tracee/reference/ggwrite.md).
 Returns a `data.table` with columns: format, name.canvas, width, height,
 name.file.canvas, row.
 
@@ -25,7 +25,7 @@ ggwrite_names(file, formats, canvas)
 - canvas:
 
   Canvas size specification (see
-  [`canvasSize`](https://philipdelff.github.io/tracee/reference/canvasSize.md))
+  [`canvasSize`](https://nmautoverse.github.io/tracee/reference/canvasSize.md))
 
 ## Value
 

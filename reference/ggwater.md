@@ -45,9 +45,9 @@ alone.
 ## See also
 
 Other Plotting:
-[`canvasSize()`](https://philipdelff.github.io/tracee/reference/canvasSize.md),
-[`ggstamp()`](https://philipdelff.github.io/tracee/reference/ggstamp.md),
-[`ggwrite()`](https://philipdelff.github.io/tracee/reference/ggwrite.md)
+[`canvasSize()`](https://nmautoverse.github.io/tracee/reference/canvasSize.md),
+[`ggstamp()`](https://nmautoverse.github.io/tracee/reference/ggstamp.md),
+[`ggwrite()`](https://nmautoverse.github.io/tracee/reference/ggwrite.md)
 
 ## Examples
 
