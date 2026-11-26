@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/NMautoverse/tracee/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/NMautoverse/tracee/blob/v0.1.0/DESCRIPTION)
 
 Delff P (2026). *tracee: Easily Save Output and Trace it Back to Code*.
 R package version 0.1.0, <https://nmautoverse.github.io/tracee/>.
