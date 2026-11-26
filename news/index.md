@@ -2,6 +2,8 @@
 
 ## tracee 0.1.0
 
+CRAN release: 2026-11-24
+
 This version comes with several improvements, new functions and
 bugfixes. While previous versions provided functions to save to tables
 and figures with stamps, version 0.1.0 improves the consistency of those
